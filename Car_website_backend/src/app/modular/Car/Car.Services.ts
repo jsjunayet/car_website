@@ -1,3 +1,4 @@
+import QueryBuilder from '../../utilitiy/QueryBuilder';
 import { CarInterface } from './Car.Interface';
 import { CarModel } from './Car.Model';
 
@@ -5,19 +6,14 @@ const CreateCarService = async (Car: CarInterface) => {
   const result = await CarModel.create(Car);
   return result;
 };
-const GetCarService = async (searchTerm: string) => {
-  if (!searchTerm) {
-    const result = await CarModel.find();
-    return result;
-  }
-  const query = {
-    $or: [
-      { brand: { $regex: searchTerm, $options: 'i' } },
-      { model: { $regex: searchTerm, $options: 'i' } },
-      { category: { $regex: searchTerm, $options: 'i' } },
-    ],
-  };
-  const result = await CarModel.find(query);
+const GetCarService = async (query: Record<string, unknown>) => {
+  const QueryModel = CarModel.find();
+  const queryBuilder = new QueryBuilder(QueryModel, query)
+    .search(['brand', 'model', 'category'])
+    .filter()
+    .sort();
+
+  const result = await queryBuilder.QueryModel;
   return result;
 };
 const GetSingleCarService = async (id: string) => {
