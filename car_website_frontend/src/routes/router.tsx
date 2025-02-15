@@ -3,6 +3,7 @@ import App from "../App";
 import Login from "../pages/login/Login";
 import { routerGenerator } from "../lib/routerGenerator";
 import { userspaths } from "./user.route";
+import Register from "../pages/register/Register";
 
 
 
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     {
         path:"/login",
         element: <Login/>,
+    },
+    {
+        path:"/register",
+        element: <Register/>,
     },
 ])
 export default router

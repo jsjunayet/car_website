@@ -1,15 +1,14 @@
-
-import { useEffect, useRef, useState, MouseEvent } from 'react';
-import {  IoIosSearch } from 'react-icons/io';
+import { useEffect, useRef, useState, MouseEvent } from "react";
+import { IoIosSearch } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
-import { PiShoppingCartThin } from 'react-icons/pi';
+import { PiShoppingCartThin } from "react-icons/pi";
 import { FaBars } from "react-icons/fa6";
-import Drawer from 'react-modern-drawer';
-import { IoIosClose } from 'react-icons/io';
+import Drawer from "react-modern-drawer";
+import { IoIosClose } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
-import 'react-modern-drawer/dist/index.css';
-import { Link } from 'react-router-dom';
-import { Input } from '../components/ui/input';
+import "react-modern-drawer/dist/index.css";
+import { Link, useLocation } from "react-router-dom";
+import { Input } from "../components/ui/input";
 
 const Navdata = [
   { title: "Home", route: "/" },
@@ -21,8 +20,9 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const location = useLocation(); // Get current route
 
   const handleSearchToggle = () => {
     setShowSearch((prev) => !prev);
@@ -43,18 +43,16 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    document.addEventListener('mousedown', handleClickOutside as any);
+    document.addEventListener("mousedown", handleClickOutside as any);
     return () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      document.removeEventListener('mousedown', handleClickOutside as any);
+      document.removeEventListener("mousedown", handleClickOutside as any);
     };
   }, []);
 
   return (
     <div>
       <div className="sticky top-0 z-50 py-5 bg-white shadow-sm">
-        <div className=" max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <div className="flex gap-4 justify-center items-center">
             {isDrawerOpen ? (
@@ -62,20 +60,27 @@ const Navbar = () => {
             ) : (
               <FaBars className="block md:hidden cursor-pointer" onClick={handleDrawerToggle} />
             )}
-            <Link to="/" >
-             <h1 className="text-2xl font-semibold cursor-pointer">CarBazaar</h1>
+            <Link to="/">
+              <h1 className="text-2xl font-semibold cursor-pointer">CarBazaar</h1>
             </Link>
           </div>
 
           {/* Navigation Links */}
-          <div className="items-center hidden gap-5 lg:flex">
+          <div className="hidden lg:flex items-center gap-5">
             {Navdata.map((item, key) => (
               <Link
                 to={item.route}
-                className="text-lg border-b-2 border-white cursor-pointer hover:border-black"
+                className="relative text-lg cursor-pointer group"
                 key={key}
               >
                 {item.title}
+                {/* Show the hover effect only on active link */}
+                <div
+                  className={`h-[1.6px] w-0 group-hover:w-full transition-all duration-500 
+                  bg-gradient-to-l from-transparent to-primary ${
+                    location.pathname === item.route ? "w-full" : "w-0"
+                  }`}
+                ></div>
               </Link>
             ))}
           </div>
@@ -106,7 +111,7 @@ const Navbar = () => {
               </div>
               <div className="relative">
                 <Link to="/login">
-                <CiLogin className="text-gray-500 size-6" />
+                  <CiLogin className="text-gray-500 size-6" />
                 </Link>
               </div>
             </div>
@@ -153,7 +158,10 @@ const Navbar = () => {
               to={item.route}
               key={key}
               onClick={handleDrawerToggle}
-              className="block text-lg font-medium text-gray-700 border-b-2 border-white cursor-pointer hover:border-black transition-colors"
+              className={`block text-lg font-medium text-gray-700 border-b-2 border-white cursor-pointer 
+              hover:border-black transition-colors ${
+                location.pathname === item.route ? "border-black" : ""
+              }`}
             >
               {item.title}
             </Link>
