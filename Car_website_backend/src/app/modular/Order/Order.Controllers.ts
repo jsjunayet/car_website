@@ -1,34 +1,17 @@
 import { Request, Response } from 'express';
 import { AllOrderServices } from './Oder.services';
+import { catchAsync } from '../../utilitiy/catchAsync';
+import sendResponse from '../../utilitiy/sendResponse';
+const CreateOrderInMonogdb= catchAsync(async (req, res) => {
+  const order = await AllOrderServices.CreateOrderService(req.body, req.ip!);
 
-const CreateOrderInMonogdb = async (req: Request, res: Response) => {
-  try {
-    const body = req.body;
-    const data = await AllOrderServices.CreateOrderService(body);
-    if (data.success) {
-      res.status(200).json({
-        message: 'Order created successfully',
-        success: true,
-        data: data.message,
-      });
-      return;
-    }
-    res.status(404).json({
-      message: 'Order created failed',
-      success: false,
-      error: data.message,
-    });
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      res.status(500).json({
-        message: 'Order created failed',
-        success: false,
-        error: (err as { errors?: unknown }).errors, // Type assertion to access 'errors'
-        stack: err.stack,
-      });
-    }
-  }
-};
+  sendResponse(res, {
+    success: true,
+    message: "Order placed successfully",
+    statusCode: 201,
+    data: order,
+  });
+});
 
 const CalculateRevenueInMongodb = async (req: Request, res: Response) => {
   try {
@@ -48,7 +31,19 @@ const CalculateRevenueInMongodb = async (req: Request, res: Response) => {
     });
   }
 };
+const verifyPayment = catchAsync(async (req, res) => {
+  const order = await AllOrderServices.verifyPayment(req.query.order_id as string);
+
+   sendResponse(res, {
+    success: true,
+    message: "Order verified successfully",
+    statusCode: 201,
+    data: order,
+  });
+});
+
 export const AllOrderControllers = {
   CreateOrderInMonogdb,
   CalculateRevenueInMongodb,
+  verifyPayment
 };

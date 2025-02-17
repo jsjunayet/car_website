@@ -2,6 +2,7 @@ import Aboutpage from "../pages/about/aboutpage";
 import AllProduct from "../pages/AllProducts/AllProduct";
 import Checkout from "../pages/CheckoutPage/Checkout";
 import Homepage from "../pages/home/Homepage";
+import OrderVerify from "../pages/OrderVerify/OrderVerify";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
 
 export const userspaths = [
@@ -30,5 +31,10 @@ export const userspaths = [
         name:"About",
         path:"about",
         element:<Aboutpage/>
+    },
+    {
+        name:"OrderVerify",
+        path:"order/verify",
+        element:<OrderVerify/>
     }
 ]
