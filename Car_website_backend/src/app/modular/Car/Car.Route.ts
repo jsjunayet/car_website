@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.post('/create', CartAllController.CreateCarInMonogdb);
 router.get('/getAll', CartAllController.GerCarInMonogdb);
-router.get('/cars/:carId', CartAllController.GerSingleCarInMonogdb);
-router.delete('/cars/:carId', CartAllController.DeleltedCarInMonogdb);
-router.put('/cars/:carId', CartAllController.UpdatedCarInMonogdb);
+router.get('/:carId', CartAllController.GerSingleCarInMonogdb);
+router.delete('/:carId', CartAllController.DeleltedCarInMonogdb);
+router.put('/:carId', CartAllController.UpdatedCarInMonogdb);
 
 export const CarRouter = router;

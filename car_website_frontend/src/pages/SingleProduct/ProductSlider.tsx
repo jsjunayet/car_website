@@ -8,15 +8,8 @@ import "swiper/swiper-bundle.css";
 
 
 import { Thumbs, Navigation } from "swiper/modules";
-const ProductSlider = () => {
-  const  Images =[
-{imageUrl:'../../../src/assets/3d-car-with-vibrant-colors.jpg'},
-{imageUrl:'../../../src/assets/3d-car-with-vibrant-colors.jpg'},
-{imageUrl:'../../../src/assets/3d-car-with-vibrant-colors.jpg'},
-{imageUrl:'../../../src/assets/3d-car-with-vibrant-colors.jpg'},
+const ProductSlider = ({images}) => {
 
-    ]
-	
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
 	
 	return (
@@ -28,11 +21,11 @@ const ProductSlider = () => {
 					thumbs={{ swiper: thumbsSwiper }}
 					modules={[Thumbs]}
 					className="mySwiper2 sm:h-[480px] h-[350px] max-w-[610px] sm:max-w-[580px] rounded-lg overflow-hidden object-cover">
-					{Images.length > 0 ? (
-						Images.map((imageUrl, idx) => (
+					{images?.length > 0 ? (
+						images?.map((imageUrl, idx) => (
 							<SwiperSlide key={idx}>
 								<div className="relative w-full h-full overflow-hidden transition-transform duration-1000 ease-in-out rounded-lg group hover:scale-105">
-                                <img src={imageUrl.imageUrl} className="absolute object-cover object-center w-full h-full -z-10" alt={`Product Image ${idx + 1}`} />
+                                <img src={imageUrl} className="absolute object-cover object-center w-full h-full -z-10" alt={`Product Image ${idx + 1}`} />
 								</div>
 							</SwiperSlide>
 						))
@@ -47,11 +40,11 @@ const ProductSlider = () => {
 					watchSlidesProgress
 					modules={[Navigation, Thumbs]}
 					className="mySwiper max-w-[610px] rounded-lg">
-					{Images.length > 0 ? (
-						Images.map((imageUrl, idx) => (
+					{images?.length > 0 ? (
+						images?.map((imageUrl, idx) => (
 							<SwiperSlide className='px-1 py-5' key={idx}>
 								<div className="rounded-lg overflow-hidden max-w-[120px] mx-auto h-[80px] border flex items-center justify-center">
-									<img src={imageUrl.imageUrl} className="object-cover object-center" alt={`Product Thumbnail ${idx + 1}`} />
+									<img src={imageUrl} className="object-cover object-center" alt={`Product Thumbnail ${idx + 1}`} />
 								</div>
 							</SwiperSlide>
 						))

@@ -1,45 +1,52 @@
 /* eslint-disable no-constant-condition */
+import { useDispatch } from "react-redux";
 import { Button } from "../../components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../redux/features/product/productSlice";
 
-const ProductDetails = () => {
+const ProductDetails = ({productDetails}) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleBuyNow = () => {
+      dispatch(addToCart(productDetails));
+      navigate("/checkout");
+  };
     return (
         <div>
           {/* product name */}
           <div className="space-y-2">
             <p className="text-sm font-semibold uppercase text-primary">
-              {"category"}
+              {productDetails?.category}
             </p>
-            <h1 className="text-2xl font-bold">{"title"}</h1>
+            <h1 className="text-2xl font-bold">{productDetails?.brand},{productDetails?.model}</h1>
           </div>
           {/* price, and rating,*/}
           <div className="space-y-2">
             <div className="flex items-center justify-start gap-3">
               <p className=" text-xs  text-primary border-primary">
-                {true ? `In Stock(${"stock"})` : 'Out Stock'}
+                {productDetails?.inStock ? `In Stock(${productDetails?.quantity})` : 'Out Stock'}
               </p>
             </div>
             <div className="flex items-end gap-1">
-              <h1 className="text-2xl font-bold">${200}</h1>{' '}
-              <p className="text-sm font-semibold text-gray-400">
-                <span className="line-through">${500}</span>{' '}
-                <span className="text-primary "> ({20}% off)</span>
-              </p>
+              <h1 className="text-2xl font-bold">${productDetails?.price}</h1>{' '}
             </div>
             <div className="text-sm ">
               <h3 className="text-sm text-gray-500 font-medium max-w-[400px]">
-                {"description"}
+                {productDetails?.description}
               </h3>
             </div>
           </div>
   
       
-          <div className="">
+          <div className=" mt-5 ">
           
             <Button
+            onClick={handleBuyNow}
               type="submit"
               name="action"
               value="buyNow"
-              className="flex justify-center items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
+              className="flex justify-center cursor-pointer w-full items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
             >
               Buy Now
             </Button>

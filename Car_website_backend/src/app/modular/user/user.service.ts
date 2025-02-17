@@ -9,7 +9,6 @@ const userRegisterService = async (body: Iuser) => {
   const result = await usermodel.create(body);
 
   return {
-    _id: result._id,
     name: result.name,
     email: result.email,
   };

@@ -7,4 +7,6 @@ export interface CarInterface {
   description: string;
   quantity: number;
   inStock: boolean;
+  images: string[]; 
 }
+

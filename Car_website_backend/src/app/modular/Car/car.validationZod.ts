@@ -17,4 +17,7 @@ export const CarValidation = z.object({
   description: z.string().min(1, 'Description is required'),
   quantity: z.number().int().min(0, 'Quantity must be a non-negative integer'),
   inStock: z.boolean({ required_error: 'InStock is required' }),
+  images: z
+    .array(z.string().url('Each image must be a valid URL'))
+    .min(1, 'At least one image is required'),
 });

@@ -1,5 +1,8 @@
 import Aboutpage from "../pages/about/aboutpage";
+import AllProduct from "../pages/AllProducts/AllProduct";
+import Checkout from "../pages/CheckoutPage/Checkout";
 import Homepage from "../pages/home/Homepage";
+import SingleProduct from "../pages/SingleProduct/SingleProduct";
 
 export const userspaths = [
     {
@@ -11,7 +14,17 @@ export const userspaths = [
     {
         name:"All Products",
         path:"allproduct",
-        element:<Aboutpage/>
+        element:<AllProduct/>
+    },
+    {
+        name: "Single Product",  
+        path: "allproduct/:id",  
+        element: <SingleProduct />
+    },
+    {
+        name:"Checkout",
+        path:"checkout",
+        element:<Checkout/>
     },
     {
         name:"About",

@@ -3,88 +3,68 @@ import {
   FaEye,
   FaEyeSlash,
 } from 'react-icons/fa'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '../../components/ui/input';
 import { useState } from 'react';
+import { useLoginMutation } from '../../redux/features/auth/authApi';
+import { useAppDispatch } from '../../redux/hooks/app';
+import { toast } from 'sonner';
+import { setuser } from '../../redux/features/auth/authSlice';
+import { jwtDecode } from "jwt-decode";
 
 
-
+type DecodedToken = {
+  userId: string; 
+};
 
 const LoginForm = () => {
-//   const router = useRouter();
-//   const axiosUser = useAxiosUser();
-//   const dispatch = useDispatch();
-//   const [loginUser, { isLoading }] = useLoginUserMutation();
+  const toastId = 'Loading....'
+  const navigate = useNavigate()
+  const [login]=useLoginMutation()
+  const dispatch = useAppDispatch()
+  // const token = useAppSelector(state=>state.auth.token)
 
   const [showPassword, setShowPassword] = useState(false);
 
-//   const handleFormSubmit = async (event) => {
-//     event.preventDefault();
-//     try {
-//       const formData = new FormData(event.currentTarget);
-//       const email = formData.get('email');
-//       const password = formData.get('password');
-//       const payload = { email, password };
-
-//       // Show loading toast
-//       const toastId = toast.loading('Logging in...');
-      
-      
-
-//       const response = await loginUser(payload);
-
-//       if (response?.data?.success) {
-//         dispatch(
-//           setCredentials({
-//             user: response?.data?.data,
-//             token: response?.data?.data?.accessToken,
-//             refreshToken: response?.data?.data?.refreshToken,
-//           })
-//         );
-//         setLocalStorage('user', response?.data?.data);
-//         toast.update(toastId, {
-//           render: 'Logged in successfully!',
-//           type: 'success',
-//           isLoading: false,
-//           autoClose: 3000,
-//         });
-//         event.target.reset();
-//         const redirectPath = getLocalStorage('redirectPath') || '/';
-//         removeLocalStorage('redirectPath');
-//         router.push(redirectPath); // Redirect after successful login
-//       } else {
-//         toast.update(toastId, {
-//           render: response?.error?.data?.message || 'Login failed',
-//           type: 'error',
-//           isLoading: false,
-//           autoClose: 3000,
-//         });
-//         event.target.reset();
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       Swal.fire({
-//         icon: 'error',
-//         title: 'Oops...',
-//         text: err?.response?.error?.message || 'Something went wrong!',
-//         footer: `<a href="#">${err.message}</a>`,
-//       });
-//     }
-//   };
+  const handleFormSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const formData = new FormData(event.currentTarget);
+      const email = formData.get('email');
+      const password = formData.get('password');
+      const payload = { email, password };      
+      const res = await login(payload).unwrap(); 
+      console.log(res); 
+      if (res?.data){
+        const decoded = jwtDecode<DecodedToken>(res.data);
+        console.log(decoded)
+        dispatch(setuser({ token: res.data, user: decoded.userId }));
+        navigate('/');
+        toast.success("Successfully logged in!", { id: toastId });
+      } else {
+        toast.error("Invalid email or password");
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err:any) {
+      console.error("Login error:", err);
+      toast.error(`Error: ${err?.data?.message || err.message}`, { id: toastId });
+    }
+  };
+  
 
   return (
     <div className="flex items-center justify-center h-screen px-5 bg-gradient-to-r from-gray-200 to-blue-200">
-      <div className="mx-auto bg-white rounded-xl overflow-hidden w-full md:flex md:w-[800px] h-[480px]">
+      <div className="mx-auto bg-white rounded-xl overflow-hidden w-full md:flex md:w-[800px] md:h-[480px] h-[420px]">
         <div className="hidden w-1/2 h-full md:flex">
           <img src={'../../../src/assets/3d-car-with-vibrant-colors.jpg'} alt="" />
         </div>
         <div className="flex items-center justify-center w-full md:w-3/5">
           <form
-            // onSubmit={handleFormSubmit}
+            onSubmit={handleFormSubmit}
             className="flex flex-col justify-between flex-grow w-full"
           >
             <div className="flex flex-col items-center justify-center">
-              <div className=" max-w-[400px] p-3 pt-10 md:pt-20 w-full bg-white rounded-lg ">
+              <div className=" max-w-[400px] p-3  pt-10 w-full bg-white rounded-lg ">
                 <div className="space-y-4 md:space-y-6">
                   <p className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                     Welcome to CarBazaar
@@ -125,7 +105,7 @@ const LoginForm = () => {
                   </div>
 
                   {/* Remember Password and Forgot Password */}
-                  <div className="items-center justify-between mt-2 md:flex">
+                  <div className="items-center justify-between mt-2 flex">
                     <div className="flex items-center">
                       <input
                         type="checkbox"
@@ -149,12 +129,11 @@ const LoginForm = () => {
                 </div>
               </div>
             </div>
-            {/* Bottom section for "Don't have an account?" and "Sign In" */}
-            <div className="items-center md:justify-between justify-center lg:mt-16 md:ml-8 flex gap-7 lg:flex-row flex-col max-w-[400px] mx-auto text-center">
-              <p className="flex flex-col items-center justify-center w-full text-center lg:flex-row lg:justify-start">
+            <div className=" md:mx-7 mx-4 space-y-5">
+              <p className="flex justify-between">
                 <span className="text-slate-700">Don’t have an account?</span>
                 <Link
-                  className="ml-1 text-primary hover:underline"
+                  className="ml-1  hover:underline text-blue-700"
                   to="/register"
                 >
                   Register Now
@@ -162,7 +141,7 @@ const LoginForm = () => {
               </p>
               <button
                 type="submit"
-                className="px-6 py-3 text-white rounded-tl-lg rounded-br-lg lg:self-end bg-primary"
+                className="px-6 py-3 cursor-pointer  w-full text-white rounded-tl-lg rounded-br-lg lg:self-end bg-primary"
                 // disabled={isLoading}
               >
                Login

@@ -1,12 +1,18 @@
 import React from "react";
 
+interface Option {
+  label: string;
+  value: string;
+}
+
 interface FilterComponentProps {
   title: string;
-  options: string[] | { label: string, value: string }[];
+  options: string[] | Option[]; // এখন এটি অবজেক্ট ও হতে পারে
   selectedOptions: string[];
   onChange: (option: string) => void;
   filterType: 'category' | 'price';
 }
+
 
 const FilterComponent: React.FC<FilterComponentProps> = ({
   title,
@@ -28,18 +34,22 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
           {title}
         </h4>
       </div>
-      {options.map((option) => (
-        <label key={filterType === 'price' ? option.label : option} className="flex items-center gap-2 mb-2">
-          <input
-            type="checkbox"
-            className="w-4 h-4"
-            onChange={() => handleOptionChange(filterType === 'price' ? option.label : option)}
-            checked={selectedOptions.includes(filterType === 'price' ? option.label : option)}
-          />
-          <h6>{filterType === 'price' ? option.label : option}</h6>
-        </label>
-      ))}
-      <hr className="w-full h-[2px] bg-primary" />
+      {options.map((option) => {
+  const value = typeof option === "string" ? option : option.value;
+  const label = typeof option === "string" ? option : option.label;
+
+  return (
+    <div key={value} className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        checked={selectedOptions.includes(value)}
+        onChange={() => handleOptionChange(value)}
+      />
+      <label>{label}</label>
+    </div>
+  );
+})}
+
     </div>
   );
 };

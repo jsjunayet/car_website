@@ -7,15 +7,16 @@ const CreateCarService = async (Car: CarInterface) => {
   return result;
 };
 const GetCarService = async (query: Record<string, unknown>) => {
-  const QueryModel = CarModel.find();
-  const queryBuilder = new QueryBuilder(QueryModel, query)
-    .search(['brand', 'model', 'category'])
-    .filter()
-    .sort();
+  const QueryModel =await CarModel.find(); 
 
-  const result = await queryBuilder.QueryModel;
-  return result;
+  // const queryBuilder = new QueryBuilder(QueryModel, query)
+  //   .search(['brand', 'model', 'category'])
+  //   .filter()
+  //   .sort();
+  // const result = await queryBuilder.QueryModel;
+  return QueryModel;
 };
+
 const GetSingleCarService = async (id: string) => {
   const result = await CarModel.findOne({ _id: id });
   return result;

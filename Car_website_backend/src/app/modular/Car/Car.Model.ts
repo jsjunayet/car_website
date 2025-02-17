@@ -39,7 +39,7 @@ const CarSchema = new Schema<CarInterface>(
     quantity: {
       type: Number,
       required: [true, 'Quantity is required'],
-      min: [0, 'greater than 0'],
+      min: [0, 'Quantity must be greater than 0'],
       validate: {
         validator: Number.isInteger,
         message: 'Quantity must be a whole number',
@@ -49,9 +49,20 @@ const CarSchema = new Schema<CarInterface>(
       type: Boolean,
       required: [true, 'InStock is required'],
     },
+    images: {
+      type: [String], // Array of image URLs
+      required: [true, 'At least one image is required'],
+      validate: {
+        validator: function (value: string[]) {
+          return value.length > 0;
+        },
+        message: 'At least one image URL must be provided',
+      },
+    },
   },
   { timestamps: true, versionKey: false },
 );
 
 // Create and export the Mongoose model
-export const CarModel = mongoose.model('Car', CarSchema);
+export const CarModel = mongoose.model<CarInterface>('Car', CarSchema);
+
