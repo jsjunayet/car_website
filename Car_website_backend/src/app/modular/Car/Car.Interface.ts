@@ -1,4 +1,5 @@
 export interface CarInterface {
+  name:string
   brand: string;
   model: string;
   year: number;

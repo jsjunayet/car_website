@@ -2,11 +2,11 @@
 import { CheckCircle, AlertCircle } from "lucide-react";
 
 import { Link, useSearchParams } from "react-router";
-import { useGetVerifyOrderQuery } from "../../redux/features/Order/OrderApi";
-import { Skeleton } from "../../components/ui/skeleton";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
+import SkeletonVerify from "../../AllSkeleton/SkeletonVerifty";
+import { useGetVerifyOrderQuery } from "../../redux/features/Order/OrderApi";
 
 
 interface OrderData {
@@ -56,7 +56,7 @@ export default function OrderVerify() {
   const orderData: OrderData = data?.data?.[0];
 
   return isLoading ? (
-    <Skeleton />
+    <SkeletonVerify/>
   ) : (
     <div className=" max-w-7xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Order Verification</h1>

@@ -2,12 +2,14 @@ import { useParams } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
 import ProductSlider from "./ProductSlider";
 import { useGetSingleProductQuery } from "../../redux/features/product/ProductApi";
+import ProductDetailsSkeleton from "../../AllSkeleton/ProductDetailsSkeleton";
 
 
 const SingleProduct = () => {
   const { id } = useParams();
-  const {data}=useGetSingleProductQuery(id) 
+  const {data, isLoading}=useGetSingleProductQuery(id) 
   console.log(data);
+  if(isLoading) return <ProductDetailsSkeleton/>
 
     return (
         <div className=" max-w-7xl mx-auto">

@@ -4,6 +4,10 @@ import { CarInterface } from './Car.Interface';
 
 const CarSchema = new Schema<CarInterface>(
   {
+    name: {
+      type: String,
+      required: [true, 'Product name is required'],
+    },
     brand: {
       type: String,
       required: [true, 'Brand is required'],
@@ -48,7 +52,9 @@ const CarSchema = new Schema<CarInterface>(
     inStock: {
       type: Boolean,
       required: [true, 'InStock is required'],
+      default: true,
     },
+    
     images: {
       type: [String], // Array of image URLs
       required: [true, 'At least one image is required'],

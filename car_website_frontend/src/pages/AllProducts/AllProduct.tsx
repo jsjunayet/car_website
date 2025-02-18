@@ -8,7 +8,7 @@ import { Input } from "../../components/ui/input";
 import { Skeleton } from "../../components/ui/skeleton";
 import { RxCross2 } from "react-icons/rx";
 import ProductCard from "../../share/Cards/ProductCard";
-import { useGetAllproductQuery } from "../../redux/features/product/ProductApi";
+import { useGetAllProductQuery } from "../../redux/features/product/ProductApi";
 
 interface Option {
   label: string;
@@ -16,7 +16,7 @@ interface Option {
 }
 
 const AllProduct: React.FC = () => {
-      const {data}=useGetAllproductQuery(undefined)
+      const {data}=useGetAllProductQuery(undefined)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");

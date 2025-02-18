@@ -125,9 +125,14 @@ const CalculateRevenueService = async () => {
   const totalRevenue = result.length > 0 ? result[0].totalRevenue : 0;
   return totalRevenue;
 };
+const getAllorder = async () => {
+  const result = await OrderModel.find().populate('car')
+  return result
+}
 
 export const AllOrderServices = {
   CreateOrderService,
   CalculateRevenueService,
   verifyPayment,
+  getAllorder
 };

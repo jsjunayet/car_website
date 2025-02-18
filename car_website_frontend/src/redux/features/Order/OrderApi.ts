@@ -16,8 +16,14 @@ export const OderApi = baseApi.injectEndpoints({
                 params: { order_id },
                 method:"GET"
             })
+        }),
+        getAllOrder: builder.query({
+            query:()=>({
+                url:`orders/allOrder`,
+                method:"GET"
+            })
         })
     })
 })
 
-export const {useGetVerifyOrderQuery, useOrderCreateMutation}=OderApi
+export const {useGetVerifyOrderQuery, useOrderCreateMutation, useGetAllOrderQuery}=OderApi

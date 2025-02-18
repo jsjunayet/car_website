@@ -1,4 +1,4 @@
-import QueryBuilder from '../../utilitiy/QueryBuilder';
+// import QueryBuilder from '../../utilitiy/QueryBuilder';
 import { CarInterface } from './Car.Interface';
 import { CarModel } from './Car.Model';
 
@@ -6,6 +6,7 @@ const CreateCarService = async (Car: CarInterface) => {
   const result = await CarModel.create(Car);
   return result;
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GetCarService = async (query: Record<string, unknown>) => {
   const QueryModel =await CarModel.find(); 
 

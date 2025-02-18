@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProfileData } from "./share/DashboardNavbar";
+import { DashboardData, ProfileData } from "./share/DashboardNavbar";
 import { Link, useLocation } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
 import LayoutBar from "./share/LayoutBar";
@@ -10,7 +10,7 @@ const DesktopLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useLocation();
 
-  const menuData =  ProfileData;
+  const menuData =  DashboardData;
   return (
     <div className="flex h-screen">
       <div className="fixed top-0 left-0 h-screen w-72 flex flex-col justify-between border-r bg-white drop-shadow-sm">

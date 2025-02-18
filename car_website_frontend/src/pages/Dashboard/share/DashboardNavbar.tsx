@@ -1,30 +1,19 @@
 
-import { BiCategory } from "react-icons/bi";
-import { MdOutlineDashboard, MdOutlinePersonOutline, MdSupportAgent } from "react-icons/md";
-import { RiCoupon5Line } from 'react-icons/ri';
-import { LuWallet } from 'react-icons/lu';
 import { FiUsers } from 'react-icons/fi';
-import { TbBoxAlignBottomRight, TbBoxAlignRight } from 'react-icons/tb';
-import { BsBoxSeam } from 'react-icons/bs';
+import { AiOutlineProduct } from "react-icons/ai";
 import { IoReorderFour } from 'react-icons/io5';
 import { CiBadgeDollar, CiWallet } from "react-icons/ci";
 import { GoPerson } from 'react-icons/go';
 import { GrMenu } from "react-icons/gr";
+import { MdOutlineCreateNewFolder, MdOutlineDashboard } from "react-icons/md";
 
 
 export const DashboardData = [
       { route: "/dashboard", name: "Dashboard", icon: <MdOutlineDashboard />}, 
-      { route: "/dashboard/user", name: "User", icon: <FiUsers />}, 
-      { route: "/dashboard/all-transactions", name: "All Transactions", icon: <LuWallet />}, 
-      { route: "/dashboard/all-orders", name: "All Orders", icon: <IoReorderFour />}, 
-      { route: "/dashboard/cost-calculator", name: "Shipment Cost", icon: <BsBoxSeam />},
-      { route: "/dashboard/add-coupon", name: "Add Coupon", icon: <RiCoupon5Line />},
-      { route: "/dashboard/categories", name: "Categories", icon: <BiCategory/>},
-      { route: "/dashboard/profile", name: "Profile info", icon: <MdOutlinePersonOutline />},
-      { route: "/dashboard/add-banner", name: "Add Banner", icon: <TbBoxAlignBottomRight />},
-      { route: "/dashboard/add-sideBanner", name: "Add SideBanner", icon: <TbBoxAlignRight />},
-      { route: "/dashboard/support", name: "Support", icon: <MdSupportAgent />
-      }
+      { route: "/dashboard/createProduct", name: "Create Product", icon: <MdOutlineCreateNewFolder />      }, 
+      { route: "/dashboard/manageProduct", name: "Manage Products", icon: <AiOutlineProduct />      }, 
+      { route: "/dashboard/user", name: "Manage Users", icon: <FiUsers />}, 
+      { route: "/dashboard/all-orders", name: "Manage Orders", icon: <IoReorderFour />}, 
 ];
 
 

@@ -1,9 +1,11 @@
-import { useGetAllproductQuery } from "../../redux/features/product/ProductApi";
+import ProductSectionSkeleton from "../../AllSkeleton/ProductSectionSkeleton";
+import { useGetAllProductQuery } from "../../redux/features/product/ProductApi";
 import ProductCard from "../../share/Cards/ProductCard";
 
 
 const ProductSection = () => {
-    const {data}=useGetAllproductQuery(undefined)
+    const {data, isLoading}=useGetAllProductQuery(undefined)
+    if(isLoading) return <ProductSectionSkeleton/>
     return (
         <div>
              <div className=" grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">

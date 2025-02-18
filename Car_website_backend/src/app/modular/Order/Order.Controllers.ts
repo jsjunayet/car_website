@@ -41,9 +41,20 @@ const verifyPayment = catchAsync(async (req, res) => {
     data: order,
   });
 });
+const getAllorder = catchAsync(async (req, res) => {
+  const order = await AllOrderServices.getAllorder();
+
+   sendResponse(res, {
+    success: true,
+    message: "All Order successfully",
+    statusCode: 200,
+    data: order,
+  });
+});
 
 export const AllOrderControllers = {
   CreateOrderInMonogdb,
   CalculateRevenueInMongodb,
-  verifyPayment
+  verifyPayment,
+  getAllorder,
 };
