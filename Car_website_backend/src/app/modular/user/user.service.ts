@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import AppErrors from '../../errors/AppErrors';
 import { Iuser } from './user.interface';
 import { usermodel } from './user.model';
@@ -60,10 +61,44 @@ const refreshTokenService = async (token: string | undefined): Promise<string> =
   return newAccessToken;
 };
 
-export { refreshTokenService };
+const AlluserGet = async () => {
+  const result = await usermodel.find();
+  return result
+};
+interface User {
+  _id: string;
+  role: 'user' | 'admin'; 
+  save(): Promise<void>;
+}
+
+const UpdateRole = async (userId: string): Promise<{ message: string }> => {
+  try {
+    const user = await usermodel.findById(userId) as User | null;
+
+    if (!user) {
+      return { message: 'User not found' };
+    }
+
+    const newRole = user.role === 'user' ? 'admin' : 'user';
+    user.role = newRole;
+
+    await user.save();
+    return { message: `User role updated to ${newRole}` };
+  } catch (error) {
+    return { message: 'An error occurred while updating the user role.' };
+  }
+};
+const DeletedUser = async (id: string) => {
+  const result = await usermodel.findByIdAndDelete({ _id: id });
+  return result;
+};
 
 export const AlluserService = {
   userRegisterService,
   userLoginService,
-  refreshTokenService
+  refreshTokenService,
+  AlluserGet,
+  UpdateRole,
+  DeletedUser
+  
 };

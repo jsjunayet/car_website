@@ -1,16 +1,29 @@
-import { useGetAllProductQuery } from "../../../redux/features/product/ProductApi";
+import { useEffect, useState } from "react";
+import { useDeleteProductMutation, useGetAllProductQuery, useGetSingleProductQuery } from "../../../redux/features/product/ProductApi";
 import ManageTable from "../ManageOrder/ManageTable";
+import { toast } from "sonner";
+import CreateProduct from "./CreateProduct";
 
 const ManageProduct = () => {
     const{data, isLoading}=useGetAllProductQuery(undefined)
-    const handleDelete = (id:string) => {
-        console.log(id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+    const[deleteProduct, { isLoading:deletedLoading, isSuccess, data:deletedData, isError, error }]=useDeleteProductMutation()
+    const handleDelete = async(id:string) => {
+        await deleteProduct(id);
       };
+      const toastId = "deletedProduct";
+      useEffect(() => {
+        if (deletedLoading) toast.loading("Processing ...", { id: toastId });
+    
+        if (isSuccess) {
+          toast.success(deletedData?.message, { id: toastId });
+        }
+    
+        if (isError) toast.error(JSON.stringify(error), { id: toastId });
+      }, [deletedData?.data, deletedData?.message, error, isError, deletedLoading, isSuccess]);
     
       // Handle Update
-      const handleUpdate = (id:string) => {
-        console.log(id);
-      };
     const columns = [
         { label: "Name", value: "name" },
         { label: "brand", value: "brand" },
@@ -21,8 +34,8 @@ const ManageProduct = () => {
       ];
     return (
         <div className=" m-6">
-            <ManageTable data={data?.data} columns={columns} loading={isLoading} isvalue={true} onDelete={handleDelete} onUpdate={handleUpdate}/>
-            </div>
+            <ManageTable isvalue={'product'} data={data?.data} columns={columns} loading={isLoading} onDelete={handleDelete}/>
+     </div>
     );
 };
 

@@ -46,5 +46,6 @@ const baseQuery =  fetchBaseQuery({
 export const baseApi = createApi({
     reducerPath:"authApi",
     baseQuery:baseQueryRefreshToken,
-    endpoints:()=>({})
+    endpoints:()=>({}),
+    tagTypes:['Products','Orders', "Auth"],
 })

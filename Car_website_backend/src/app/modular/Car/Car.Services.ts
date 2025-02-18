@@ -27,6 +27,7 @@ const DeletedCarService = async (id: string) => {
   return result;
 };
 const updateCarService = async (id: string, updatedData: object) => {
+  console.log(id, updatedData);
   const result = await CarModel.findByIdAndUpdate(
     id,
     { $set: updatedData },

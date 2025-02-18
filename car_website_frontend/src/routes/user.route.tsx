@@ -6,6 +6,7 @@ import ManageOrder from "../pages/Dashboard/ManageOrder/ManageOrder";
 import ManageUser from "../pages/Dashboard/ManageUser/ManageUser";
 import CreateProduct from "../pages/Dashboard/MangeProduct/CreateProduct";
 import ManageProduct from "../pages/Dashboard/MangeProduct/ManageProduct";
+import UpateProduct from "../pages/Dashboard/MangeProduct/UpateProduct";
 import Homepage from "../pages/home/Homepage";
 import OrderVerify from "../pages/OrderVerify/OrderVerify";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
@@ -54,6 +55,11 @@ export const Adminpaths = [
         name:"Create Product",
         path:"/dashboard/createProduct",
         element:<CreateProduct/>
+    },
+    {
+        name: "update Product",  
+        path: "/dashboard/updateProduct/:id",  
+        element: <UpateProduct />
     },
     {
         name: "Manage Products",  

@@ -42,8 +42,41 @@ const refreshToken = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const AlluserGet = catchAsync(async (req, res) => {
+  const result = await AlluserService.AlluserGet();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'All user retrieved succesfully!',
+    data: result,
+  });
+});
+const UpdateRole = catchAsync(async (req, res) => {
+  const result = await AlluserService.UpdateRole(req.params.id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'All user retrieved succesfully!',
+    data: result,
+  });
+});
+const DeletedUser = catchAsync(async (req, res) => {
+  const result = await AlluserService.DeletedUser(req.params.id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Deleted user succesfully!',
+    data: result,
+  });
+});
 export const AlluserController = {
   userRegister,
   userLogin,
-  refreshToken
+  refreshToken,
+  AlluserGet,
+  UpdateRole,
+  DeletedUser
 };

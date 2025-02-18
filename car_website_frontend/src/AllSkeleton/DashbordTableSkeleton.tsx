@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 
 export default function TableSkeleton() {
   return (
-    <div className="">
+    <div className=" mt-20">
       <Table>
         <TableHeader className='bg-gray-100'>
           <TableRow>
@@ -35,7 +35,7 @@ export default function TableSkeleton() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array(5)
+          {Array(10)
             .fill(0)
             .map((_, index) => (
               <TableRow key={index}>

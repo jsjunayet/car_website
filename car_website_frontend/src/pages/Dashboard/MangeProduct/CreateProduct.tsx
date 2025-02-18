@@ -1,20 +1,25 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UploadCloud, X } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Label } from "../../../components/ui/label";
 import { Input } from "../../../components/ui/input";
 import { Card, CardContent } from "../../../components/ui/card";
-import { useCreateProductMutation } from "../../../redux/features/product/ProductApi";
+import { useCreateProductMutation, useUpdateProductMutation } from "../../../redux/features/product/ProductApi";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 interface ProductFormProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit?: (data: any) => void;
 }
 
 const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
+  const navigate = useNavigate()
   const { register, handleSubmit, setValue, reset, watch } = useForm({
     defaultValues: initialData || {
       name: "",
@@ -28,17 +33,29 @@ const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
       images: [],
     },
   });
+  useEffect(() => {
+    if (initialData) {
+      setValue("name", initialData.name);
+      setValue("brand", initialData.brand);
+      setValue("model", initialData.model);
+      setValue("year", initialData.year);
+      setValue("price", initialData.price);
+      setValue("category", initialData.category);
+      setValue("description", initialData.description);
+      setValue("quantity", initialData.quantity);
+      setPreviewImages(initialData.images || []);
+    }
+  }, [initialData, setValue]);
 
-  const [createProduct, { isLoading }] = useCreateProductMutation(); 
+  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [updateProduct, { isLoading: updateLoading }] = useUpdateProductMutation();  // Assuming you have this mutation
   const [previewImages, setPreviewImages] = useState<string[]>(initialData?.images || []);
-  const [isUploading, setIsUploading] = useState(false); // ✅ Track Upload Status
+  const [isUploading, setIsUploading] = useState(false);
 
-  // ✅ Image Upload Handler (Cloudinary)
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
-
-    setIsUploading(true); // ✅ Show Skeleton
+    setIsUploading(true);
     const uploadedImages: string[] = [];
 
     for (const file of files) {
@@ -47,10 +64,7 @@ const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
       formData.append("upload_preset", "Clooud_Gen");
 
       try {
-        const response = await fetch("https://api.cloudinary.com/v1_1/dztxlecbe/image/upload", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch("https://api.cloudinary.com/v1_1/dztxlecbe/image/upload", { method: "POST", body: formData });
         const data = await response.json();
         uploadedImages.push(data.secure_url);
       } catch (error) {
@@ -60,30 +74,49 @@ const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
 
     setPreviewImages([...previewImages, ...uploadedImages]);
     setValue("images", [...previewImages, ...uploadedImages]);
-    setIsUploading(false); // ✅ Hide Skeleton
+    setIsUploading(false);
   };
 
-  // ✅ Remove Image from Preview
   const removeImage = (url: string) => {
     const updatedImages = previewImages.filter((img) => img !== url);
     setPreviewImages(updatedImages);
     setValue("images", updatedImages);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    try {
-      console.log("Submitting Data:", data);
-      const response = await createProduct(data).unwrap();
+    const toastId = "createProduct";
+    if (isLoading) toast.loading("Processing ...", { id: toastId });
+    if (updateLoading) toast.loading("Processing ...", { id: toastId });
 
-      if (response.success) {
-        toast.success(response.message || "Product added successfully!");
-        reset(); // ✅ Reset all fields after submit
-        setPreviewImages([]); // ✅ Reset Images Preview
+    try {
+      if (initialData?._id) {
+        // Prepare updated data
+        const updatedData = {
+          name: data.name,
+          brand: data.brand,
+          model: data.model,
+          year: data.year,
+          price: data.price,
+          category: data.category,
+          description: data.description,
+          quantity: data.quantity,
+          images: data.images,
+        };
+  
+        // Update product
+        const response = await updateProduct({ id: initialData._id, updatedData }).unwrap();
+        navigate('/dashboard/manageProduct');
+        toast.success(response.message || "Product updated successfully!");
       } else {
-        toast.error(response.message || "Something went wrong!");
+        // Create new product
+        const response = await createProduct(data).unwrap();
+        toast.success(response.message || "Product added successfully!");
       }
+      reset();
+      setPreviewImages([]);
     } catch (error) {
-      toast.error(error?.data?.message || "Failed to add product.");
+      toast.error(error?.data?.message || "Failed to submit product.");
     }
   };
 
@@ -174,8 +207,8 @@ const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
 
             {/* ✅ Submit Button */}
             <div className="col-span-2">
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Adding Product..." : "Add Product"}
+            <Button type="submit" className="w-full cursor-pointer" disabled={isLoading || updateLoading}>
+                {isLoading || updateLoading ? "Processing..." : initialData ? "Update Product" : "Add Product"}
               </Button>
             </div>
           </form>

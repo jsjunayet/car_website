@@ -16,8 +16,30 @@ export const authApi = baseApi.injectEndpoints({
                 method:"POST",
                 body:payload
             })
-        })
+        }),
+        getAllUser: builder.query({
+            query:()=>({
+                url:`auth/alluser`,
+                method:"GET"
+            }),
+            providesTags: ['Auth']
+            
+        }),
+        UpdateRoleUser: builder.mutation({
+            query: (id) => ({
+                url: `auth/updateRole/${id}`,
+                method: "PUT",
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        deleteUser: builder.mutation({
+            query: (id) => ({
+                url: `auth/deletedUser/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['Auth'],
+        }),
     })
 })
 
-export const {useLoginMutation, useRegisterMutation}=authApi
+export const {useLoginMutation, useRegisterMutation, useGetAllUserQuery,useDeleteUserMutation, useUpdateRoleUserMutation}=authApi

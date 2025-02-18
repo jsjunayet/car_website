@@ -8,6 +8,7 @@ export const ProductApi = baseApi.injectEndpoints({
                 url: `cars/getAll`,
                 method: "GET",
             }),
+            providesTags: ['Products'],
         }),
 
         // ✅ Get single product
@@ -16,6 +17,7 @@ export const ProductApi = baseApi.injectEndpoints({
                 url: `cars/${id}`,
                 method: "GET",
             }),
+            providesTags: ['Products'],
         }),
 
         // ✅ Create a new product
@@ -34,6 +36,7 @@ export const ProductApi = baseApi.injectEndpoints({
                 method: "PUT",
                 body: updatedData,
             }),
+            invalidatesTags: ['Products'],
         }),
 
         // ✅ Delete a product
@@ -42,6 +45,7 @@ export const ProductApi = baseApi.injectEndpoints({
                 url: `cars/${id}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ['Products'],
         }),
     }),
 });

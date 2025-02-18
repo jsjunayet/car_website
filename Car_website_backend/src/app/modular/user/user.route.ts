@@ -19,4 +19,9 @@ router.post(
   validation(uservalidationAll.refreshTokenValidationSchema),
   AlluserController.refreshToken,
 );
+router.get('/alluser', AlluserController.AlluserGet);
+router.put('/updateRole/:id', AlluserController.UpdateRole)
+router.delete('/deletedUser/:id', AlluserController.DeletedUser)
+
+
 export const userRouter = router;

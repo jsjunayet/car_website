@@ -129,10 +129,15 @@ const getAllorder = async () => {
   const result = await OrderModel.find().populate('car')
   return result
 }
+const deletedorder = async (id: string) => {
+  const result = await OrderModel.findByIdAndDelete({ _id: id });
+  return result;
+};
 
 export const AllOrderServices = {
   CreateOrderService,
   CalculateRevenueService,
   verifyPayment,
-  getAllorder
+  getAllorder,
+  deletedorder
 };

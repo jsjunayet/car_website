@@ -4,7 +4,9 @@ const router = express.Router();
 
 router.post('/create', AllOrderControllers.CreateOrderInMonogdb);
 router.get("/verify", AllOrderControllers.verifyPayment);
-router.get('/allOrder', AllOrderControllers.getAllorder)
+router.get('/allOrder', AllOrderControllers.getAllorder);
+router.delete('/:id', AllOrderControllers.deletedorder)
+
 router.get('/revenue', AllOrderControllers.CalculateRevenueInMongodb);
 
 export const OrderRouter = router;

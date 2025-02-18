@@ -51,10 +51,21 @@ const getAllorder = catchAsync(async (req, res) => {
     data: order,
   });
 });
+const deletedorder = catchAsync(async (req, res) => {
+  const order = await AllOrderServices.deletedorder(req.params.id);
+
+   sendResponse(res, {
+    success: true,
+    message: " Order Deleted successfully",
+    statusCode: 200,
+    data: order,
+  });
+});
 
 export const AllOrderControllers = {
   CreateOrderInMonogdb,
   CalculateRevenueInMongodb,
   verifyPayment,
   getAllorder,
+  deletedorder
 };
