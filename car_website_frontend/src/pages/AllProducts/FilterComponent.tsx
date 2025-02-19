@@ -1,18 +1,12 @@
 import React from "react";
 
-interface Option {
-  label: string;
-  value: string;
-}
-
 interface FilterComponentProps {
   title: string;
-  options: string[] | Option[]; // এখন এটি অবজেক্ট ও হতে পারে
-  selectedOptions: string[];
-  onChange: (option: string) => void;
-  filterType: 'category' | 'price';
+  options: string[] | { label: string; value: string }[];
+  selectedOptions: string;  // Change from array to a single string for category or price
+  onChange: (value: string) => void;
+  filterType: "category" | "price";
 }
-
 
 const FilterComponent: React.FC<FilterComponentProps> = ({
   title,
@@ -21,35 +15,34 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
   onChange,
   filterType,
 }) => {
-  const handleOptionChange = (option: string) => {
-    onChange(option);
+  const handleOptionChange = (value: string) => {
+    onChange(value);  // Pass selected option value to onChange handler
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <h4
-          className={`mb-2 ${filterType === 'price' ? 'mt-2' : 'mt-0'} font-semibold`}
-        >
-          {title}
-        </h4>
+    <div className="mb-4">
+      <h5 className="font-semibold">{title}</h5>
+      <div className="space-y-2">
+        {options.map((option) => (
+          <div key={filterType === "category" ? option.value : option} className="flex items-center">
+            <input
+              type="radio"
+              name={filterType}
+              value={filterType === "category" ? option.value : option}
+              checked={selectedOptions === (filterType === "category" ? option.value : option)}
+              onChange={() => handleOptionChange(filterType === "category" ? option.value : option)}
+              id={filterType === "category" ? option.value : option}
+              className="mr-2"
+            />
+            <label
+              htmlFor={filterType === "category" ? option.value : option}
+              className="text-sm"
+            >
+              {filterType === "category" ? option.label : option}
+            </label>
+          </div>
+        ))}
       </div>
-      {options.map((option) => {
-  const value = typeof option === "string" ? option : option.value;
-  const label = typeof option === "string" ? option : option.label;
-
-  return (
-    <div key={value} className="flex items-center gap-2">
-      <input
-        type="checkbox"
-        checked={selectedOptions.includes(value)}
-        onChange={() => handleOptionChange(value)}
-      />
-      <label>{label}</label>
-    </div>
-  );
-})}
-
     </div>
   );
 };

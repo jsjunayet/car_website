@@ -9,6 +9,8 @@ import ManageProduct from "../pages/Dashboard/MangeProduct/ManageProduct";
 import UpateProduct from "../pages/Dashboard/MangeProduct/UpateProduct";
 import Homepage from "../pages/home/Homepage";
 import OrderVerify from "../pages/OrderVerify/OrderVerify";
+import AdminPrivateRoute from "../pages/PrivateRoute/AdminPrivateRoute";
+import PrivateRoute from "../pages/PrivateRoute/UserPrivateRoute";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
 import UserOrder from "../pages/userDashboard/Order/userOrder";
 import MyProfile from "../pages/userDashboard/Profile/Profile";
@@ -33,7 +35,7 @@ export const userspaths = [
     {
         name:"Checkout",
         path:"checkout",
-        element:<Checkout/>
+        element:<PrivateRoute><Checkout/></PrivateRoute>
     },
     {
         name:"About",
@@ -43,51 +45,51 @@ export const userspaths = [
     {
         name:"OrderVerify",
         path:"order/verify",
-        element:<OrderVerify/>
+        element:<PrivateRoute><OrderVerify/></PrivateRoute>
     }
 ]
 export const Adminpaths = [
     {
         name:"Dashborad",
         path:"/dashboard",
-        element:<DashboardHome/>
+        element:<AdminPrivateRoute><DashboardHome/></AdminPrivateRoute>
 
     },
     {
         name:"Create Product",
         path:"/dashboard/createProduct",
-        element:<CreateProduct/>
+        element:<AdminPrivateRoute><CreateProduct/></AdminPrivateRoute>
     },
     {
         name: "update Product",  
         path: "/dashboard/updateProduct/:id",  
-        element: <UpateProduct />
+        element: <AdminPrivateRoute><UpateProduct /></AdminPrivateRoute>
     },
     {
         name: "Manage Products",  
         path: "/dashboard/manageProduct",  
-        element: <ManageProduct />
+        element: <AdminPrivateRoute><ManageProduct /></AdminPrivateRoute>
     },
     {
         name:"Manage User",
         path:"/dashboard/user",
-        element:<ManageUser/>
+        element:<AdminPrivateRoute><ManageUser/></AdminPrivateRoute>
     },
     {
         name:"Manage Orders",
         path:"/dashboard/all-orders",
-        element:<ManageOrder/>
+        element:<AdminPrivateRoute><ManageOrder/></AdminPrivateRoute>
     },
 ]
 export const userpaths = [
     {
         name:"Profile",
         path:"/profile",
-        element:<MyProfile/>
+        element:<PrivateRoute><MyProfile/></PrivateRoute>
     },
     {
         name:"Show Order",
         path:"/profile/order",
-        element:<UserOrder/>
+        element:<PrivateRoute><UserOrder/></PrivateRoute>
     },
 ]

@@ -1,15 +1,26 @@
+/* eslint-disable prefer-const */
 import { baseApi } from "../../baseApi";
 
 export const ProductApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // ✅ Get all products
         getAllProduct: builder.query({
-            query: () => ({
-                url: `cars/getAll`,
-                method: "GET",
-            }),
+            query: ({ category, priceRange, search, inStock, sortBy }) => {
+              let queryParams = new URLSearchParams();
+      
+              if (category) queryParams.append('category', category);
+              if (priceRange) queryParams.append('priceRange', priceRange);
+              if (search) queryParams.append('search', search);
+              if (inStock) queryParams.append('inStock', inStock);
+              if (sortBy) queryParams.append('sortBy', sortBy);
+      
+              return {
+                url: `cars/getAll?${queryParams.toString()}`,
+                method: 'GET',
+              };
+            },
             providesTags: ['Products'],
-        }),
+          }),
 
         // ✅ Get single product
         getSingleProduct: builder.query({

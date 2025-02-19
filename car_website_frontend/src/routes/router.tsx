@@ -5,6 +5,8 @@ import { routerGenerator } from "../lib/routerGenerator";
 import { Adminpaths, userpaths, userspaths } from "./user.route";
 import Register from "../pages/register/Register";
 import MainDashbaord from "../pages/Dashboard/MainDashbaord";
+import PrivateRoute from "../pages/PrivateRoute/UserPrivateRoute";
+import AdminPrivateRoute from "../pages/PrivateRoute/AdminPrivateRoute";
 
 
 
@@ -24,12 +26,12 @@ const router = createBrowserRouter([
     },
     {
         path:"/dashboard",
-        element: <MainDashbaord/>,
+        element: <AdminPrivateRoute><MainDashbaord/></AdminPrivateRoute>,
         children: routerGenerator(Adminpaths)
     },
     {
         path:"/profile",
-        element: <MainDashbaord/>,
+        element: <PrivateRoute><MainDashbaord/></PrivateRoute>,
         children: routerGenerator(userpaths)
     },
 ])

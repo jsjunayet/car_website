@@ -3,27 +3,16 @@ import { DashboardData, ProfileData } from "./share/DashboardNavbar";
 import { Link, useLocation } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
 import LayoutBar from "./share/LayoutBar";
-import { useAppSelector } from "../../redux/hooks/app";
-import { jwtDecode } from "jwt-decode";
+import { useGetsigleuserQuery } from "../../redux/features/auth/authApi";
 
 
 
 const DesktopLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useLocation();
-  const token = useAppSelector(state=>state.auth.token)
-  let userData = null;
-  if (token) {
-    try {
-      userData = jwtDecode(token); 
-    } catch (error) {
-      console.error("Invalid token", error);
-    }
-  }
+  const {data}=useGetsigleuserQuery(undefined)
 
-  console.log("Decoded User Data:", userData); 
-
-  const menuData = userData?.role =='admin'?  DashboardData:ProfileData
+  const menuData = data?.data?.role === 'admin' ? [...DashboardData, ...ProfileData] : ProfileData;
   return (
     <div className="flex h-screen">
       <div className="fixed top-0 left-0 h-screen w-72 flex flex-col justify-between border-r bg-white drop-shadow-sm">
@@ -40,7 +29,7 @@ const DesktopLayout = () => {
               ) : (
                 <span className="uppercase">{user?.name}</span>
               )} */}
-            <span className="uppercase">{'Junayet Shiblu'}</span>
+            <span className="uppercase">{data?.data?.name}</span>
 
             </h3>
             <div className="text-gray-400">
@@ -49,7 +38,7 @@ const DesktopLayout = () => {
               ) : (
                 user?.email
               )} */}
-              <span>{"jsjunayet123@gmail.com"}</span>
+              <span>{data?.data?.email}</span>
             </div>
             <div className="flex items-center mt-2">
               <span className="px-3 py-1 font-semibold rounded-md text-sm">

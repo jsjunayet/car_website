@@ -8,12 +8,13 @@ import Drawer from "react-modern-drawer";
 import { IoIosClose } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import "react-modern-drawer/dist/index.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Input } from "../components/ui/input";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/app";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu";
 import { logout } from "../redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
 
 const Navdata = [
   { title: "Home", route: "/" },
@@ -25,6 +26,7 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const {data}=useGetsigleuserQuery(undefined)
   const token = useAppSelector(state=>state.auth.token)
   const dispatch = useAppDispatch()
   let userData = null;
@@ -59,10 +61,19 @@ const Navbar = () => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
-
+  const navigate = useNavigate();
+  
+  const handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && searchQuery.trim() !== "") {
+      navigate(`/allproduct?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+  
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     document.addEventListener("mousedown", handleClickOutside as any);
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       document.removeEventListener("mousedown", handleClickOutside as any);
     };
   }, []);
@@ -111,13 +122,15 @@ const Navbar = () => {
             )}
 
             <div ref={searchRef} className={`relative w-full md:w-[320px] pb-1 md:block hidden`}>
-              <Input
-                type="text"
-                className="z-50 pr-8 rounded-full shadow-sm border p-2 w-full"
-                placeholder="Search by name"
-                onChange={handleSearchChange}
-                value={searchQuery}
-              />
+                        <Input
+              type="text"
+              className="z-50 pr-8 rounded-full shadow-sm border p-2 w-full"
+              placeholder="Search by name or brand or categories"
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchSubmit}
+              value={searchQuery}
+            />
+
               <IoIosSearch className="absolute z-10 text-2xl text-gray-500 pointer-events-none right-2 top-2" />
             </div>
 
@@ -127,17 +140,19 @@ const Navbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer md:w-9 md:h-9 w-8 h-8">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={data?.data?.photo||"https://github.com/shadcn.png"} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" >
             {
-              userData.role =="admin"?  <DropdownMenuItem asChild>
-              <Link className=" cursor-pointer" to="/dashboard">AdminDashboard</Link>
-            </DropdownMenuItem>: <DropdownMenuItem asChild>
+              userData.role =="admin"? 
+                <DropdownMenuItem asChild>
+              <Link className=" cursor-pointer" to="/dashboard">AdminDashboard</Link></DropdownMenuItem>:
+           <DropdownMenuItem asChild>
               <Link className=" cursor-pointer" to="/profile">UserDashboard</Link>
             </DropdownMenuItem>
+        
             }
           
            

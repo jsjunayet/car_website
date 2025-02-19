@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
   FaEye,
   FaEyeSlash,
 } from 'react-icons/fa'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Input } from '../../components/ui/input';
 import { useState } from 'react';
 import { useLoginMutation } from '../../redux/features/auth/authApi';
@@ -22,6 +23,8 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const [login]=useLoginMutation()
   const dispatch = useAppDispatch()
+  const location = useLocation();
+  const redirectTo = (location.state as any)?.from || '/'; 
   // const token = useAppSelector(state=>state.auth.token)
 
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +42,7 @@ const LoginForm = () => {
         const decoded = jwtDecode<DecodedToken>(res.data);
         console.log(decoded)
         dispatch(setuser({ token: res.data, user: decoded.userId }));
-        navigate('/');
+        navigate(redirectTo);
         toast.success("Successfully logged in!", { id: toastId });
       } else {
         toast.error("Invalid email or password");

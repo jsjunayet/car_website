@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { useDeleteProductMutation, useGetAllProductQuery, useGetSingleProductQuery } from "../../../redux/features/product/ProductApi";
+import { useEffect } from "react";
+import { useDeleteProductMutation, useGetAllProductQuery } from "../../../redux/features/product/ProductApi";
 import ManageTable from "../ManageOrder/ManageTable";
 import { toast } from "sonner";
-import CreateProduct from "./CreateProduct";
 
 const ManageProduct = () => {
-    const{data, isLoading}=useGetAllProductQuery(undefined)
+    const{data, isLoading}=useGetAllProductQuery({})
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
     const[deleteProduct, { isLoading:deletedLoading, isSuccess, data:deletedData, isError, error }]=useDeleteProductMutation()

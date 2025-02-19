@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import Drawer from "react-modern-drawer";
-import { IoBag } from "react-icons/io5";
 import "react-modern-drawer/dist/index.css";
 import { IoIosMenu } from "react-icons/io";
 
 import { CiCircleCheck } from "react-icons/ci";
 import { Link, useLocation } from "react-router-dom";
-import { DashboardData } from "./DashboardNavbar";
+import { DashboardData, ProfileData } from "./DashboardNavbar";
 import LayoutBar from "./LayoutBar";
+import { useGetsigleuserQuery } from "../../../redux/features/auth/authApi";
 
 
 const MobileLayout = () => {
@@ -26,7 +26,9 @@ const MobileLayout = () => {
     };
   }, [isOpen]);
 
-  const routesData = DashboardData || []
+  const {data}=useGetsigleuserQuery(undefined)
+  
+    const menuData = data?.data?.role === 'admin' ? [...DashboardData, ...ProfileData] : ProfileData;
 
   return (
     <>
@@ -51,16 +53,15 @@ const MobileLayout = () => {
             <div className="pl-4">
               <div className="">
                 <Link to="/" className="flex gap-3">
-                  <IoBag className="text-primary" />
-                  <h4>Parcel Trade</h4>
+                  <h4>CarBazaar</h4>
                 </Link>
               </div>
 
               <div className="pb-5 mb-6 border-b">
                 <h3 className="font-semibold my-2 text-lg">
-                  Hello {"Junayet Shiblu"}
+                  Hello {data?.data?.name}
                 </h3>
-                <p className="text-gray-400 text-sm">{'jsjunayet123@gmail.com'}</p>
+                <p className="text-gray-400 text-sm">{data?.data.email}</p>
                 <div className="flex items-center mt-2">
                   <span className="px-3 py-1 font-semibold rounded-md text-sm">
                     {'000'}
@@ -75,7 +76,7 @@ const MobileLayout = () => {
               <div className="mt-4 flex flex-col">
                 <div className="mb-5 flex flex-col gap-2">
                   <div className="flex flex-col gap-3 text-[14px] text-[#637381]">
-                    {routesData?.map((item, _id) => {
+                    {menuData?.map((item, _id) => {
                       const isActive = router.pathname === item?.route;
                       return item?.underRoutes ? (
                         <LayoutBar item={item} key={_id} />
