@@ -58,10 +58,46 @@ const UpdateRole = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'All user retrieved succesfully!',
+    message: 'user Roll update succesfully!',
     data: result,
   });
 });
+const changePasswordService = catchAsync(async (req, res) => {
+  const id = req.user.userID
+  const result = await AlluserService.changePasswordService(id, req.body);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Password Change succesfully!',
+    data: result,
+  });
+});
+
+const singleUser = catchAsync(async (req, res) => {
+  const id = req.user.userID
+  const result = await AlluserService.singleUser(id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'single user retrive succesfully!',
+    data: result,
+  });
+});
+const upateUser = catchAsync(async (req, res) => {
+  const id = req.user.userID;
+  const body = req.body
+  const result = await AlluserService.upateUser(id, body);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'user profile update succesfully!',
+    data: result,
+  });
+});
+
 const DeletedUser = catchAsync(async (req, res) => {
   const result = await AlluserService.DeletedUser(req.params.id);
 
@@ -78,5 +114,9 @@ export const AlluserController = {
   refreshToken,
   AlluserGet,
   UpdateRole,
-  DeletedUser
+  DeletedUser,
+  changePasswordService,
+  upateUser,
+  singleUser
+
 };

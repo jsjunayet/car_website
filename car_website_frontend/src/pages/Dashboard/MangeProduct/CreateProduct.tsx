@@ -96,26 +96,39 @@ const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
           name: data.name,
           brand: data.brand,
           model: data.model,
-          year: data.year,
-          price: data.price,
+          year: Number(data.year), // Cast to number
+          price: Number(data.price), // Cast to number
           category: data.category,
           description: data.description,
-          quantity: data.quantity,
-          images: data.images,
+          quantity: Number(data.quantity), // Cast to number
+          images: data.images.length > 0 ? data.images : initialData?.images,
         };
+    
   
         // Update product
         const response = await updateProduct({ id: initialData._id, updatedData }).unwrap();
         navigate('/dashboard/manageProduct');
         toast.success(response.message || "Product updated successfully!");
       } else {
+        const updatedData = {
+          name: data.name,
+          brand: data.brand,
+          model: data.model,
+          year: Number(data.year), 
+          price: Number(data.price), 
+          category: data.category,
+          description: data.description,
+          quantity: Number(data.quantity),
+          images:  data.images 
+        };
         // Create new product
-        const response = await createProduct(data).unwrap();
+        const response = await createProduct(updatedData).unwrap();
         toast.success(response.message || "Product added successfully!");
       }
       reset();
       setPreviewImages([]);
-    } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
       toast.error(error?.data?.message || "Failed to submit product.");
     }
   };

@@ -8,14 +8,38 @@ const CreateCarService = async (Car: CarInterface) => {
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GetCarService = async (query: Record<string, unknown>) => {
-  const QueryModel =await CarModel.find(); 
+  // const filters = {};
 
-  // const queryBuilder = new QueryBuilder(QueryModel, query)
-  //   .search(['brand', 'model', 'category'])
-  //   .filter()
-  //   .sort();
-  // const result = await queryBuilder.QueryModel;
-  return QueryModel;
+  // if (query?.categories) {
+  //   filters.category = { $in: query.categories.split(",") };
+  // }
+
+  // if (query?.priceRange) {
+  //   const [minPrice, maxPrice] = query.priceRange.split(",").map((price) => 
+  //     parseFloat(price.replace("$", "").replace("-", "").trim())
+  //   );
+  //   filters.price = { $gte: minPrice, $lte: maxPrice };
+  // }
+
+  // if (query?.search) {
+  //   filters.name = { $regex: query.search, $options: "i" };
+  // }
+
+  // if (query?.models) {
+  //   filters.model = { $in: query.models.split(",") };
+  // }
+
+  // if (query?.brands) {
+  //   filters.brand = { $in: query.brands.split(",") };
+  // }
+
+  // if (query?.availability !== undefined) {
+  //   filters.availability = query.availability === "true";
+  // }
+
+  const result = await CarModel.find();
+
+  return result
 };
 
 const GetSingleCarService = async (id: string) => {

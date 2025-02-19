@@ -3,6 +3,11 @@ import { OrderInterface } from './Order.Interface';
 
 const OrderSchema = new Schema<OrderInterface>(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'User ID is required'],
+    },
     email: {
       type: String,
       required: [true, 'Please enter your email. Email is required'],
@@ -41,6 +46,10 @@ const OrderSchema = new Schema<OrderInterface>(
       type: String,
       enum: ['Pending', 'Paid', 'Shipped', 'Completed', 'Cancelled'],
       default: 'Pending',
+    },
+    orderDate: {
+      type: Date,
+      default: Date.now, // Automatically sets today's date when an order is created
     },
     transaction: {
       id: String,

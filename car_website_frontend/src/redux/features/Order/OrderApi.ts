@@ -25,6 +25,14 @@ export const OderApi = baseApi.injectEndpoints({
             providesTags: ['Orders']
             
         }),
+        getSingleOrder: builder.query({
+            query:()=>({
+                url:`/orders/getsingle`,
+                method:"GET"
+            }),
+            providesTags: ['Orders']
+            
+        }),
         deleteOrder: builder.mutation({
             query: (id) => ({
                 url: `orders/${id}`,
@@ -35,4 +43,4 @@ export const OderApi = baseApi.injectEndpoints({
     })
 })
 
-export const {useGetVerifyOrderQuery, useOrderCreateMutation, useGetAllOrderQuery, useDeleteOrderMutation}=OderApi
+export const {useGetVerifyOrderQuery, useOrderCreateMutation, useGetAllOrderQuery, useDeleteOrderMutation, useGetSingleOrderQuery}=OderApi

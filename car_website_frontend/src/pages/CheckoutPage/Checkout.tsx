@@ -66,8 +66,7 @@ const Checkout = () => {
         }, 1000);
       }
     }
-
-    if (isError) toast.error(JSON.stringify(error), { id: toastId });
+    if (isError) toast.error(JSON.stringify(error.data.message), { id: toastId });
   }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
 
   return (

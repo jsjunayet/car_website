@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState, MouseEvent } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
-import { PiShoppingCartThin } from "react-icons/pi";
 import { FaBars } from "react-icons/fa6";
+import { Avatar, AvatarFallback, AvatarImage } from "../../src/components/ui/avatar"
 import Drawer from "react-modern-drawer";
 import { IoIosClose } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import "react-modern-drawer/dist/index.css";
 import { Link, useLocation } from "react-router-dom";
 import { Input } from "../components/ui/input";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/app";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu";
+import { logout } from "../redux/features/auth/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 const Navdata = [
   { title: "Home", route: "/" },
@@ -20,10 +25,23 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const token = useAppSelector(state=>state.auth.token)
+  const dispatch = useAppDispatch()
+  let userData = null;
+  if (token) {
+    try {
+      userData = jwtDecode(token); // টোকেন ডিকোড করে User Data পাওয়া যাবে
+    } catch (error) {
+      console.error("Invalid token", error);
+    }
+  }
+
 
   const searchRef = useRef<HTMLDivElement | null>(null);
-  const location = useLocation(); // Get current route
-
+  const location = useLocation();
+  const handleLogout = () => {
+    dispatch(logout());
+  }; 
   const handleSearchToggle = () => {
     setShowSearch((prev) => !prev);
   };
@@ -86,7 +104,7 @@ const Navbar = () => {
           </div>
 
           {/* Icons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center  gap-3">
             {/* Search button */}
             {!showSearch && (
               <IoIosSearch onClick={handleSearchToggle} className="text-2xl cursor-pointer text-gray-500 md:hidden block" />
@@ -105,14 +123,34 @@ const Navbar = () => {
 
             <div className="flex items-center gap-4 text-xl">
               <div className="relative">
-                <Link to="/cart">
-                  <PiShoppingCartThin className="size-6 text-gray-500" />
-                </Link>
-              </div>
-              <div className="relative">
-                <Link to="/login">
-                  <CiLogin className="text-gray-500 size-6" />
-                </Link>
+              {token ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="cursor-pointer md:w-9 md:h-9 w-8 h-8">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" >
+            {
+              userData.role =="admin"?  <DropdownMenuItem asChild>
+              <Link className=" cursor-pointer" to="/dashboard">AdminDashboard</Link>
+            </DropdownMenuItem>: <DropdownMenuItem asChild>
+              <Link className=" cursor-pointer" to="/profile">UserDashboard</Link>
+            </DropdownMenuItem>
+            }
+          
+           
+            <DropdownMenuItem onClick={handleLogout} className="text-red-500 cursor-pointer">
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <Link to="/login">
+          <CiLogin className="text-gray-500 size-6" />
+        </Link>
+      )}
               </div>
             </div>
           </div>
@@ -153,19 +191,22 @@ const Navbar = () => {
 
         {/* Drawer Navigation Links */}
         <div className="flex flex-col gap-4">
-          {Navdata.map((item, key) => (
-            <Link
-              to={item.route}
-              key={key}
-              onClick={handleDrawerToggle}
-              className={`block text-lg font-medium text-gray-700 border-b-2 border-white cursor-pointer 
-              hover:border-black transition-colors ${
-                location.pathname === item.route ? "border-black" : ""
-              }`}
-            >
-              {item.title}
-            </Link>
-          ))}
+        {Navdata.map((item, key) => (
+              <Link
+                to={item.route}
+                className="relative text-lg cursor-pointer group"
+                key={key}
+              >
+                {item.title}
+                {/* Show the hover effect only on active link */}
+                <div
+                  className={`h-[1.6px] w-0 group-hover:w-full transition-all duration-500 
+                  bg-gradient-to-l from-transparent to-primary ${
+                    location.pathname === item.route ? "w-full" : "w-0"
+                  }`}
+                ></div>
+              </Link>
+            ))}
         </div>
       </Drawer>
     </div>

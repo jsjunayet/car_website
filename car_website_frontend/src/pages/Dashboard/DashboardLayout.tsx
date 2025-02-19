@@ -3,14 +3,27 @@ import { DashboardData, ProfileData } from "./share/DashboardNavbar";
 import { Link, useLocation } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
 import LayoutBar from "./share/LayoutBar";
+import { useAppSelector } from "../../redux/hooks/app";
+import { jwtDecode } from "jwt-decode";
 
 
 
 const DesktopLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useLocation();
+  const token = useAppSelector(state=>state.auth.token)
+  let userData = null;
+  if (token) {
+    try {
+      userData = jwtDecode(token); 
+    } catch (error) {
+      console.error("Invalid token", error);
+    }
+  }
 
-  const menuData =  DashboardData;
+  console.log("Decoded User Data:", userData); 
+
+  const menuData = userData?.role =='admin'?  DashboardData:ProfileData
   return (
     <div className="flex h-screen">
       <div className="fixed top-0 left-0 h-screen w-72 flex flex-col justify-between border-r bg-white drop-shadow-sm">

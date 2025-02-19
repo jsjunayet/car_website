@@ -9,6 +9,7 @@ import { Skeleton } from "../../components/ui/skeleton";
 import { RxCross2 } from "react-icons/rx";
 import ProductCard from "../../share/Cards/ProductCard";
 import { useGetAllProductQuery } from "../../redux/features/product/ProductApi";
+import ProductCardSkeleton from "../../AllSkeleton/ProductCardSkeleton";
 
 interface Option {
   label: string;
@@ -16,7 +17,7 @@ interface Option {
 }
 
 const AllProduct: React.FC = () => {
-      const {data}=useGetAllProductQuery(undefined)
+      const {data, isLoading:proudctLoading}=useGetAllProductQuery(undefined)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -85,13 +86,13 @@ const AllProduct: React.FC = () => {
     { label: "Truck", value: "Truck" },
     { label: "Coupe", value: "Coupe" },
     { label: "Convertible", value: "Convertible" }];  // Replace with actual options
-  const priceRanges: string[] = ["$0 - $50", "$50 - $100", "$100 - $200"];  // Replace with actual price range
+  const priceRanges: string[] = ["$0 - $50", "$50 - $100", "$100 - $200", "$200 - $1000","$1000 - $10000"];  // Replace with actual price range
 
   return (
     <section className=" max-w-7xl mx-auto my-5 md:my-10">
       <div className="relative items-center justify-between gap-2 mb-5 rounded-lg md:flex md:border md:gap-10 md:p-5">
         <div className="flex items-center gap-5">
-          <h3 className="hidden md:block">Our Products</h3>
+          <h3 className="hidden md:block text-xl font-semibold">Our Products</h3>
           
         </div>
         <div className="flex items-center justify-between">
@@ -169,7 +170,7 @@ const AllProduct: React.FC = () => {
 
       <div className="flex">
         {/* Sidebar for larger screens */}
-        <div className="sticky top-0 hidden h-full p-5 overflow-y-auto rounded-lg md:block w-52 bg-slate-100">
+        <div className="sticky top-0 hidden h-full p-5 overflow-y-auto rounded-lg md:block w-52 border shadow-md">
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-lg font-semibold">Filters</h4>
             <button
@@ -202,10 +203,10 @@ const AllProduct: React.FC = () => {
 
         {/* Product Grid */}
         <div className="grid items-start justify-between w-full grid-cols-1 gap-5 pb-10 md:ml-5 justify-items-center lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-4">
-          {isLoading
+          {proudctLoading
             ? Array.from({ length: 8 }).map((_, index) => (
                 // <SkeletonCard key={index} />
-                <Skeleton className="h-5 w-full bg-slate-200" />
+                <ProductCardSkeleton/>
               ))
             : isError
             ? (

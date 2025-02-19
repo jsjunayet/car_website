@@ -1,14 +1,16 @@
 import { ObjectId } from 'mongoose';
 export interface OrderInterface {
+  userId: string | ObjectId;  // Added userId
   email: string;
-  name:string,
-  phone:string,
-  townOrCity:string,
-  shippingAddress:string
+  name: string;
+  phone: string;
+  townOrCity: string;
+  shippingAddress: string;
   car: string | ObjectId;
   quantity: number;
   totalPrice: number;
   status: "Pending" | "Paid" | "Shipped" | "Completed" | "Cancelled";
+  orderDate: Date;  // Added orderDate
   transaction: {
     id: string;
     transactionStatus: string;
@@ -19,3 +21,4 @@ export interface OrderInterface {
     date_time: string;
   };
 }
+

@@ -3,7 +3,8 @@ import { OrderInterface } from './Order.Interface';
 import { OrderModel } from './Order.Model';
 import { orderUtils } from './order.utils';
 
-const CreateOrderService = async (Order: OrderInterface, client_ip: string) => {
+const CreateOrderService = async (Order: OrderInterface, client_ip: string, id:string) => {
+
   const car = await CarModel.findById(Order.car);
   if (!car) {
     return {
@@ -11,19 +12,21 @@ const CreateOrderService = async (Order: OrderInterface, client_ip: string) => {
       message: 'The car you are trying to order does not exist.',
     };
   }
-
   if (car.quantity < Order.quantity) {
     return {
       success: false,
       message: `Insufficient stock. ${car.quantity == 0 ? `There is no item available` : `Only ${car.quantity} items are available.`}`,
     };
   }
+  if(id){
+    Order.userId = id;
+  }
 
-  // গাড়ির পরিমাণ আপডেট না করে শুধুমাত্র অর্ডার তৈরি করুন
   let order = await OrderModel.create(Order);
+console.log(Order.totalPrice);
 
   const shurjopayPayload = {
-    amount: Number(Order.totalPrice).toFixed(2),
+    amount: Order.totalPrice,
     order_id: order._id,
     currency: "BDT",
     customer_name: Order.name,
@@ -129,6 +132,12 @@ const getAllorder = async () => {
   const result = await OrderModel.find().populate('car')
   return result
 }
+const getSingleId = async (id:string) => {
+  const result = await OrderModel.find({
+    userId:id
+  }).populate('car')
+  return result
+}
 const deletedorder = async (id: string) => {
   const result = await OrderModel.findByIdAndDelete({ _id: id });
   return result;
@@ -139,5 +148,6 @@ export const AllOrderServices = {
   CalculateRevenueService,
   verifyPayment,
   getAllorder,
-  deletedorder
+  deletedorder,
+  getSingleId
 };

@@ -25,11 +25,15 @@ const ManageOrder = () => {
   
     const columns = [
         { label: "Order ID", value: "_id" },
+        { label: "user", value: "userId" },
+
         { label: "Car Name", value: "car.brand" },
         { label: "User Email", value: "email" },
         { label: "Phone", value: "phone" },
         { label: "Price", value: "totalPrice" },
         { label: "Status", value: "status" },
+        { label: "OrderDate", value: "orderDate" },
+
         { label: "Transaction ID", value: "transaction.id" },
       ];
       

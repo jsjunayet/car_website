@@ -10,6 +10,8 @@ import UpateProduct from "../pages/Dashboard/MangeProduct/UpateProduct";
 import Homepage from "../pages/home/Homepage";
 import OrderVerify from "../pages/OrderVerify/OrderVerify";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
+import UserOrder from "../pages/userDashboard/Order/userOrder";
+import MyProfile from "../pages/userDashboard/Profile/Profile";
 
 export const userspaths = [
     {
@@ -75,5 +77,17 @@ export const Adminpaths = [
         name:"Manage Orders",
         path:"/dashboard/all-orders",
         element:<ManageOrder/>
+    },
+]
+export const userpaths = [
+    {
+        name:"Profile",
+        path:"/profile",
+        element:<MyProfile/>
+    },
+    {
+        name:"Show Order",
+        path:"/profile/order",
+        element:<UserOrder/>
     },
 ]

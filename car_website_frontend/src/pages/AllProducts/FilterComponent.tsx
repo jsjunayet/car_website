@@ -29,7 +29,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
     <div>
       <div className="flex items-center justify-between">
         <h4
-          className={`mb-2 ${filterType === 'price' ? 'mt-2' : 'mt-0'} text-lg font-extrabold`}
+          className={`mb-2 ${filterType === 'price' ? 'mt-2' : 'mt-0'} font-semibold`}
         >
           {title}
         </h4>

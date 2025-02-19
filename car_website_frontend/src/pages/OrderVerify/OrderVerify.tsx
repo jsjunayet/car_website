@@ -59,7 +59,7 @@ export default function OrderVerify() {
     <SkeletonVerify/>
   ) : (
     <div className=" max-w-7xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Order Verification</h1>
+      <h1 className="text-xl font-bold mb-6">Order Verification</h1>
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -151,8 +151,8 @@ export default function OrderVerify() {
             </div>
           </CardContent>
           <CardFooter>
-            <Link to="/order">
-              <Button className="w-full">View Orders</Button>
+            <Link to="/profile/order">
+              <Button className="w-full cursor-pointer">View Orders</Button>
             </Link>
           </CardFooter>
         </Card>

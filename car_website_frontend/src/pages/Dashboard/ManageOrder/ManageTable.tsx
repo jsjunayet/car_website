@@ -98,7 +98,9 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   {column.label}
                 </TableHead>
               ))}
-              <TableHead className="text-black">Actions</TableHead>
+               {
+                isvalue!='userOrder' && <TableHead className="text-black">Actions</TableHead>
+               }
             </TableRow>
           </TableHeader>
           <TableBody className="text-gray-500">
@@ -131,12 +133,14 @@ const ManageTable: React.FC<ManageTableProps> = ({
                  {"Update Role"}
                 </button>
               }
-                  <button
-                    onClick={() => onDelete(item._id)}
-                    className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
-                  >
-                    Delete
-                  </button>
+               {
+                isvalue!='userOrder' &&   <button
+                onClick={() => onDelete(item._id)}
+                className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+              >
+                Delete
+              </button>
+               }
                 </TableCell>
               </TableRow>
             ))}

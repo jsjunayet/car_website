@@ -28,7 +28,7 @@ const userLoginService = async (body: Iuser) => {
   const accessToken = jwt.sign(
     { userID: RegisterUser._id, role: RegisterUser.role },
     process.env.JWT_SECRET as string,
-    { expiresIn: '15m' } 
+    { expiresIn: '10m' } 
   );
 
   const refreshToken = jwt.sign(
@@ -71,8 +71,7 @@ interface User {
   save(): Promise<void>;
 }
 
-const UpdateRole = async (userId: string): Promise<{ message: string }> => {
-  try {
+const UpdateRole = async (userId: string) => {
     const user = await usermodel.findById(userId) as User | null;
 
     if (!user) {
@@ -81,16 +80,44 @@ const UpdateRole = async (userId: string): Promise<{ message: string }> => {
 
     const newRole = user.role === 'user' ? 'admin' : 'user';
     user.role = newRole;
-
-    await user.save();
-    return { message: `User role updated to ${newRole}` };
-  } catch (error) {
-    return { message: 'An error occurred while updating the user role.' };
-  }
-};
+    const result = await usermodel.findOneAndUpdate(
+      { _id: userId }, 
+      { $set: { role: newRole } },
+      { new: true } 
+    );
+    return result
+  };
 const DeletedUser = async (id: string) => {
   const result = await usermodel.findByIdAndDelete({ _id: id });
   return result;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const changePasswordService = async (userId: string, body:any) => {
+  const user = await usermodel.findById(userId);
+  if (!user) {
+    throw new AppErrors(404, 'User not found');
+  }
+  const isPasswordMatch = await bcrypt.compare(body.oldPassword, user.password);
+  if (!isPasswordMatch) {
+    throw new AppErrors(401, 'Old password is incorrect');
+  }
+  user.password = body.newPassword;
+  await user.save();
+  return { message: 'Password changed successfully' };
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const upateUser = async (userId: string, body:any) => {
+  const updatedUser = await usermodel.findByIdAndUpdate(
+    userId,
+    body,
+    { new: true, runValidators: true }
+  ); 
+  return updatedUser
+};
+const singleUser = async (userId: string) => {
+  const result  = await usermodel.findOne({_id:userId})
+  return result
 };
 
 export const AlluserService = {
@@ -99,6 +126,9 @@ export const AlluserService = {
   refreshTokenService,
   AlluserGet,
   UpdateRole,
-  DeletedUser
+  DeletedUser,
+  changePasswordService,
+  upateUser,
+  singleUser
   
 };

@@ -22,9 +22,6 @@ export const DashboardData = [
 export const ProfileData = [
     { route: "/profile", name: "Profile info", icon: <GoPerson />},
     { route: "/profile/order", name: "My Order", icon: <GrMenu />},
-    { route: "/profile/wallet", name: "Wallet", icon: <CiWallet />},
-    { route: "/profile/transaction", name: "Transaction", icon: <CiWallet />},
-    { route: "/profile/deposit", name: "Deposit", icon: <CiBadgeDollar />},
 ];
 
 

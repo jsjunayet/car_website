@@ -3,7 +3,8 @@ import { AllOrderServices } from './Oder.services';
 import { catchAsync } from '../../utilitiy/catchAsync';
 import sendResponse from '../../utilitiy/sendResponse';
 const CreateOrderInMonogdb= catchAsync(async (req, res) => {
-  const order = await AllOrderServices.CreateOrderService(req.body, req.ip!);
+  const id =req.user.userID
+  const order = await AllOrderServices.CreateOrderService(req.body, req.ip!, id);
 
   sendResponse(res, {
     success: true,
@@ -51,6 +52,18 @@ const getAllorder = catchAsync(async (req, res) => {
     data: order,
   });
 });
+const getSingleId = catchAsync(async (req, res) => {
+  const id = req.user.userID
+  console.log(id, "hello wrold");
+  const order = await AllOrderServices.getSingleId(id);
+
+   sendResponse(res, {
+    success: true,
+    message: "All Order successfully",
+    statusCode: 200,
+    data: order,
+  });
+});
 const deletedorder = catchAsync(async (req, res) => {
   const order = await AllOrderServices.deletedorder(req.params.id);
 
@@ -67,5 +80,6 @@ export const AllOrderControllers = {
   CalculateRevenueInMongodb,
   verifyPayment,
   getAllorder,
-  deletedorder
+  deletedorder,
+  getSingleId
 };

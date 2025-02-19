@@ -2,9 +2,9 @@ import React from "react";
 
 const Aboutpage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-6 md:px-16">
-      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-8 md:p-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
+    <div className="min-h-screen  py-12 px-6 md:px-16">
+      <div className="max-w-7xl border mx-auto bg-white shadow-lg rounded-lg p-8 md:p-12">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           About Our Car Shop
         </h1>
         <p className="text-lg text-gray-700 leading-relaxed">
@@ -13,7 +13,7 @@ const Aboutpage: React.FC = () => {
 
         <div className="grid md:grid-cols-2 gap-8 mt-8">
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800">Why Choose Us?</h2>
+            <h2 className="text-xl font-semibold text-gray-800">Why Choose Us?</h2>
             <ul className="list-disc list-inside text-gray-700 mt-4 space-y-2">
               <li>Verified Sellers & Authentic Listings</li>
               <li>Secure Transactions with SurjoPay</li>
@@ -23,7 +23,7 @@ const Aboutpage: React.FC = () => {
           </div>
           
           <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800">Our Mission</h2>
+            <h2 className="text-xl font-semibold text-gray-800">Our Mission</h2>
             <p className="text-gray-700 mt-4">
               At Elite Auto Hub, we aim to simplify car buying and selling by integrating the latest technology and a customer-centric approach. Whether you’re looking for a brand-new ride or a budget-friendly used car, we’ve got you covered!
             </p>

@@ -8,8 +8,9 @@ const baseQuery =  fetchBaseQuery({
       const state = (getState() as RootState); 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const token = (state.auth as any).token; 
+      console.log(token);
       if (token) {
-        headers.set('Authorization', ` ${token}`);
+        headers.set('Authorization', `Bearer ${token}`);
       }    
       return headers; 
     },
@@ -17,8 +18,8 @@ const baseQuery =  fetchBaseQuery({
 
   const baseQueryRefreshToken:BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>  =async(arg,api,extraOptions)=>{
     let result = await baseQuery(arg,api,extraOptions)
-    console.log(result.error?.status, "result");
-    if(result.error?.status===500){
+    console.log(result, "result");
+    if(result.error?.status===401 ||result.error?.status===404){
         const refreshResponse = await fetch('http://localhost:5000/api/auth/refresh-token', {
             method: 'POST',
             credentials: 'include',
@@ -28,7 +29,7 @@ const baseQuery =  fetchBaseQuery({
     const accessToken = await refreshResponse.json()
     api.dispatch(
       setuser({
-          token:accessToken.data.accessToken,
+          token:accessToken.data,
           user: (api.getState() as RootState).auth.user, 
       })
     )

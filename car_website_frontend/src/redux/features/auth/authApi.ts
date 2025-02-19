@@ -25,10 +25,34 @@ export const authApi = baseApi.injectEndpoints({
             providesTags: ['Auth']
             
         }),
+        getsigleuser: builder.query({
+            query:()=>({
+                url:`auth/sigleuser`,
+                method:"GET"
+            }),
+            providesTags: ['Auth']
+            
+        }),
         UpdateRoleUser: builder.mutation({
             query: (id) => ({
                 url: `auth/updateRole/${id}`,
                 method: "PUT",
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        UpateUser: builder.mutation({
+            query: (body) => ({
+                url: `auth/upateuser`,
+                method: "PUT",
+                body:body
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+       ChangePassword: builder.mutation({
+            query: (body) => ({
+                url: `auth/changePassword`,
+                method: "PUT",
+                body:body
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -42,4 +66,4 @@ export const authApi = baseApi.injectEndpoints({
     })
 })
 
-export const {useLoginMutation, useRegisterMutation, useGetAllUserQuery,useDeleteUserMutation, useUpdateRoleUserMutation}=authApi
+export const {useLoginMutation, useRegisterMutation, useGetAllUserQuery,useDeleteUserMutation, useUpdateRoleUserMutation, useChangePasswordMutation, useUpateUserMutation, useGetsigleuserQuery}=authApi
