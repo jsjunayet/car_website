@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import AppErrors from '../../errors/AppErrors';
-import { Iuser } from './user.interface';
 import { usermodel } from './user.model';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { IUser } from './user.interface';
 dotenv.config();
-const userRegisterService = async (body: Iuser) => {
+const userRegisterService = async (body: IUser) => {
   const result = await usermodel.create(body);
 
   return {
@@ -14,7 +14,7 @@ const userRegisterService = async (body: Iuser) => {
     email: result.email,
   };
 };
-const userLoginService = async (body: Iuser) => {
+const userLoginService = async (body: IUser) => {
   const RegisterUser = await usermodel.findOne({ email: body.email });
   if (!RegisterUser) {
     throw new AppErrors(404, 'Invalid credentials');

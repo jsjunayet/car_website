@@ -23,34 +23,39 @@ const CreateOrderService = async (Order: OrderInterface, client_ip: string, id:s
   }
 
   let order = await OrderModel.create(Order);
-console.log(Order.totalPrice);
 
-  const shurjopayPayload = {
-    amount: Order.totalPrice,
-    order_id: order._id,
-    currency: "BDT",
-    customer_name: Order.name,
-    customer_address: Order.shippingAddress,
-    customer_email: Order.email,
-    customer_phone: Order.phone,
-    customer_city: Order.townOrCity,
-    client_ip,
-  };
+const shurjopayPayload = {
+  amount: Order.totalPrice,
+  order_id: order._id,
+  currency: "BDT",
+  customer_name: Order.name,
+  customer_address: Order.shippingAddress,
+  customer_email: Order.email,
+  customer_phone: Order.phone,
+  customer_city: Order.townOrCity,
+  client_ip,
+};
 
-  const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
+const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
 
-  if (payment?.transactionStatus) {
-    order = await OrderModel.findByIdAndUpdate(
-      order._id,
-      {
-        transaction: {
-          id: payment.sp_order_id,
-          transactionStatus: payment.transactionStatus,
-        },
+if (payment?.transactionStatus) {
+  const updatedOrder = await OrderModel.findByIdAndUpdate(
+    order._id,
+    {
+      transaction: {
+        id: payment.sp_order_id,
+        transactionStatus: payment.transactionStatus,
       },
-      { new: true }
-    );
+    },
+    { new: true }
+  );
+
+  if (updatedOrder) {
+    order = updatedOrder;  
+  } else {
+    console.error("Order not found or could not be updated");
   }
+}
 
   return payment.checkout_url;
 };

@@ -1,4 +1,5 @@
 // import QueryBuilder from '../../utilitiy/QueryBuilder';
+import QueryBuilder from '../../utilitiy/QueryBuilder';
 import { CarInterface } from './Car.Interface';
 import { CarModel } from './Car.Model';
 
@@ -6,40 +7,17 @@ const CreateCarService = async (Car: CarInterface) => {
   const result = await CarModel.create(Car);
   return result;
 };
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GetCarService = async (query: Record<string, unknown>) => {
-  // const filters = {};
+  const queryBuilder = new QueryBuilder(
+    CarModel.find(),
+    query,
+  )
+    .search(['brand', 'name', 'category'])
+    .sort()
+    .filter();
+  const result = await queryBuilder.QueryModel; 
 
-  // if (query?.categories) {
-  //   filters.category = { $in: query.categories.split(",") };
-  // }
-
-  // if (query?.priceRange) {
-  //   const [minPrice, maxPrice] = query.priceRange.split(",").map((price) => 
-  //     parseFloat(price.replace("$", "").replace("-", "").trim())
-  //   );
-  //   filters.price = { $gte: minPrice, $lte: maxPrice };
-  // }
-
-  // if (query?.search) {
-  //   filters.name = { $regex: query.search, $options: "i" };
-  // }
-
-  // if (query?.models) {
-  //   filters.model = { $in: query.models.split(",") };
-  // }
-
-  // if (query?.brands) {
-  //   filters.brand = { $in: query.brands.split(",") };
-  // }
-
-  // if (query?.availability !== undefined) {
-  //   filters.availability = query.availability === "true";
-  // }
-
-  const result = await CarModel.find();
-
-  return result
+  return result;
 };
 
 const GetSingleCarService = async (id: string) => {
@@ -67,3 +45,4 @@ export const CarServices = {
   updateCarService,
   DeletedCarService,
 };
+

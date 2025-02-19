@@ -22,8 +22,7 @@ const CreateCarInMonogdb = async (req: Request, res: Response) => {
 
 const GerCarInMonogdb = async (req: Request, res: Response) => {
   try {
-    const { searchTerm } = req.query;
-    const data = await CarServices.GetCarService(searchTerm);
+    const data = await CarServices.GetCarService(req.query);
     if (data.length === 0) {
       res.status(404).json({
         message: 'No cars found for the given search term',
