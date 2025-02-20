@@ -1,4 +1,6 @@
-# Blogging Platform Backend
+
+
+# Car Shop Application Backend
 
 ## 🚀 Live URL
 [Live Backend URL](https://blogging-website-snowy-chi.vercel.app/)
@@ -7,7 +9,7 @@
 
 ## 📜 Project Overview
 
-This project is the backend for a **Blogging Platform**, where users can create, view, edit, and delete blogs. It includes **user authentication** with JWT tokens, **role-based access control** (Admin/User), and features such as blog search, filtering, and sorting. Admin users can manage all users and blogs, while regular users can manage only their own blogs.
+Car Shop is a full-stack web application designed to provide a seamless car shopping experience. The platform includes user-friendly features, secure authentication, and smooth product management
 
 ---
 
