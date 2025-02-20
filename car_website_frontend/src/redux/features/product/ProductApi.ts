@@ -13,7 +13,6 @@ export const ProductApi = baseApi.injectEndpoints({
               if (search) queryParams.append('search', search);
               if (inStock) queryParams.append('inStock', inStock);
               if (sortBy) queryParams.append('sortBy', sortBy);
-      
               return {
                 url: `cars/getAll?${queryParams.toString()}`,
                 method: 'GET',

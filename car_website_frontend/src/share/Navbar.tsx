@@ -29,14 +29,7 @@ const Navbar = () => {
   const {data}=useGetsigleuserQuery(undefined)
   const token = useAppSelector(state=>state.auth.token)
   const dispatch = useAppDispatch()
-  let userData = null;
-  if (token) {
-    try {
-      userData = jwtDecode(token); // টোকেন ডিকোড করে User Data পাওয়া যাবে
-    } catch (error) {
-      console.error("Invalid token", error);
-    }
-  }
+ 
 
 
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -146,7 +139,7 @@ const Navbar = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" >
             {
-              userData.role =="admin"? 
+              data?.data?.role =="admin"? 
                 <DropdownMenuItem asChild>
               <Link className=" cursor-pointer" to="/dashboard">AdminDashboard</Link></DropdownMenuItem>:
            <DropdownMenuItem asChild>

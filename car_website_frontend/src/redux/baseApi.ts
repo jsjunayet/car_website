@@ -2,7 +2,7 @@ import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError 
 import { logout, setuser } from "./features/auth/authSlice";
 import { RootState } from "./store";
 const baseQuery =  fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api', 
+    baseUrl: 'https://blogging-website-snowy-chi.vercel.app/api', 
     credentials: 'include', 
     prepareHeaders: (headers, { getState }) => {
       const state = (getState() as RootState); 
@@ -20,7 +20,7 @@ const baseQuery =  fetchBaseQuery({
     let result = await baseQuery(arg,api,extraOptions)
     console.log(result, "result");
     if(result.error?.status===401 ||result.error?.status===404){
-        const refreshResponse = await fetch('http://localhost:5000/api/auth/refresh-token', {
+        const refreshResponse = await fetch('https://blogging-website-snowy-chi.vercel.app/api/auth/refresh-token', {
             method: 'POST',
             credentials: 'include',
           });
