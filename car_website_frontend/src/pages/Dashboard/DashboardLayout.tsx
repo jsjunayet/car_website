@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { DashboardData, ProfileData } from "./share/DashboardNavbar";
 import { Link, useLocation } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
-import LayoutBar from "./share/LayoutBar";
 import { useGetsigleuserQuery } from "../../redux/features/auth/authApi";
 
 
 
 const DesktopLayout = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useLocation();
   const {data}=useGetsigleuserQuery(undefined)
 
@@ -63,23 +60,20 @@ const DesktopLayout = () => {
         >
           <div className="flex flex-col gap-2 mb-5">
             <div className="flex flex-col gap-5 mt-3 text-lg">
-              {menuData?.map((item, _id) => {
-                const isActive = router.pathname === item?.route;
-
-                return item?.underRoutes ? (
-                  <LayoutBar item={item} key={_id} />
-                ) : (
-                  <Link
-                    key={_id}
-                    className={`flex items-center gap-2 hover:bg-secondary ${
-                      isActive ? "bg-secondary p-2 rounded-lg" : "p-2 rounded-lg"
-                    }`}
-                    to={item?.route}
-                    onClick={() => setIsMenuOpen(false)} 
-                  >
-                    <span className="text-2xl">{item?.icon}</span>
-                    {item?.name}
-                  </Link>
+            {menuData?.map((item, _id) => {
+                      const isActive = router.pathname === item?.route;
+                      return (
+                        <Link
+                          key={_id}
+                          className={`flex items-center gap-2 hover:bg-secondary ${
+                            isActive
+                              ? "bg-secondary p-2 rounded-lg"
+                              : "p-2 rounded-lg"
+                          }`}
+                          to={item?.route}
+                        >
+                          {item?.icon} {item?.name}
+                        </Link>
                 );
               })}
             </div>

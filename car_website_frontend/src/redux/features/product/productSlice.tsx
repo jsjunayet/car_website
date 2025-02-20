@@ -10,7 +10,7 @@ interface Product {
   price: number;
   quantity: number;
   inStock: boolean; 
-  image: string;
+  image: string[];
 }
 
 interface CartState {

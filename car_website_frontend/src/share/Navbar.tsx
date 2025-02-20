@@ -13,7 +13,6 @@ import { Input } from "../components/ui/input";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/app";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu";
 import { logout } from "../redux/features/auth/authSlice";
-import { jwtDecode } from "jwt-decode";
 import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
 
 const Navdata = [

@@ -19,7 +19,6 @@ const AllProduct: React.FC = () => {
   const [searchParams] = useSearchParams();
   const searchQueryFormNavbar = searchParams.get("search") || "";
   const navigate = useNavigate();
- const [sortBy, setSortBy] = useState<string>("asc"); 
   const { data,  isFetching, isError } = useGetAllProductQuery({
     category: selectedCategory,
     priceRange: selectedPriceRange,
@@ -36,9 +35,6 @@ const AllProduct: React.FC = () => {
     setSelectedPriceRange(priceRange); 
   };
 
-  const handleSortChange = (value: string) => {
-    setSortBy(value); 
-  };
 
   const handleStockChange = () => {
     setIsStock((prev) => (prev === undefined ? "true" : prev === "true" ? "false" : undefined));
@@ -49,7 +45,6 @@ const AllProduct: React.FC = () => {
     setSelectedPriceRange("");
     setSearchQuery("");
     setIsStock(undefined);
-    setSortBy("asc");
     navigate("/allproduct", { replace: true });
   };
 
@@ -74,10 +69,7 @@ const AllProduct: React.FC = () => {
             <DynamicSelect
               className="w-[220px]"
               options={['Low to high', 'High to low']}
-              value={['asc', 'dsc']}
-              defaultValue={'asc'}
               placeholder="Sort by price"
-              onValueChange={handleSortChange}
             />
           </div>
           <div className="md:hidden">
@@ -114,11 +106,12 @@ const AllProduct: React.FC = () => {
             filterType="price"
           />
              <div className="flex gap-2 my-2">
-            <input
+             <input
               type="checkbox"
-              checked={isStock}
+              checked={isStock === "true"} // Convert string to boolean
               onChange={handleStockChange}
             />
+
             <label>In Stock</label>
           </div>
                 <DrawerFooter>
@@ -137,10 +130,7 @@ const AllProduct: React.FC = () => {
             <DynamicSelect
               className="w-[220px]"
               options={['Low to high', 'High to low']}
-              value={['asc', 'dsc']}
-              defaultValue={'asc'}
               placeholder="Sort by price"
-              onValueChange={handleSortChange}
             />
           </div>
         </div>
@@ -173,9 +163,9 @@ const AllProduct: React.FC = () => {
             filterType="price"
           />
              <div className="flex gap-2 my-2">
-            <input
+             <input
               type="checkbox"
-              checked={isStock}
+              checked={isStock === "true"} // Convert string to boolean
               onChange={handleStockChange}
             />
             <label>In Stock</label>

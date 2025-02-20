@@ -9,9 +9,9 @@ import "swiper/swiper-bundle.css";
 import { Pagination, Autoplay } from "swiper/modules";
 
 export default function RightBanner() {
-    const data =[{bannerImage:"../../../../src/assets/3d-car-with-vibrant-colors.jpg"},
-        {bannerImage:"../../../../src/assets/3d-car-with-vibrant-colors.jpg"},
-        {bannerImage:"../../../../src/assets/3d-car-with-vibrant-colors.jpg"}
+    const data =[
+        {bannerImage:"../../../../src/assets/Rent-A-Car-Facebook-Cover-01.jpg"},
+        {bannerImage:"../../../../src/assets/8263946.jpg"}
     ]
   return (
     <>

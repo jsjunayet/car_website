@@ -1,8 +1,7 @@
-import ProductCard from "../../share/Cards/ProductCard";
-import SingleProduct from "../SingleProduct/SingleProduct";
+
 import BannerLayout from "./Bannar/BannerLayout";
 import ProductSection from "./ProductSection";
-import { CategorySlider, ReviewSlider } from "./ReviewSlider";
+import { ReviewSlider } from "./ReviewSlider";
 
 
 const Homepage = () => {

@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# 🚗 Car Shop Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Car Shop Frontend is a **React-based web application** designed for a seamless and interactive car shopping experience. It features **modern UI components, advanced state management, and a fully responsive design**.
 
-Currently, two official plugins are available:
+## 🚀 Live URL
+[Live Demo](#) *(Update with the live deployment link)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
+- 🏎️ **Modern UI/UX** with Tailwind CSS  
+- 📦 **State Management** using Redux Toolkit  
+- 🔐 **Authentication & Authorization** (JWT-based)  
+- 🔍 **Product Search & Filters**  
+- 🚗 **Dynamic Product Listings**  
+- 💳 **Checkout & Payment Integration (SurjoPay)**  
+- 🛠️ **User Dashboard** (Order tracking, Profile management)  
+- 🏢 **Admin Dashboard** (User, Product, and Order Management)  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Technologies Used
+- **React.js** – Frontend framework  
+- **Next.js** *(if applicable)* – Server-side rendering  
+- **Redux Toolkit & RTK Query** – State management & API calls  
+- **React Router DOM** – Navigation & routing  
+- **Tailwind CSS** – Styling framework  
+- **React Hook Form** – Form handling  
+- **ShadCN UI** – UI components  
+- **Recharts** – Data visualization  
+- **Axios** – API requests  
+- **JWT Decode** – Authentication token management  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 📦 Installation & Setup
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### 📌 Prerequisites
+Make sure you have installed:  
+✔️ [Node.js (LTS)](https://nodejs.org/)  
+✔️ npm or yarn  
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### 🚀 Steps to Run
+
+### **Installation**  
+
+1. Clone the repository:  
+   ```bash
+   git clone <repository-url>
+   cd blogging_site
+   ```
+
+2. Install dependencies:  
+   ```bash
+   npm install
+   ```
+
+3. Run the Development Server:  
+   ```bash
+   npm run dev
+   ```
+4. Run the Production Server:  
+   ```bash
+   npm run build
+   ```

@@ -35,7 +35,8 @@ const Checkout = () => {
   });
 
   // **Order Submission**
-  const onSubmit = async(data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = async(data:any) => {
     if (cart.length === 0) {
       alert("No items in cart!");
       return;
@@ -66,8 +67,18 @@ const Checkout = () => {
         }, 1000);
       }
     }
-    if (isError) toast.error(JSON.stringify(error.data.message), { id: toastId });
-  }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
+    if (isError) {
+      let errorMessage = "An unexpected error occurred";
+    
+      if ("data" in error && error.data && typeof error.data === "object") {
+        const errorData = error.data as { message?: string }; 
+        errorMessage = errorData.message || "Unknown error";
+      }
+    
+      toast.error(errorMessage, { id: toastId });
+    }
+  },
+ [data?.data, data?.message, error, isError, isLoading, isSuccess]);
 
   return (
     <div className="max-w-7xl my-10 mx-auto p-5 border rounded-lg shadow-md">

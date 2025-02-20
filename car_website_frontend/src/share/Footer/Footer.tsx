@@ -57,7 +57,7 @@ const Footer = () => {
 
     return (
         <section className="text-white bg-black" >
-            <footer className=" max-w-7xl mx-auto grid grid-cols-1 gap-5 py-10 lg:grid-cols-5">
+            <footer className=" max-w-7xl px-2 md:px-0 mx-auto grid grid-cols-1 gap-5 py-10 lg:grid-cols-5">
                 <div>
                     <p className="text-lg font-medium lg:text-xl">CarBazaar</p>
                     <p className="my-4">Subscribe</p>

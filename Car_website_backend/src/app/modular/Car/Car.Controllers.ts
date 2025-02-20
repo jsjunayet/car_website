@@ -23,14 +23,6 @@ const CreateCarInMonogdb = async (req: Request, res: Response) => {
 const GerCarInMonogdb = async (req: Request, res: Response) => {
   try {
     const data = await CarServices.GetCarService(req.query);
-    if (data.length === 0) {
-      res.status(404).json({
-        message: 'No cars found for the given search term',
-        success: false,
-        data: data,
-      });
-      return;
-    }
     res.status(200).json({
       message: 'Car retrieved successfully',
       success: true,

@@ -27,7 +27,7 @@ const CreateOrderService = async (Order: OrderInterface, client_ip: string, id:s
 const shurjopayPayload = {
   amount: Order.totalPrice,
   order_id: order._id,
-  currency: "BDT",
+  currency: "USD",
   customer_name: Order.name,
   customer_address: Order.shippingAddress,
   customer_email: Order.email,

@@ -45,7 +45,7 @@ const reviews = [
 
 export function ReviewSlider() {
     return (
-   <div>
+   <div className="px-2 md:px-0">
          <Carousel
             opts={{ align: "start", loop: true }}
             plugins={[emblaCarouselAutoplay({ delay: 4000 })]}

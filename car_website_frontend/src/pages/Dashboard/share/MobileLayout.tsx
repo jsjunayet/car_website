@@ -7,7 +7,6 @@ import { IoIosMenu } from "react-icons/io";
 import { CiCircleCheck } from "react-icons/ci";
 import { Link, useLocation } from "react-router-dom";
 import { DashboardData, ProfileData } from "./DashboardNavbar";
-import LayoutBar from "./LayoutBar";
 import { useGetsigleuserQuery } from "../../../redux/features/auth/authApi";
 
 
@@ -76,11 +75,9 @@ const MobileLayout = () => {
               <div className="mt-4 flex flex-col">
                 <div className="mb-5 flex flex-col gap-2">
                   <div className="flex flex-col gap-3 text-[14px] text-[#637381]">
-                    {menuData?.map((item, _id) => {
+                  {menuData?.map((item, _id) => {
                       const isActive = router.pathname === item?.route;
-                      return item?.underRoutes ? (
-                        <LayoutBar item={item} key={_id} />
-                      ) : (
+                      return (
                         <Link
                           key={_id}
                           className={`flex items-center gap-2 hover:bg-secondary ${
