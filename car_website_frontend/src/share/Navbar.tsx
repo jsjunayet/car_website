@@ -71,8 +71,8 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div>
-      <div className="sticky top-0 z-50 py-5 bg-white shadow-sm">
+    <div className="">
+      <div className="sticky top-0 z-50 py-5 px-2 md:mx-0 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <div className="flex gap-4 justify-center items-center">
@@ -82,7 +82,7 @@ const Navbar = () => {
               <FaBars className="block md:hidden cursor-pointer" onClick={handleDrawerToggle} />
             )}
             <Link to="/">
-              <h1 className="text-2xl font-semibold cursor-pointer">CarBazaar</h1>
+              <h1 className="text-2xl font-semibold cursor-pointer text-blue-600  ">CarBazaar</h1>
             </Link>
           </div>
 
@@ -99,7 +99,7 @@ const Navbar = () => {
                 <div
                   className={`h-[1.6px] w-0 group-hover:w-full transition-all duration-500 
                   bg-gradient-to-l from-transparent to-primary ${
-                    location.pathname === item.route ? "w-full" : "w-0"
+                    location.pathname === item.route ? "w-full " : "w-0"
                   }`}
                 ></div>
               </Link>
@@ -170,8 +170,9 @@ const Navbar = () => {
           <Input
             type="text"
             className="z-50 pr-8 shadow-sm border p-2 w-full"
-            placeholder="Search by name"
+            placeholder="Search by name or brand or category"
             onChange={handleSearchChange}
+            onKeyDown={handleSearchSubmit}
             value={searchQuery}
           />
           <IoIosSearch className="absolute z-10 text-2xl text-gray-500 pointer-events-none right-2 top-2" />

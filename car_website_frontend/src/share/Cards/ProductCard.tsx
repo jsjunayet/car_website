@@ -14,7 +14,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="relative w-full xsm:h-min h-min transition-all duration-500 sm:p-3 p-2 mx-auto hover:border-primary shadow-lg xl:max-w-full max-w-xs rounded-lg bg-white border-2 border-transparent">
+    <div className="relative w-full xsm:h-min h-min transition-all duration-500 sm:p-3 p-2 mx-auto hover:border-primary shadow-lg  rounded-lg bg-white border-2 border-transparent">
       {/* Discount Badge */}
       <div className="absolute px-2 py-1 text-xs text-green-800 bg-green-200 rounded-full top-5 left-5">
         {product.category}
@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Pricing Section */}
         <div className="flex items-center justify-between sm:mt-2 mt-1 text-sm">
           <div className="flex items-end gap-2">
-            <p className="font-bold text-blue-600">$ {product.price}</p>
+            <p className="font-bold text-blue-600">৳ {product.price}</p>
           </div>
         </div>
       </Link>

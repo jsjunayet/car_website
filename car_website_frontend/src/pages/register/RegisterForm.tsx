@@ -2,13 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../../components/ui/input";
 import { useRegisterMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
+import registerImg from '../../../src/assets/3d-car-with-vibrant-colors (1).jpg'
 
 
 
 const RegisterForm = () => {
   const toastId = 'Loading....'
   const navigate = useNavigate()
-  const [register]=useRegisterMutation()
+  const [register,{isLoading}]=useRegisterMutation()
 
   const handleRegisterSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,7 +18,7 @@ const RegisterForm = () => {
       const name = formData.get("name")
       const email = formData.get('email');
       const password = formData.get('password');
-      const payload = {name, email, password };      
+      const payload = {name, email, password };  
       const res = await register(payload).unwrap(); 
       console.log(res); 
       if (res?.success) {
@@ -36,7 +37,7 @@ const RegisterForm = () => {
     <div className="flex items-center justify-center h-screen px-5 bg-gradient-to-r from-gray-200 to-blue-200">
       <div className="md:flex mx-auto bg-white rounded-xl overflow-hidden w-full md:w-[750px] h-[450px]">
         <div className="hidden w-1/2 h-full md:flex">
-          <img src={'../../../src/assets/3d-car-with-vibrant-colors.jpg'} alt="Register" />
+          <img src={registerImg} alt="Register" />
         </div>
 
         {/* Right side with form */}
@@ -81,8 +82,8 @@ const RegisterForm = () => {
                     /> 
                   </div>
 
-                  <button type="submit" className="py-3 mt-4 w-full  cursor-pointer text-white rounded-lg md:w-full sm:w-3/4 bg-primary">
-                    {'Register'}
+                  <button type="submit" className="py-3 mt-4 w-full  cursor-pointer text-white rounded-lg md:w-full sm:w-3/4 bg-blue-600">
+                    {isLoading?'Registering...':'Register'}
                   </button>
                   <p className="flex justify-center space-x-1">
                     <span className="text-slate-700"> Have an account? </span>

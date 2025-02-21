@@ -4,6 +4,9 @@ import { FaPaperPlane } from 'react-icons/fa';
 import FooterSection from './FooterSection';
 import { Input } from '../../components/ui/input';
 import { cn } from '../../lib/utils';
+import qrCode from "../../assets/qrCode.png";
+import googlePlay from "../../assets/googlePlay.png";
+import appStore from "../../assets/appstore.png";
 const Footer = () => {
     const Accounts = [
         {
@@ -98,12 +101,13 @@ const Footer = () => {
                     <p className="text-lg font-medium lg:text-xl">Download App</p>
                     <p className="md:text-sm text-[12px] font-normal mt-7">Save $3 with app new user only</p>
                     <div className="flex my-3">
-                        <img alt='qr code' src={"../../../src/assets/qrCode.png"} className="me-3" />
-                        <div>
-                            <img alt='google store' src={"../../../src/assets/googlePlay.png"} />
-                            <img alt='app store' src={"../../../src/assets/appstore.png"} />
-                        </div>
-                    </div>
+            <img alt="QR Code" src={qrCode} className="me-3" />
+            <div>
+                <img alt="Google Play Store" src={googlePlay} />
+                <img alt="App Store" src={appStore} />
+            </div>
+        </div>
+
                     <div className="flex gap-4 mt-3 ">
                         <a href="https://www.facebook.com/jsjunayet73">
                             <FacebookIcon className="w-4 h-4 sm:w-6 xsm:w-5 sm:h-6 xsm:h-5" />

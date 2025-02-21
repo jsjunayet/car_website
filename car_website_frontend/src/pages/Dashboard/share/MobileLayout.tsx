@@ -52,7 +52,7 @@ const MobileLayout = () => {
             <div className="pl-4">
               <div className="">
                 <Link to="/" className="flex gap-3">
-                  <h4>CarBazaar</h4>
+                  <h4 className=" text-blue-600">CarBazaar</h4>
                 </Link>
               </div>
 

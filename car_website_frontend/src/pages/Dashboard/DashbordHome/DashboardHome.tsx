@@ -150,7 +150,7 @@ const Dashboard = () => {
               className="h-16 w-16"
             ></img>
             <div>
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-2xl font-bold text-blue-600">
                 15,000 BDT
               </h3>
               <p className="text-gray-600 dark:text-gray-400">

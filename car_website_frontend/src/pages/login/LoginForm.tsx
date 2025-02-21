@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../redux/hooks/app';
 import { toast } from 'sonner';
 import { setuser } from '../../redux/features/auth/authSlice';
 import { jwtDecode } from "jwt-decode";
+import loginImg from '../../../src/assets/3d-car-with-vibrant-colors (1).jpg'
 
 
 type DecodedToken = {
@@ -21,11 +22,10 @@ type DecodedToken = {
 const LoginForm = () => {
   const toastId = 'Loading....'
   const navigate = useNavigate()
-  const [login]=useLoginMutation()
+  const [login,{isLoading}]=useLoginMutation()
   const dispatch = useAppDispatch()
   const location = useLocation();
   const redirectTo = (location.state as any)?.from || '/'; 
-  // const token = useAppSelector(state=>state.auth.token)
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,9 +35,8 @@ const LoginForm = () => {
       const formData = new FormData(event.currentTarget);
       const email = formData.get('email');
       const password = formData.get('password');
-      const payload = { email, password };      
+      const payload = { email, password };
       const res = await login(payload).unwrap(); 
-      console.log(res); 
       if (res?.data){
         const decoded = jwtDecode<DecodedToken>(res.data);
         console.log(decoded)
@@ -59,7 +58,7 @@ const LoginForm = () => {
     <div className="flex items-center justify-center h-screen px-5 bg-gradient-to-r from-gray-200 to-blue-200">
       <div className="mx-auto bg-white rounded-xl overflow-hidden w-full md:flex md:w-[800px] md:h-[480px] h-[420px]">
         <div className="hidden w-1/2 h-full md:flex">
-          <img src={'../../../src/assets/3d-car-with-vibrant-colors.jpg'} alt="" />
+          <img src={loginImg} alt="login" />
         </div>
         <div className="flex items-center justify-center w-full md:w-3/5">
           <form
@@ -144,10 +143,12 @@ const LoginForm = () => {
               </p>
               <button
                 type="submit"
-                className="px-6 py-3 cursor-pointer  w-full text-white rounded-tl-lg rounded-br-lg lg:self-end bg-primary"
+                className="px-6 py-3 cursor-pointer  w-full text-white rounded-tl-lg rounded-br-lg lg:self-end  bg-blue-600"
                 // disabled={isLoading}
               >
-               Login
+               {
+                isLoading?"Logining...":"Login"
+               }
               </button>
             </div>
           </form>

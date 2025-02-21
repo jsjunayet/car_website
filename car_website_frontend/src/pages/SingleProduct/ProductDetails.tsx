@@ -31,7 +31,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
   };
 
   return (
-    <div>
+    <div className="">
       {/* product name */}
       <div className="space-y-2">
         <p className="text-sm font-semibold uppercase text-primary">
@@ -52,7 +52,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
           </p>
         </div>
         <div className="flex items-end gap-1">
-          <h1 className="text-2xl font-bold">${productDetails.price}</h1>
+          <h1 className="text-xl font-bold text-blue-600">৳ {productDetails.price}</h1>
         </div>
         <div className="text-sm ">
           <h3 className="text-sm text-gray-500 font-medium max-w-[400px]">
@@ -67,7 +67,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
           type="submit"
           name="action"
           value="buyNow"
-          className="flex justify-center cursor-pointer w-full items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
+          className="flex justify-center cursor-pointer bg-blue-600 w-full items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
         >
           Buy Now
         </Button>

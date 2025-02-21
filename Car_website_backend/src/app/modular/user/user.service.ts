@@ -34,7 +34,7 @@ const userLoginService = async (body: IUser) => {
   const refreshToken = jwt.sign(
     { userID: RegisterUser._id },
     process.env.JWT_REFRESH_SECRET as string,
-    { expiresIn: '7d' } 
+    { expiresIn: '15d' } 
   );
 
   return { accessToken,refreshToken}; 
@@ -55,7 +55,7 @@ const refreshTokenService = async (token: string | undefined): Promise<string> =
   const newAccessToken = jwt.sign(
     { userID: user._id, role: user.role },
     process.env.JWT_SECRET as string,
-    { expiresIn: '15m' }
+    { expiresIn: '7m' }
   );
 
   return newAccessToken;

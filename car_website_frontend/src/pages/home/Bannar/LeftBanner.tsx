@@ -3,11 +3,15 @@ import "swiper/swiper-bundle.css";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import img1 from '../../../../src/assets/toyota-my-gallery-exterior-s-d-01-v2.jpg';
+import img2 from '../../../../src/assets/images (7).jpeg';
+import img3 from '../../../../src/assets/3d-car-with-vibrant-colors (1).jpg';
+
 
 export default function LeftBanner() {
-    const data =[{bannerImage:"../../../../src/assets/toyota-my-gallery-exterior-s-d-01-v2.jpg"},
-        {bannerImage:"../../../../src/assets/images (7).jpeg"},
-        {bannerImage:"../../../../src/assets/3d-car-with-vibrant-colors.jpg"}
+    const data =[{bannerImage:img1},
+        {bannerImage:img2},
+        {bannerImage:img3}
     ]
 
   return (

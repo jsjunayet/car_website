@@ -58,8 +58,8 @@ export default function OrderVerify() {
   return isLoading ? (
     <SkeletonVerify/>
   ) : (
-    <div className=" max-w-7xl mx-auto p-4">
-      <h1 className="text-xl font-bold mb-6">Order Verification</h1>
+    <div className=" max-w-7xl mx-auto md:px-0 px-2 mb-6">
+      <h1 className="text-xl font-bold my-4">Order Verification</h1>
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -70,7 +70,7 @@ export default function OrderVerify() {
               <dt className="font-semibold">Order ID:</dt>
               <dd>{orderData?.order_id}</dd>
               <dt className="font-semibold">Amount:</dt>
-              <dd>
+              <dd className=" text-blue-600">
                 {orderData?.currency} {orderData?.amount?.toFixed(2)}
               </dd>
               <dt className="font-semibold">Status:</dt>
@@ -120,7 +120,7 @@ export default function OrderVerify() {
               <dt className="font-semibold">Name:</dt>
               <dd>{orderData?.name}</dd>
               <dt className="font-semibold">Email:</dt>
-              <dd>{orderData?.email}</dd>
+              <dd className="text-sm md:text-[16px]">{orderData?.email}</dd>
               <dt className="font-semibold">Phone:</dt>
               <dd>{orderData?.phone_no}</dd>
               <dt className="font-semibold">Address:</dt>

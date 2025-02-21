@@ -81,6 +81,7 @@ const Checkout = () => {
  [data?.data, data?.message, error, isError, isLoading, isSuccess]);
 
   return (
+    <div className="md:mx-0 mx-2">
     <div className="max-w-7xl my-10 mx-auto p-5 border rounded-lg shadow-md">
       <h1 className="text-2xl font-bold">Checkout</h1>
       <div className="md:flex gap-10">
@@ -138,7 +139,7 @@ const Checkout = () => {
                   <h2 className="text-lg font-semibold">
                     {product.brand}, {product.model}
                   </h2>
-                  <p>Price: ${product.price}</p>
+                  <p>Price: <span className=" text-blue-600">৳{product.price}</span></p>
                   {product.inStock ? (
                     <p className="text-green-700">Available: {product.quantity}</p>
                   ) : (
@@ -168,7 +169,7 @@ const Checkout = () => {
 
                   {/* Total Price */}
                   <p className="text-lg font-semibold mt-2">
-                    Total: ${product.price * quantities[product.id]}
+                    Total: <span className=" text-blue-600">৳{product.price * quantities[product.id]}</span>
                   </p>
                 </div>
               ))}
@@ -187,6 +188,7 @@ const Checkout = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

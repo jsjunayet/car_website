@@ -20,7 +20,7 @@ const ProductSection = () => {
           </div>
     <div className="text-center cursor-pointer mt-6">
     <Link to="allProduct">
-  <Button className="">All Product</Button>
+  <Button className=" bg-blue-600 cursor-pointer">All Product</Button>
 </Link>
     </div>
 

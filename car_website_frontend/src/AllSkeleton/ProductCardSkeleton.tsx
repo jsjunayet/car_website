@@ -6,7 +6,7 @@ const ProductCardSkeleton = () => {
             
             <div className="group">
                 {/* Image Skeleton */}
-                <div className="object-cover w-full rounded-md sm:h-52 h-auto bg-gray-300"></div>
+                <div className="object-cover w-full rounded-md h-52  bg-gray-300"></div>
                 
                 {/* Product Name Skeleton */}
                 <div className="w-full mt-2 h-4 bg-gray-300 rounded"></div>

@@ -12,7 +12,7 @@ const SingleProduct = () => {
   if(isLoading) return <ProductDetailsSkeleton/>
 
     return (
-        <div className=" max-w-7xl mx-auto">
+        <div className=" max-w-7xl mx-auto px-2 md:px-0">
               <div className="flex flex-col items-center justify-center w-full my-10 lg:flex-row lg:items-start md:gap-20">
         <div className="w-full lg:w-[50%] overflow-hidden">
           <ProductSlider images={data?.data?.images} />

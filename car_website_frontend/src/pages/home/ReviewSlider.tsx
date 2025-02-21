@@ -10,39 +10,44 @@ import { Card, CardContent } from "../../components/ui/card";
 import { cn } from "../../lib/utils";
 import { Star } from "lucide-react";
 
+import img1 from "../../assets/review/christopher-campbell-rDEOVtE7vOs-unsplash.jpg";
+import img2 from "../../assets/review/close-up-portrait-caucasian-unshaved-man-eyeglasses-looking-camera-with-sincere-smile-isolated-gray.jpg";
+import img3 from "../../assets/review/closeup-young-female-professional-making-eye-contact-against-colored-background.jpg";
+import img4 from "../../assets/review/horizontal-portrait-smiling-happy-young-pleasant-looking-female-wears-denim-shirt-stylish-glasses-with-straight-blonde-hair-expresses-positiveness-poses.jpg";
+import img5 from "../../assets/review/portrait-expressive-young-woman.jpg";
+
 const reviews = [
     {
         name: "John Doe",
-        avatar: "../../../src/assets/review/christopher-campbell-rDEOVtE7vOs-unsplash.jpg",
+        avatar: img1,
         rating: 5,
         review: "Amazing product! The quality exceeded my expectations.",
     },
     {
         name: "Sarah Smith",
-        avatar: "../../../src/assets/review/close-up-portrait-caucasian-unshaved-man-eyeglasses-looking-camera-with-sincere-smile-isolated-gray.jpg",
+        avatar: img2,
         rating: 4,
         review: "Great value for money. Would definitely recommend!",
     },
     {
         name: "Michael Lee",
-        avatar: "../../../src/assets/review/closeup-young-female-professional-making-eye-contact-against-colored-background.jpg",
+        avatar: img3,
         rating: 5,
         review: "Excellent customer service and fast delivery!",
     },
     {
         name: "Emily Johnson",
-        avatar: "../../../src/assets/review/horizontal-portrait-smiling-happy-young-pleasant-looking-female-wears-denim-shirt-stylish-glasses-with-straight-blonde-hair-expresses-positiveness-poses.jpg",
+        avatar: img4,
         rating: 4.5,
         review: "Very satisfied with my purchase. Will buy again.",
     },
     {
         name: "David Brown",
-        avatar: "../../../src/assets/review/portrait-expressive-young-woman.jpg",
+        avatar: img5,
         rating: 4,
         review: "Good quality, but shipping took longer than expected.",
     },
 ];
-
 export function ReviewSlider() {
     return (
    <div className="px-2 md:px-0">

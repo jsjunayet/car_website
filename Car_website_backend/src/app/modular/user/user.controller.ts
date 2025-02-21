@@ -23,7 +23,7 @@ const userLogin = catchAsync(async (req, res) => {
   res.cookie('refreshToken', refreshToken, {
     secure: true,
     httpOnly: true,
-    
+    sameSite: 'strict',
   });
   sendResponse(res, {
     success: true,

@@ -2,7 +2,7 @@ import { DashboardData, ProfileData } from "./share/DashboardNavbar";
 import { Link, useLocation } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
 import { useGetsigleuserQuery } from "../../redux/features/auth/authApi";
-
+import logo from '../../../src/assets/car.png'
 
 
 const DesktopLayout = () => {
@@ -16,7 +16,7 @@ const DesktopLayout = () => {
         <div className="px-8">
           <div className="">
             <Link to="/" className="flex gap-2 items-center justify-center">
-             <img src={'../../../src/assets/car.png'} alt="logo" width={100} height={100}/>
+             <img src={logo} alt="logo" width={100} height={100}/>
             </Link>
           </div>
           <div className="pb-5 mb-6 border-b">

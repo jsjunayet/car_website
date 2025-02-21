@@ -220,7 +220,7 @@ const CreateProduct: React.FC<ProductFormProps> = ({ initialData }) => {
 
             {/* ✅ Submit Button */}
             <div className="col-span-2">
-            <Button type="submit" className="w-full cursor-pointer" disabled={isLoading || updateLoading}>
+            <Button type="submit" className="w-full bg-blue-600 cursor-pointer" disabled={isLoading || updateLoading}>
                 {isLoading || updateLoading ? "Processing..." : initialData ? "Update Product" : "Add Product"}
               </Button>
             </div>

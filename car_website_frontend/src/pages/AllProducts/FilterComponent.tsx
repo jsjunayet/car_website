@@ -37,7 +37,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
                 checked={selectedOptions === value}
                 onChange={() => handleOptionChange(value)}
                 id={value}
-                className="mr-2"
+                className="mr-2 cursor-pointer"
               />
               <label htmlFor={value} className="text-sm">
                 {label}

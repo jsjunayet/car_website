@@ -174,8 +174,8 @@ const Profile = () => {
             className="h-16 w-16"
           ></img>
           <div>
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-              45000$
+            <h3 className="text-2xl text-blue-600 font-bold  dark:text-white">
+              45000৳
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               {" "}
