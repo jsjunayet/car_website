@@ -5,6 +5,7 @@ import { globalMiddleWare } from './app/middleware/globalMiddleware';
 import notFound from './app/middleware/noFound';
 import cors from 'cors';
 
+
 const app = express();
 app.use(express.json());
 app.use(

@@ -7,7 +7,6 @@ const ManageOrder = () => {
     const {data, isLoading}= useGetAllOrderQuery(undefined)
     const[deleteOrder, { isLoading:deletedLoading, isSuccess, data:deletedData, isError, error }]=useDeleteOrderMutation()
     const handleDelete = async(id:string) => {
-      console.log(id);
         await deleteOrder(id);
       };
       const toastId = "orderProduct";
@@ -25,9 +24,6 @@ const ManageOrder = () => {
   
     const columns = [
         { label: "Order ID", value: "_id" },
-        { label: "user", value: "userId" },
-
-        { label: "Car Name", value: "car.brand" },
         { label: "User Email", value: "email" },
         { label: "Phone", value: "phone" },
         { label: "Price", value: "totalPrice" },

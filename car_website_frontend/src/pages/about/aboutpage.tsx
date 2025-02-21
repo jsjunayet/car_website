@@ -2,7 +2,7 @@ import React from "react";
 
 const Aboutpage: React.FC = () => {
   return (
-    <div className="min-h-screen  py-12 px-6 md:px-16">
+    <div className="min-h-screen  py-12 mx-2 md:mx-0 ">
       <div className="max-w-7xl border mx-auto bg-white shadow-lg rounded-lg p-8 md:p-12">
         <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           About Our Car Shop

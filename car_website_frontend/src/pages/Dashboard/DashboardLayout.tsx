@@ -1,14 +1,20 @@
 import { DashboardData, ProfileData } from "./share/DashboardNavbar";
 import { Link, useLocation } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
-import { useGetsigleuserQuery } from "../../redux/features/auth/authApi";
 import logo from '../../../src/assets/car.png'
+// import { useAppSelector } from "../../redux/hooks/app";
+// import { jwtDecode } from "jwt-decode";
+import { useGetsigleuserQuery } from "../../redux/features/auth/authApi";
 
 
 const DesktopLayout = () => {
   const router = useLocation();
-  const {data}=useGetsigleuserQuery(undefined)
-
+  const {data}=useGetsigleuserQuery(undefined, { 
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 1000,
+  })
+    // const tokens = useAppSelector(state=>state.auth.token);
+  // const decode = tokens ? jwtDecode(tokens) : null;
   const menuData = data?.data?.role === 'admin' ? [...DashboardData, ...ProfileData] : ProfileData;
   return (
     <div className="flex h-screen">
