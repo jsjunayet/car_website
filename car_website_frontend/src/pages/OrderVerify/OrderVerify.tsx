@@ -1,7 +1,7 @@
 
 import { CheckCircle, AlertCircle } from "lucide-react";
 
-import { Link, useSearchParams } from "react-router";
+import {  useSearchParams } from "react-router";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
@@ -151,9 +151,7 @@ export default function OrderVerify() {
             </div>
           </CardContent>
           <CardFooter>
-            <Link to="/profile/order">
               <Button className="w-full cursor-pointer">View Orders</Button>
-            </Link>
           </CardFooter>
         </Card>
       </div>

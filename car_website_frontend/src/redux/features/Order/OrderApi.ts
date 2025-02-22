@@ -8,14 +8,18 @@ export const OderApi = baseApi.injectEndpoints({
                 url:`orders/create`,
                 method:"POST",
                 body:payload
-            })
+            }),
+            invalidatesTags: ["Orders"],
+
         }),  
         getVerifyOrder: builder.query({
             query:(order_id)=>({
                 url:`orders/verify`,
                 params: { order_id },
                 method:"GET"
-            })
+            }),
+            providesTags: ['Orders']
+
         }),
         getAllOrder: builder.query({
             query:()=>({

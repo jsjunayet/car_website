@@ -3,7 +3,7 @@
 Car Shop Frontend is a **React-based web application** designed for a seamless and interactive car shopping experience. It features **modern UI components, advanced state management, and a fully responsive design**.
 
 ## 🚀 Live URL
-[Live Demo](#) *(Update with the live deployment link)*
+[Live Demo](#) *([https://incredible-muffin-bdd553.netlify.app])*
 
 ---
 
