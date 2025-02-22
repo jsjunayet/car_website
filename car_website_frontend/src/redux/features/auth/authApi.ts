@@ -8,7 +8,8 @@ export const authApi = baseApi.injectEndpoints({
                 url:`auth/login`,
                 method:"POST",
                 body:payload
-            })
+            }),
+        invalidatesTags: ['Auth'],
         }),  
         Register: builder.mutation({
             query:(payload)=>({

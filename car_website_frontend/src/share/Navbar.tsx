@@ -25,10 +25,7 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const {data}=useGetsigleuserQuery(undefined,{
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 1000,
-  })
+  const {data}=useGetsigleuserQuery(undefined)
   const token = useAppSelector(state=>state.auth.token)
   const dispatch = useAppDispatch()
  

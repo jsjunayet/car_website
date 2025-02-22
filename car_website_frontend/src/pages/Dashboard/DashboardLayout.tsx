@@ -9,10 +9,7 @@ import { useGetsigleuserQuery } from "../../redux/features/auth/authApi";
 
 const DesktopLayout = () => {
   const router = useLocation();
-  const {data}=useGetsigleuserQuery(undefined, { 
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 1000,
-  })
+  const {data}=useGetsigleuserQuery(undefined)
     // const tokens = useAppSelector(state=>state.auth.token);
   // const decode = tokens ? jwtDecode(tokens) : null;
   const menuData = data?.data?.role === 'admin' ? [...DashboardData, ...ProfileData] : ProfileData;

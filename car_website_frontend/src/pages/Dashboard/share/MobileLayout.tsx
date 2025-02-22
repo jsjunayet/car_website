@@ -25,10 +25,7 @@ const MobileLayout = () => {
     };
   }, [isOpen]);
 
- const {data}=useGetsigleuserQuery(undefined,{
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 1000,
-  })  
+ const {data}=useGetsigleuserQuery(undefined)  
     const menuData = data?.data?.role === 'admin' ? [...DashboardData, ...ProfileData] : ProfileData;
 
   return (
