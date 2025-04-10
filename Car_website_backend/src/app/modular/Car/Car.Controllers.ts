@@ -19,7 +19,6 @@ const CreateCarInMonogdb = async (req: Request, res: Response) => {
     }
   }
 };
-
 const GerCarInMonogdb = async (req: Request, res: Response) => {
   try {
     const data = await CarServices.GetCarService(req.query);
