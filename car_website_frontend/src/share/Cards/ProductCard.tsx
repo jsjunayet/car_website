@@ -21,11 +21,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </div>
 
       <Link className="group" to={`/allproduct/${product._id}`}>
-        <img
+       <div>
+         <img
           src={product.images[0]}
           alt={"name"}
           className="object-cover w-full rounded-md sm:h-52 h-auto"
         />
+       </div>
 
         {/* Product Name with Slicing */}
         <h2 className="w-full mt-2 text-sm font-semibold cursor-pointer truncate transition-all duration-500 text-start group-hover:text-blue-600">

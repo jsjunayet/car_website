@@ -1,6 +1,5 @@
 
 import { CheckCircle, AlertCircle } from "lucide-react";
-
 import {  useSearchParams } from "react-router";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
