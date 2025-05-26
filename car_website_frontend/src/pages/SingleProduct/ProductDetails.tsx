@@ -1,9 +1,9 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "../../components/ui/button";
-import { addToCart } from "../../redux/features/product/productSlice";
+import { addToCart } from "../../redux/features/cart/cartSlice";
+import { addToCartFromCheckout } from "../../redux/features/product/productSlice";
 import { useAppDispatch } from "../../redux/hooks/app";
-
 interface Product {
   id: string;
   _id: string;
@@ -23,14 +23,16 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
-  const dispatch = useDispatch();
+  // const { data } = useGetAllProductQuery(undefined);
+  // console.log(data);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handleBuyNow = () => {
-    dispatch(addToCart(productDetails));
+    dispatch(addToCartFromCheckout(productDetails));
     navigate("/checkout");
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAddToCart = async (product: any) => {
     dispatch(addToCart(product));
     toast.success("Added Cart Product");
@@ -69,17 +71,39 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-5 md:flex gap-2">
         <Button
           onClick={handleBuyNow}
           type="submit"
           name="action"
           value="buyNow"
-          className="flex justify-center cursor-pointer bg-blue-600 w-full items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
+          className="flex justify-center mb-2 cursor-pointer bg-blue-600 w-full items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
         >
           Buy Now
         </Button>
+        <Button
+          onClick={() => handleAddToCart(productDetails)}
+          type="submit"
+          name="action"
+          value="buyNow"
+          className="flex justify-center cursor-pointer bg-blue-600 w-full items-center hover:text-white gap-2 px-[40px] py-3 text-sm"
+        >
+          Add To Cart
+        </Button>
       </div>
+
+      {/* 
+      <Carousel className="w-full max-w-5xl mx-auto">
+        <CarouselContent>
+          {data?.data?.map((review) => (
+            <CarouselItem key={review.id} className="md:basis-1/2 lg:basis-1/3">
+              <ProductCard product={review} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="bg-white shadow-lg hover:bg-gray-50 border-0 -left-12" />
+        <CarouselNext className="bg-white shadow-lg hover:bg-gray-50 border-0 -right-12" />
+      </Carousel> */}
     </div>
   );
 };

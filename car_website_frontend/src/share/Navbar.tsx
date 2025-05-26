@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Badge } from "../components/ui/badge";
 import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
 import { logout } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/app";
@@ -37,6 +38,8 @@ const navLinks = [
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const wishlistItems = useAppSelector((state) => state?.wishlist?.items);
+
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { data: userData } = useGetsigleuserQuery(undefined);
@@ -138,11 +141,11 @@ const Navbar = () => {
                 onClick={() => navigate("/wishlist")}
               >
                 <Heart className="h-5 w-5 text-white hover:text-red-500 transition-colors" />
-                {/* {wishlistItems?.length > 0 && (
+                {wishlistItems?.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500 hover:bg-red-600 animate-pulse">
                     {wishlistItems?.length}
                   </Badge>
-                )} */}
+                )}
               </Button>
 
               {/* Cart */}

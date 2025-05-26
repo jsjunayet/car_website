@@ -17,6 +17,7 @@ import ServicesPage from "../pages/Service/ServicePage";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
 import UserOrder from "../pages/userDashboard/Order/userOrder";
 import MyProfile from "../pages/userDashboard/Profile/Profile";
+import Wishlist from "../pages/wishlist/Wishlist";
 
 export const userspaths = [
   {
@@ -57,6 +58,11 @@ export const userspaths = [
     name: "Service",
     path: "service",
     element: <ServicesPage />,
+  },
+  {
+    name: "Wishlist",
+    path: "wishlist",
+    element: <Wishlist />,
   },
   {
     name: "Contact Us",

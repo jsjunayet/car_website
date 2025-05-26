@@ -30,7 +30,7 @@ const Cart = () => {
         <div className="space-y-5 lg:mt-0 mt-5 w-full lg:w-2/3 mb-6 md:mb-0">
           {products.length ? (
             products.map((product: any) => (
-              <CartDetails key={product.id} product={product} />
+              <CartDetails key={product._id} product={product} />
             ))
           ) : (
             <div className="bg-white rounded-lg p-8 shadow-md text-center">
