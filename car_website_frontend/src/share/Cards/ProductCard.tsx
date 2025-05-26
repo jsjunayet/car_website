@@ -1,5 +1,8 @@
 import { Heart, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { addToCart } from "../../redux/features/cart/cartSlice";
+import { useAppDispatch } from "../../redux/hooks/app";
 interface Product {
   _id: string;
   category: string;
@@ -14,6 +17,13 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const dispatch = useAppDispatch();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleAddToCart = async (product: any) => {
+    dispatch(addToCart(product));
+    toast.success("Added Cart Product");
+  };
   return (
     <div className="relative w-full xsm:h-min h-min transition-all duration-500 sm:p-3 p-2 mx-auto hover:border-primary shadow-lg  rounded-lg bg-white border-2 border-transparent">
       {/* Discount Badge */}
@@ -23,14 +33,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="absolute top-5 right-5 flex items-center gap-2 bg-primary/60 shadow-sm rounded-full px-2 py-0.5 border border-gray-200">
         <button
           type="button"
-          className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+          className="p-1 rounded-full cursor-pointer hover:bg-gray-100 transition-colors"
           aria-label="Add to Wishlist"
         >
           <Heart className="h-5 w-5 text-white hover:text-red-500" />
         </button>
         <button
+          onClick={() => handleAddToCart(product)}
           type="button"
-          className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+          className="p-1 rounded-full cursor-pointer hover:bg-gray-100 transition-colors"
           aria-label="Add to Cart"
         >
           <ShoppingCart className="h-5 w-5 text-white hover:text-blue-500" />

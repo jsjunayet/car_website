@@ -1,5 +1,6 @@
 import Aboutpage from "../pages/about/aboutpage";
 import AllProduct from "../pages/AllProducts/AllProduct";
+import Cart from "../pages/cart/Cart";
 import Checkout from "../pages/CheckoutPage/Checkout";
 import ContactUs from "../pages/contactUs/ContactUs";
 import DashboardHome from "../pages/Dashboard/DashbordHome/DashboardHome";
@@ -46,6 +47,11 @@ export const userspaths = [
     name: "About",
     path: "about",
     element: <Aboutpage />,
+  },
+  {
+    name: "Cart",
+    path: "cart",
+    element: <Cart />,
   },
   {
     name: "Service",

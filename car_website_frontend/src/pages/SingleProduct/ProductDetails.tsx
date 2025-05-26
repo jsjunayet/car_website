@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { addToCart } from "../../redux/features/product/productSlice";
+import { useAppDispatch } from "../../redux/hooks/app";
 
 interface Product {
   id: string;
@@ -24,10 +25,15 @@ interface ProductDetailsProps {
 const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleBuyNow = () => {
     dispatch(addToCart(productDetails));
     navigate("/checkout");
+  };
+  const handleAddToCart = async (product: any) => {
+    dispatch(addToCart(product));
+    toast.success("Added Cart Product");
   };
 
   return (
