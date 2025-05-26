@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../components/ui/button";
 import { addToCart } from "../../redux/features/product/productSlice";
 
 interface Product {
@@ -35,7 +35,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
       {/* product name */}
       <div className="space-y-2">
         <p className="text-sm font-semibold uppercase text-primary">
-          {productDetails.category}
+          {productDetails?.category}
         </p>
         <h1 className="text-2xl font-bold">
           {productDetails.brand}, {productDetails.model}
@@ -52,7 +52,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productDetails }) => {
           </p>
         </div>
         <div className="flex items-end gap-1">
-          <h1 className="text-xl font-bold text-blue-600">৳ {productDetails.price}</h1>
+          <h1 className="text-xl font-bold text-blue-600">
+            ৳ {productDetails.price}
+          </h1>
         </div>
         <div className="text-sm ">
           <h3 className="text-sm text-gray-500 font-medium max-w-[400px]">

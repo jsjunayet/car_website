@@ -1,25 +1,31 @@
-import React, { useState } from "react";
-import FilterComponent from "./FilterComponent"; // Filter component for categories and price ranges
-import { useGetAllProductQuery } from "../../redux/features/product/ProductApi";
-import ProductCardSkeleton from "../../AllSkeleton/ProductCardSkeleton";
-import ProductCard from "../../share/Cards/ProductCard";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTrigger } from "../../components/ui/drawer";
-import { FaFilter } from "react-icons/fa6";
-import { Input } from "../../components/ui/input";
-import { IoIosSearch } from "react-icons/io";
 import { Cross } from "lucide-react";
+import React, { useState } from "react";
+import { FaFilter } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import ProductCardSkeleton from "../../AllSkeleton/ProductCardSkeleton";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from "../../components/ui/drawer";
+import { Input } from "../../components/ui/input";
+import { useGetAllProductQuery } from "../../redux/features/product/ProductApi";
+import ProductCard from "../../share/Cards/ProductCard";
 import { DynamicSelect } from "./DynamicSelect";
+import FilterComponent from "./FilterComponent"; // Filter component for categories and price ranges
 
 const AllProduct: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>(""); 
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string>(""); 
-  const [searchQuery, setSearchQuery] = useState<string>(""); 
-  const [isStock, setIsStock] = useState<string | undefined>(undefined); 
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isStock, setIsStock] = useState<string | undefined>(undefined);
   const [searchParams] = useSearchParams();
   const searchQueryFormNavbar = searchParams.get("search") || "";
   const navigate = useNavigate();
-  const { data,  isFetching, isError } = useGetAllProductQuery({
+  const { data, isFetching, isError } = useGetAllProductQuery({
     category: selectedCategory,
     priceRange: selectedPriceRange,
     search: searchQuery || searchQueryFormNavbar,
@@ -28,17 +34,18 @@ const AllProduct: React.FC = () => {
   console.log(selectedCategory, selectedPriceRange);
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category); 
+    setSelectedCategory(category);
   };
 
   const handlePriceRangeChange = (priceRange: string) => {
-    setSelectedPriceRange(priceRange); 
+    setSelectedPriceRange(priceRange);
   };
 
-
   const handleStockChange = () => {
-    setIsStock((prev) => (prev === undefined ? "true" : prev === "true" ? "false" : undefined));
-  }; 
+    setIsStock((prev) =>
+      prev === undefined ? "true" : prev === "true" ? "false" : undefined
+    );
+  };
 
   const handleResetFilters = () => {
     setSelectedCategory("");
@@ -55,20 +62,28 @@ const AllProduct: React.FC = () => {
     { label: "Coupe", value: "Coupe" },
   ];
 
-  const priceRanges = ["0-50", "50-100", "100-200", "200 - 1000", "1000 - 10000", "10000-100000"];
+  const priceRanges = [
+    "0-50",
+    "50-100",
+    "100-200",
+    "200 - 1000",
+    "1000 - 10000",
+    "10000-100000",
+  ];
 
   return (
-    <section className=" max-w-7xl mx-auto my-5 md:my-10">
+    <section className=" max-w-7xl mx-auto my-5 md:my-10 pt-36">
       <div className="relative items-center justify-between gap-2 mb-5 rounded-lg md:flex md:border md:gap-10 md:p-5">
         <div className="flex items-center gap-5">
-          <h3 className="hidden md:block text-xl font-semibold">Our Products</h3>
-          
+          <h3 className="hidden md:block text-xl font-semibold">
+            Our Products
+          </h3>
         </div>
         <div className="flex items-center justify-between">
           <div className="block md:hidden">
             <DynamicSelect
               className="w-[220px]"
-              options={['Low to high', 'High to low']}
+              options={["Low to high", "High to low"]}
               placeholder="Sort by price"
             />
           </div>
@@ -85,35 +100,35 @@ const AllProduct: React.FC = () => {
                     <Input
                       className="z-50 pr-8 shadow-sm"
                       placeholder="Search by name or brand"
-                      onChange={e => setSearchQuery(e.target.value)}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                       value={searchQuery}
                     />
                     <IoIosSearch className="absolute right-2 text-2xl text-gray-500 bottom-[6px] pointer-events-none z-10" />
                   </div>
                 </DrawerHeader>
                 <FilterComponent
-            title="Categories"
-            options={categories}
-            selectedOptions={selectedCategory}
-            onChange={handleCategoryChange}
-            filterType="category"
-          />
-          <FilterComponent
-            title="Price Range"
-            options={priceRanges}
-            selectedOptions={selectedPriceRange}
-            onChange={handlePriceRangeChange}
-            filterType="price"
-          />
-             <div className="flex gap-2 my-2">
-             <input
-              type="checkbox"
-              checked={isStock === "true"} // Convert string to boolean
-              onChange={handleStockChange}
-            />
+                  title="Categories"
+                  options={categories}
+                  selectedOptions={selectedCategory}
+                  onChange={handleCategoryChange}
+                  filterType="category"
+                />
+                <FilterComponent
+                  title="Price Range"
+                  options={priceRanges}
+                  selectedOptions={selectedPriceRange}
+                  onChange={handlePriceRangeChange}
+                  filterType="price"
+                />
+                <div className="flex gap-2 my-2">
+                  <input
+                    type="checkbox"
+                    checked={isStock === "true"} // Convert string to boolean
+                    onChange={handleStockChange}
+                  />
 
-            <label>In Stock</label>
-          </div>
+                  <label>In Stock</label>
+                </div>
                 <DrawerFooter>
                   <button
                     onClick={handleResetFilters}
@@ -129,7 +144,7 @@ const AllProduct: React.FC = () => {
           <div className="hidden md:block">
             <DynamicSelect
               className="w-[220px]"
-              options={['Low to high', 'High to low']}
+              options={["Low to high", "High to low"]}
               placeholder="Sort by price"
             />
           </div>
@@ -137,7 +152,7 @@ const AllProduct: React.FC = () => {
       </div>
 
       <div className="flex">
-        <div className="sticky top-0 hidden h-full p-5 overflow-y-auto rounded-lg md:block w-52 border shadow-md">
+        <div className="sticky top-36 hidden h-full p-5 overflow-y-auto rounded-lg md:block w-52 border shadow-md">
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-lg font-semibold">Filters</h4>
             <button
@@ -162,8 +177,8 @@ const AllProduct: React.FC = () => {
             onChange={handlePriceRangeChange}
             filterType="price"
           />
-             <div className="flex gap-2 my-2">
-             <input
+          <div className="flex gap-2 my-2">
+            <input
               type="checkbox"
               checked={isStock === "true"} // Convert string to boolean
               onChange={handleStockChange}
@@ -174,26 +189,26 @@ const AllProduct: React.FC = () => {
 
         {/* Product Grid */}
         <div className="grid items-start justify-between w-full grid-cols-1 gap-5 pb-10 md:ml-5 justify-items-center lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-4">
-  {isFetching ? (
-    // Skeleton loader while loading products
-    Array.from({ length: 8 }).map((_, index) => (
-      <ProductCardSkeleton key={index} />
-    ))
-  ) : isError || !data || !data.data ? (
-    <h3 className="flex items-center font-semibold col-span-3 justify-center min-h-[50vh] w-full">
-      No products available.
-    </h3>
-  ) : data.data.length === 0 ? (
-    <h3 className="flex items-center font-semibold col-span-3 justify-center min-h-[50vh] w-full">
-      No products found for the selected filters.
-    </h3>
-  ) : (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data.data.map((product: any) => (
-      <ProductCard key={product._id} product={product} />
-    ))
-  )}
-</div>
+          {isFetching ? (
+            // Skeleton loader while loading products
+            Array.from({ length: 8 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))
+          ) : isError || !data || !data.data ? (
+            <h3 className="flex items-center font-semibold col-span-3 justify-center min-h-[50vh] w-full">
+              No products available.
+            </h3>
+          ) : data.data.length === 0 ? (
+            <h3 className="flex items-center font-semibold col-span-3 justify-center min-h-[50vh] w-full">
+              No products found for the selected filters.
+            </h3>
+          ) : (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.data.map((product: any) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          )}
+        </div>
       </div>
     </section>
   );

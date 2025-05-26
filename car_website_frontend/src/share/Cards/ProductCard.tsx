@@ -1,3 +1,4 @@
+import { Heart, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 interface Product {
   _id: string;
@@ -19,15 +20,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="absolute px-2 py-1 text-xs text-green-800 bg-green-200 rounded-full top-5 left-5">
         {product.category}
       </div>
+      <div className="absolute top-5 right-5 flex items-center gap-2 bg-primary/60 shadow-sm rounded-full px-2 py-0.5 border border-gray-200">
+        <button
+          type="button"
+          className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="Add to Wishlist"
+        >
+          <Heart className="h-5 w-5 text-white hover:text-red-500" />
+        </button>
+        <button
+          type="button"
+          className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="Add to Cart"
+        >
+          <ShoppingCart className="h-5 w-5 text-white hover:text-blue-500" />
+        </button>
+      </div>
 
       <Link className="group" to={`/allproduct/${product._id}`}>
-       <div>
-         <img
-          src={product.images[0]}
-          alt={"name"}
-          className="object-cover w-full rounded-md sm:h-52 h-auto"
-        />
-       </div>
+        <div>
+          <img
+            src={product.images[0]}
+            alt={"name"}
+            className="object-cover w-full rounded-md sm:h-52 h-auto"
+          />
+        </div>
 
         {/* Product Name with Slicing */}
         <h2 className="w-full mt-2 text-sm font-semibold cursor-pointer truncate transition-all duration-500 text-start group-hover:text-blue-600">
