@@ -1,14 +1,22 @@
 import { Request, Response } from 'express';
-import { AllOrderServices } from './Oder.services';
+import AppErrors from '../../errors/AppErrors';
 import { catchAsync } from '../../utilitiy/catchAsync';
 import sendResponse from '../../utilitiy/sendResponse';
-const CreateOrderInMonogdb= catchAsync(async (req, res) => {
-  const id =req.user.userID
-  const order = await AllOrderServices.CreateOrderService(req.body, req.ip!, id);
+import { AllOrderServices } from './Oder.services';
+const CreateOrderInMonogdb = catchAsync(async (req, res) => {
+  const id = req?.user?.userID;
+  if (!id) {
+    throw new AppErrors(401, 'Unauthorized user');
+  }
+  const order = await AllOrderServices.CreateOrderService(
+    req.body,
+    req.ip!,
+    id,
+  );
 
   sendResponse(res, {
     success: true,
-    message: "Order placed successfully",
+    message: 'Order placed successfully',
     statusCode: 201,
     data: order,
   });
@@ -33,11 +41,13 @@ const CalculateRevenueInMongodb = async (req: Request, res: Response) => {
   }
 };
 const verifyPayment = catchAsync(async (req, res) => {
-  const order = await AllOrderServices.verifyPayment(req.query.order_id as string);
+  const order = await AllOrderServices.verifyPayment(
+    req.query.order_id as string,
+  );
 
-   sendResponse(res, {
+  sendResponse(res, {
     success: true,
-    message: "Order verified successfully",
+    message: 'Order verified successfully',
     statusCode: 201,
     data: order,
   });
@@ -45,21 +55,23 @@ const verifyPayment = catchAsync(async (req, res) => {
 const getAllorder = catchAsync(async (req, res) => {
   const order = await AllOrderServices.getAllorder();
 
-   sendResponse(res, {
+  sendResponse(res, {
     success: true,
-    message: "All Order successfully",
+    message: 'All Order successfully',
     statusCode: 200,
     data: order,
   });
 });
 const getSingleId = catchAsync(async (req, res) => {
-  const id = req.user.userID
-  console.log(id, "hello wrold");
+  const id = req?.user?.userID;
+  if (!id) {
+    throw new AppErrors(401, 'Unauthorized user');
+  }
   const order = await AllOrderServices.getSingleId(id);
 
-   sendResponse(res, {
+  sendResponse(res, {
     success: true,
-    message: "All Order successfully",
+    message: 'All Order successfully',
     statusCode: 200,
     data: order,
   });
@@ -67,9 +79,9 @@ const getSingleId = catchAsync(async (req, res) => {
 const deletedorder = catchAsync(async (req, res) => {
   const order = await AllOrderServices.deletedorder(req.params.id);
 
-   sendResponse(res, {
+  sendResponse(res, {
     success: true,
-    message: " Order Deleted successfully",
+    message: ' Order Deleted successfully',
     statusCode: 200,
     data: order,
   });
@@ -81,5 +93,5 @@ export const AllOrderControllers = {
   verifyPayment,
   getAllorder,
   deletedorder,
-  getSingleId
+  getSingleId,
 };

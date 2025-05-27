@@ -3,59 +3,66 @@ import { OrderInterface } from './Order.Interface';
 import { OrderModel } from './Order.Model';
 import { orderUtils } from './order.utils';
 
-const CreateOrderService = async (Order: OrderInterface, client_ip: string, id:string) => {
+const CreateOrderService = async (
+  orderData: Omit<OrderInterface, 'status' | 'orderDate' | 'transaction'>,
+  client_ip: string,
+  userId: string,
+) => {
+  let totalPrice = 0;
 
-  const car = await CarModel.findById(Order.car);
-  if (!car) {
-    return {
-      success: false,
-      message: 'The car you are trying to order does not exist.',
-    };
+  // Validate cars and calculate total price
+  for (const item of orderData.items) {
+    const car = await CarModel.findById(item.car);
+    if (!car) {
+      return {
+        success: false,
+        message: `Car with ID ${item.car} does not exist.`,
+      };
+    }
+    if (car.quantity < item.quantity) {
+      return {
+        success: false,
+        message:
+          car.quantity === 0
+            ? `${car.brand} ${car.model} is out of stock.`
+            : `Only ${car.quantity} units of ${car.brand} ${car.model} available.`,
+      };
+    }
+    item.price = car.price; // Ensure server-side price consistency
+    item.totalItemPrice = car.price * item.quantity;
+    totalPrice += item.totalItemPrice;
   }
-  if (car.quantity < Order.quantity) {
-    return {
-      success: false,
-      message: `Insufficient stock. ${car.quantity == 0 ? `There is no item available` : `Only ${car.quantity} items are available.`}`,
-    };
-  }
-  if(id){
-    Order.userId = id;
-  }
 
-  let order = await OrderModel.create(Order);
+  const newOrder = await OrderModel.create({
+    ...orderData,
+    userId,
+    totalPrice,
+    status: 'Pending',
+    transaction: {},
+  });
 
-const shurjopayPayload = {
-  amount: Order.totalPrice,
-  order_id: order._id,
-  currency: "BDT",
-  customer_name: Order.name,
-  customer_address: Order.shippingAddress,
-  customer_email: Order.email,
-  customer_phone: Order.phone,
-  customer_city: Order.townOrCity,
-  client_ip,
-};
+  const shurjopayPayload = {
+    amount: totalPrice,
+    order_id: newOrder._id,
+    currency: 'BDT',
+    customer_name: orderData.name,
+    customer_address: orderData.shippingAddress,
+    customer_email: orderData.email,
+    customer_phone: orderData.phone,
+    customer_city: orderData.townOrCity,
+    client_ip,
+  };
 
-const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
+  const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
 
-if (payment?.transactionStatus) {
-  const updatedOrder = await OrderModel.findByIdAndUpdate(
-    order._id,
-    {
+  if (payment?.transactionStatus) {
+    await OrderModel.findByIdAndUpdate(newOrder._id, {
       transaction: {
         id: payment.sp_order_id,
-        transactionStatus: payment.transactionStatus,
+        status: payment.transactionStatus,
       },
-    },
-    { new: true }
-  );
-
-  if (updatedOrder) {
-    order = updatedOrder;  
-  } else {
-    console.error("Order not found or could not be updated");
+    });
   }
-}
 
   return payment.checkout_url;
 };
@@ -64,43 +71,47 @@ const verifyPayment = async (order_id: string) => {
   const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
 
   if (verifiedPayment.length) {
+    const paymentInfo = verifiedPayment[0];
+
     const order = await OrderModel.findOneAndUpdate(
+      { 'transaction.id': order_id },
       {
-        "transaction.id": order_id,
-      },
-      {
-        "transaction.bank_status": verifiedPayment[0].bank_status,
-        "transaction.sp_code": verifiedPayment[0].sp_code,
-        "transaction.sp_message": verifiedPayment[0].sp_message,
-        "transaction.transactionStatus": verifiedPayment[0].transaction_status,
-        "transaction.method": verifiedPayment[0].method,
-        "transaction.date_time": verifiedPayment[0].date_time,
+        'transaction.bank_status': paymentInfo.bank_status,
+        'transaction.sp_code': paymentInfo.sp_code,
+        'transaction.sp_message': paymentInfo.sp_message,
+        'transaction.status': paymentInfo.transaction_status,
+        'transaction.method': paymentInfo.method,
+        'transaction.date_time': paymentInfo.date_time,
         status:
-          verifiedPayment[0].bank_status === "Success"
-            ? "Paid"
-            : verifiedPayment[0].bank_status === "Failed"
-            ? "Pending"
-            : verifiedPayment[0].bank_status === "Cancel"
-            ? "Cancelled"
-            : "",
+          paymentInfo.bank_status === 'Success'
+            ? 'Paid'
+            : paymentInfo.bank_status === 'Failed'
+              ? 'Pending'
+              : paymentInfo.bank_status === 'Cancel'
+                ? 'Cancelled'
+                : '',
       },
-      { new: true }
+      { new: true },
     );
 
-    if (order && verifiedPayment[0].bank_status === "Success") {
-      // পেমেন্ট সফল হলে গাড়ির পরিমাণ আপডেট করুন
-      const car = await CarModel.findById(order.car);
-      if (car) {
-        car.quantity -= order.quantity;
-        if (car.quantity === 0) {
-          car.inStock = false;
+    if (order && paymentInfo.bank_status === 'Success') {
+      for (const item of order.items) {
+        const car = await CarModel.findById(item.car);
+        if (car) {
+          car.quantity -= item.quantity;
+          if (car.quantity <= 0) {
+            car.quantity = 0;
+            car.inStock = false;
+          }
+          await car.save();
         }
-        await car.save();
       }
     }
+
+    return paymentInfo;
   }
 
-  return verifiedPayment;
+  return null;
 };
 
 const CalculateRevenueService = async () => {
@@ -134,15 +145,15 @@ const CalculateRevenueService = async () => {
   return totalRevenue;
 };
 const getAllorder = async () => {
-  const result = await OrderModel.find().populate('car')
-  return result
-}
-const getSingleId = async (id:string) => {
+  const result = await OrderModel.find().populate('car');
+  return result;
+};
+const getSingleId = async (id: string) => {
   const result = await OrderModel.find({
-    userId:id
-  }).populate('car')
-  return result
-}
+    userId: id,
+  }).populate('car');
+  return result;
+};
 const deletedorder = async (id: string) => {
   const result = await OrderModel.findByIdAndDelete({ _id: id });
   return result;
@@ -154,5 +165,5 @@ export const AllOrderServices = {
   verifyPayment,
   getAllorder,
   deletedorder,
-  getSingleId
+  getSingleId,
 };

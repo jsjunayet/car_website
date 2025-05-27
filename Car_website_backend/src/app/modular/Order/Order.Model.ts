@@ -10,37 +10,49 @@ const OrderSchema = new Schema<OrderInterface>(
     },
     email: {
       type: String,
-      required: [true, 'Please enter your email. Email is required'],
+      required: [true, 'Email is required'],
     },
     name: {
       type: String,
-      required: [true, 'Please enter your name. Name is required'],
+      required: [true, 'Name is required'],
     },
     phone: {
       type: String,
-      required: [true, 'Please enter your phone number. Phone is required'],
+      required: [true, 'Phone is required'],
     },
     townOrCity: {
       type: String,
-      required: [true, 'Please enter your town or city. Town/City is required'],
+      required: [true, 'Town or city is required'],
     },
     shippingAddress: {
       type: String,
-      required: [true, 'Please enter your shipping address. Shipping Address is required'],
+      required: [true, 'Shipping address is required'],
     },
-    car: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Car',
-      required: [true, 'Please enter your carID. Car is required'],
-    },
-    quantity: {
-      type: Number,
-      min: [1, 'Quantity must be greater than 0'],
-      required: [true, 'Please enter your quantity. Quantity is required'],
-    },
+    items: [
+      {
+        car: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Car',
+          required: [true, 'Car ID is required'],
+        },
+        quantity: {
+          type: Number,
+          required: [true, 'Quantity is required'],
+          min: [1, 'Quantity must be at least 1'],
+        },
+        price: {
+          type: Number,
+          required: [true, 'Price per item is required'],
+        },
+        totalItemPrice: {
+          type: Number,
+          required: [true, 'Total item price is required'],
+        },
+      },
+    ],
     totalPrice: {
       type: Number,
-      required: [true, 'Please enter your total price. Total Price is required'],
+      required: [true, 'Total order price is required'],
     },
     status: {
       type: String,
@@ -49,19 +61,19 @@ const OrderSchema = new Schema<OrderInterface>(
     },
     orderDate: {
       type: Date,
-      default: Date.now, // Automatically sets today's date when an order is created
+      default: Date.now,
     },
     transaction: {
-      id: String,
-      transactionStatus: String,
-      bank_status: String,
-      sp_code: String,
-      sp_message: String,
-      method: String,
-      date_time: String,
+      id: { type: String },
+      method: { type: String },
+      status: { type: String },
+      bank_status: { type: String },
+      sp_code: { type: String },
+      sp_message: { type: String },
+      date_time: { type: String },
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
-export const OrderModel = mongoose.model('Order', OrderSchema);
+export const OrderModel = mongoose.model<OrderInterface>('Order', OrderSchema);

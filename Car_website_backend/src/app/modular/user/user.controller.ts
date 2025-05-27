@@ -1,13 +1,14 @@
-import { AlluserService } from './user.service';
-import sendResponse from '../../utilitiy/sendResponse';
-import { catchAsync } from '../../utilitiy/catchAsync';
 import dotenv from 'dotenv';
-dotenv.config()
+import AppErrors from '../../errors/AppErrors';
+import { catchAsync } from '../../utilitiy/catchAsync';
+import sendResponse from '../../utilitiy/sendResponse';
+import { AlluserService } from './user.service';
+dotenv.config();
 
 const userRegister = catchAsync(async (req, res) => {
   const body = req.body;
   const data = await AlluserService.userRegisterService(body);
-  
+
   sendResponse(res, {
     success: true,
     message: 'User registered successfully',
@@ -23,14 +24,14 @@ const userLogin = catchAsync(async (req, res) => {
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite:'none',
+    sameSite: 'none',
     // maxAge: 365 * 24 * 60 * 60 * 1000
   });
   sendResponse(res, {
     success: true,
     message: 'Login successful',
     statusCode: 200,
-  data: accessToken,
+    data: accessToken,
   });
 });
 const refreshToken = catchAsync(async (req, res) => {
@@ -65,7 +66,10 @@ const UpdateRole = catchAsync(async (req, res) => {
   });
 });
 const changePasswordService = catchAsync(async (req, res) => {
-  const id = req.user.userID
+  const id = req?.user?.userID;
+  if (!id) {
+    throw new AppErrors(401, 'Unauthorized user');
+  }
   const result = await AlluserService.changePasswordService(id, req.body);
 
   sendResponse(res, {
@@ -77,7 +81,10 @@ const changePasswordService = catchAsync(async (req, res) => {
 });
 
 const singleUser = catchAsync(async (req, res) => {
-  const id = req.user.userID
+  const id = req?.user?.userID;
+  if (!id) {
+    throw new AppErrors(401, 'Unauthorized user');
+  }
   const result = await AlluserService.singleUser(id);
 
   sendResponse(res, {
@@ -88,8 +95,8 @@ const singleUser = catchAsync(async (req, res) => {
   });
 });
 const upateUser = catchAsync(async (req, res) => {
-  const id = req.user.userID;
-  const body = req.body
+  const id = req?.user?.userID;
+  const body = req.body;
   const result = await AlluserService.upateUser(id, body);
 
   sendResponse(res, {
@@ -119,6 +126,5 @@ export const AlluserController = {
   DeletedUser,
   changePasswordService,
   upateUser,
-  singleUser
-
+  singleUser,
 };

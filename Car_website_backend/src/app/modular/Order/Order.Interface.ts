@@ -1,24 +1,30 @@
 import { ObjectId } from 'mongoose';
+
+export interface OrderItem {
+  car: string | ObjectId;
+  quantity: number;
+  price: number; // Price per car
+  totalItemPrice: number; // quantity * price
+}
+
 export interface OrderInterface {
-  userId: string | ObjectId;  // Added userId
+  userId: string | ObjectId;
   email: string;
   name: string;
   phone: string;
   townOrCity: string;
   shippingAddress: string;
-  car: string | ObjectId;
-  quantity: number;
+  items: OrderItem[];
   totalPrice: number;
-  status: "Pending" | "Paid" | "Shipped" | "Completed" | "Cancelled";
-  orderDate: Date;  // Added orderDate
+  status: 'Pending' | 'Paid' | 'Shipped' | 'Completed' | 'Cancelled';
+  orderDate: Date;
   transaction: {
     id: string;
-    transactionStatus: string;
+    method: string;
+    status: string;
     bank_status: string;
     sp_code: string;
     sp_message: string;
-    method: string;
     date_time: string;
   };
 }
-
