@@ -145,13 +145,13 @@ const CalculateRevenueService = async () => {
   return totalRevenue;
 };
 const getAllorder = async () => {
-  const result = await OrderModel.find().populate('car');
+  const result = await OrderModel.find();
   return result;
 };
 const getSingleId = async (id: string) => {
   const result = await OrderModel.find({
     userId: id,
-  }).populate('car');
+  });
   return result;
 };
 const deletedorder = async (id: string) => {
