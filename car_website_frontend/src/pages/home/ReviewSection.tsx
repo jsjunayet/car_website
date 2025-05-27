@@ -1,12 +1,12 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Star } from "lucide-react";
+import { Card, CardContent } from "../../components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Star } from "lucide-react";
+} from "../../components/ui/carousel";
 
 const reviews = [
   {

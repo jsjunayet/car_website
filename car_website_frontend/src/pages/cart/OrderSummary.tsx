@@ -6,8 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks/app";
 const OrderSummary = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { tax, taxRate, grandTotal, totalPrice, selectedItems } =
-    useAppSelector((store) => store.cart);
+  const { totalPrice, selectedItems } = useAppSelector((store) => store.cart);
 
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -29,16 +28,11 @@ const OrderSummary = () => {
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
-          <div className="flex justify-between text-slate-600">
-            <span>Tax ({(taxRate * 100).toFixed(0)}%):</span>
-            <span>${tax.toFixed(2)}</span>
-          </div>
-
           <div className="h-px bg-slate-200 my-3"></div>
 
           <div className="flex justify-between text-slate-800 text-lg font-semibold">
             <span>Grand Total:</span>
-            <span>${grandTotal.toFixed(2)}</span>
+            <span>${totalPrice.toFixed(2)}</span>
           </div>
         </div>
       </div>

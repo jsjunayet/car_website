@@ -1,10 +1,12 @@
 import { Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { useAppSelector } from "../../redux/hooks/app";
 import ProductCard from "../../share/Cards/ProductCard";
 
 const Wishlist = () => {
   const wishlistItems = useAppSelector((state) => state?.wishlist?.items);
+  const navigate = useNavigate();
   if (wishlistItems?.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

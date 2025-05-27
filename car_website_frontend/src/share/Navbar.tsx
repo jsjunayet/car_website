@@ -1,15 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Input } from "@/components/ui/input";
-import { RootState } from "@reduxjs/toolkit/query";
 import {
   Clock,
   Globe,
@@ -25,10 +13,22 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../components/ui/drawer";
+import { Input } from "../components/ui/input";
 import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
 import { logout } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/app";
+import { RootState } from "../redux/store";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -59,7 +59,7 @@ const Navbar = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+      navigate(`/allproduct?search=${encodeURIComponent(searchQuery)}`);
       setShowMobileSearch(false);
     }
   };
@@ -87,27 +87,37 @@ const Navbar = () => {
             {/* Left - Contact Info */}
             <div className="hidden lg:flex items-center space-x-8">
               <div className="flex items-center space-x-2 group cursor-pointer">
-                <div className="py-1.5 rounded-full bg-blue-600/20 group-hover:bg-blue-600/30 transition-colors">
-                  <Phone className="h-3.5 w-3.5" />
-                </div>
-                <span className="group-hover:text-blue-200 transition-colors">
-                  +1 (555) 123-4567
-                </span>
+                <a
+                  href="https://wa.me/8801640011818"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 group cursor-pointer"
+                >
+                  <div className="py-1.5 rounded-full bg-blue-600/20 group-hover:bg-blue-600/30 transition-colors">
+                    <Phone className="h-3.5 w-3.5" />
+                  </div>
+                  <span className="group-hover:text-blue-200 transition-colors">
+                    +880 1640 011818
+                  </span>
+                </a>
               </div>
-              <div className="flex items-center space-x-2 group cursor-pointer">
+              <a
+                href="mailto:junayetshiblu0@gmail.com"
+                className="flex items-center space-x-2 group cursor-pointer"
+              >
                 <div className="p-1.5 rounded-full bg-blue-600/20 group-hover:bg-blue-600/30 transition-colors">
                   <Mail className="h-3.5 w-3.5" />
                 </div>
                 <span className="group-hover:text-blue-200 transition-colors">
-                  info@CarBazaar.com
+                  junayetshiblu0@gmail.com
                 </span>
-              </div>
+              </a>
               <div className="flex items-center space-x-2 group cursor-pointer">
                 <div className="p-1.5 rounded-full bg-blue-600/20 group-hover:bg-blue-600/30 transition-colors">
                   <MapPin className="h-3.5 w-3.5" />
                 </div>
                 <span className="group-hover:text-blue-200 transition-colors">
-                  New York, NY
+                  Dhaka, Bangladesh
                 </span>
               </div>
             </div>
@@ -136,34 +146,36 @@ const Navbar = () => {
                 </span>
               </div>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative hover:bg-blue-500 rounded-xl p-2 transition-all duration-300"
-                onClick={() => navigate("/wishlist")}
-              >
-                <Heart className="h-5 w-5 text-white hover:text-red-500 transition-colors" />
-                {wishlistItems?.length > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500 hover:bg-red-600 animate-pulse">
-                    {wishlistItems?.length}
-                  </Badge>
-                )}
-              </Button>
+              <div className="flex gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative hover:bg-blue-500 rounded-xl p-2 transition-all duration-300"
+                  onClick={() => navigate("/wishlist")}
+                >
+                  <Heart className="h-5 w-5 text-white hover:text-red-500 transition-colors" />
+                  {wishlistItems?.length > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500 hover:bg-red-600 animate-pulse">
+                      {wishlistItems?.length}
+                    </Badge>
+                  )}
+                </Button>
 
-              {/* Cart */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative hover:bg-blue-500 rounded-xl p-2 transition-all duration-300"
-                onClick={() => navigate("/cart")}
-              >
-                <ShoppingCart className="h-5 w-5 text-white hover:text-blue-500 transition-colors" />
-                {products?.length > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-blue-600 hover:bg-blue-700 animate-pulse">
-                    {products?.length}
-                  </Badge>
-                )}
-              </Button>
+                {/* Cart */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative hover:bg-blue-500 rounded-xl p-2 transition-all duration-300"
+                  onClick={() => navigate("/cart")}
+                >
+                  <ShoppingCart className="h-5 w-5 text-white hover:text-blue-500 transition-colors" />
+                  {products?.length > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-blue-600 hover:bg-blue-700 animate-pulse">
+                      {products?.length}
+                    </Badge>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -214,7 +226,8 @@ const Navbar = () => {
                       type="text"
                       placeholder="Search luxury cars, brands, models..."
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      onChange={(e: any) => setSearchQuery(e.target.value)}
                       className="pl-5 pr-14 py-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 bg-gray-50/50 hover:bg-white focus:bg-white shadow-sm hover:shadow-md"
                     />
                     <Button
@@ -365,7 +378,7 @@ const Navbar = () => {
                         </div>
                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
                           <Mail className="h-4 w-4 text-blue-600" />
-                          <span>info@CarBazaar.com</span>
+                          <span>info../..CarBazaar.com</span>
                         </div>
                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
                           <MapPin className="h-4 w-4 text-blue-600" />
@@ -387,7 +400,8 @@ const Navbar = () => {
                   type="text"
                   placeholder="Search cars, brands, models..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onChange={(e: any) => setSearchQuery(e.target.value)}
                   className="pl-5 pr-14 py-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 bg-white shadow-sm"
                   autoFocus
                 />

@@ -1,8 +1,8 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Heart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
+import { Card, CardContent } from "../../components/ui/card";
 import { mockProducts } from "../../lib/product";
 
 const FeaturedProduct = () => {

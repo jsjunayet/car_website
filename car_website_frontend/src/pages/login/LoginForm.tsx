@@ -82,8 +82,8 @@ const LoginForm = () => {
                             'input[name="password"]'
                           );
                         if (emailInput && passwordInput) {
-                          emailInput.value = "user@example.com";
-                          passwordInput.value = "user1234";
+                          emailInput.value = "junayetshiblu09@gmail.com";
+                          passwordInput.value = "123456";
                         }
                       }}
                       className="text-sm px-2 py-1 bg-green-200 rounded hover:bg-green-300"
@@ -102,8 +102,8 @@ const LoginForm = () => {
                             'input[name="password"]'
                           );
                         if (emailInput && passwordInput) {
-                          emailInput.value = "admin@example.com";
-                          passwordInput.value = "admin1234";
+                          emailInput.value = "junayetadmin@gmail.com";
+                          passwordInput.value = "123456";
                         }
                       }}
                       className="text-sm px-2 py-1 bg-orange-200 rounded hover:bg-orange-300"

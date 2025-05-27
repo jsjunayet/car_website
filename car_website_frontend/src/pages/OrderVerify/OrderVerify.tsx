@@ -1,12 +1,16 @@
-
-import { CheckCircle, AlertCircle } from "lucide-react";
-import {  useSearchParams } from "react-router";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
+import { AlertCircle, CheckCircle } from "lucide-react";
+import { useSearchParams } from "react-router";
+import SkeletonVerify from "../../AllSkeleton/SkeletonVerifty";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
-import SkeletonVerify from "../../AllSkeleton/SkeletonVerifty";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { useGetVerifyOrderQuery } from "../../redux/features/Order/OrderApi";
-
 
 interface OrderData {
   id: number;
@@ -52,12 +56,12 @@ export default function OrderVerify() {
     }
   );
 
-  const orderData: OrderData = data?.data?.[0];
+  const orderData: OrderData = data?.data;
 
   return isLoading ? (
-    <SkeletonVerify/>
+    <SkeletonVerify />
   ) : (
-    <div className=" max-w-7xl mx-auto md:px-0 px-2 mb-6">
+    <div className=" max-w-7xl mx-auto md:px-0 px-2 mb-6 mt-44">
       <h1 className="text-xl font-bold my-4">Order Verification</h1>
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
@@ -150,7 +154,7 @@ export default function OrderVerify() {
             </div>
           </CardContent>
           <CardFooter>
-              <Button className="w-full cursor-pointer">View Orders</Button>
+            <Button className="w-full cursor-pointer">View Orders</Button>
           </CardFooter>
         </Card>
       </div>

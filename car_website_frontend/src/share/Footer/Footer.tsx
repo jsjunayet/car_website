@@ -10,8 +10,8 @@ import FooterSection from "./FooterSection";
 const Footer = () => {
   const Accounts = [
     {
-      title: "My Profile",
-      href: "/my-profile",
+      title: "Service",
+      href: "/service",
     },
 
     {
@@ -38,12 +38,12 @@ const Footer = () => {
       href: "/termsOfUse",
     },
     {
-      title: "FAQ",
-      href: "/FAQ",
+      title: "About",
+      href: "/about",
     },
     {
-      title: "Contact",
-      href: "/contact",
+      title: "Contact Us",
+      href: "/contactus",
     },
   ];
   const Support = [

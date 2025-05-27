@@ -1,13 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
+import { clearCart } from "../../redux/features/cart/cartSlice";
 import { useOrderCreateMutation } from "../../redux/features/Order/OrderApi";
-import { useAppSelector } from "../../redux/hooks/app";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/app";
+import { RootState } from "../../redux/store";
 
 // **Yup Validation Schema**
 const schema = yup.object().shape({
@@ -21,10 +25,18 @@ const schema = yup.object().shape({
 const Checkout = () => {
   const [OrderCreate, { isLoading, isSuccess, data, isError, error }] =
     useOrderCreateMutation();
+  const location = useLocation();
+  const isProductDetails = location.state?.from == "productDetials";
+  console.log(isProductDetails);
+  const dispatch = useAppDispatch();
+
   const cart = useAppSelector((state) => state.Product.items);
-  const [quantities, setQuantities] = useState<Record<string, number>>(
-    cart.reduce((acc, product) => ({ ...acc, [product.id]: 1 }), {})
-  );
+  const products = useSelector((state: RootState) => state.cart.products);
+  const itemsToOrder = isProductDetails ? cart : products;
+
+  // const [quantities, setQuantities] = useState<Record<string, number>>(
+  //   cart.reduce((acc, product) => ({ ...acc, [product.id]: 1 }), {})
+  // );
 
   // **React Hook Form**
   const {
@@ -34,28 +46,46 @@ const Checkout = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  const handlDeletedToCart = async () => {
+    dispatch(clearCart());
+  };
   // **Order Submission**
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    if (cart.length === 0) {
-      alert("No items in cart!");
+    if (itemsToOrder.length === 0) {
+      alert("No items in itemsToOrder!");
       return;
     }
-
-    const order = cart.map((product) => ({
+    const orderPayload = {
       email: data.email,
       name: data.name,
       phone: data.phone,
       townOrCity: data.townOrCity,
       shippingAddress: data.shippingAddress,
-      car: product._id,
-      quantity: quantities[product.id],
-      totalPrice: product.price * quantities[product.id],
-    }));
-    await OrderCreate(order[0]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      items: itemsToOrder.map((product: any) => ({
+        car: product._id,
+        quantity: product.quantity,
+        price: product.price,
+        totalItemPrice: product.price * product.quantity,
+      })),
+      totalPrice: itemsToOrder.reduce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (acc: any, product: any) => acc + product.price * product.quantity,
+        0
+      ),
+    };
+
+    if (isProductDetails) {
+      await OrderCreate(orderPayload);
+    } else {
+      await OrderCreate(orderPayload);
+      if (isSuccess) {
+        handlDeletedToCart();
+      }
+    }
   };
-  const toastId = "cart";
+  const toastId = "itemsToOrder";
   useEffect(() => {
     if (isLoading) toast.loading("Processing ...", { id: toastId });
 
@@ -156,10 +186,11 @@ const Checkout = () => {
           </div>
 
           <div className="md:w-1/2 w-full">
-            {cart.length > 0 ? (
+            {itemsToOrder.length > 0 ? (
               <>
-                {cart.map((product) => (
-                  <div key={product.id} className="border p-3 rounded-lg mt-3">
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                {itemsToOrder?.map((product: any) => (
+                  <div key={product._id} className="border p-3 rounded-lg mt-3">
                     <h2 className="text-lg font-semibold">
                       {product.brand}, {product.model}
                     </h2>
@@ -169,16 +200,16 @@ const Checkout = () => {
                     </p>
                     {product.inStock ? (
                       <p className="text-green-700">
-                        Available: {product.quantity}
+                        Available: {product?.quantity}
                       </p>
                     ) : (
                       <p className="text-red-800">
-                        Not Available: {product.quantity}
+                        Not Available: {product?.quantity}
                       </p>
                     )}
 
                     {/* Quantity Section */}
-                    <div className="flex items-center gap-3 mt-2">
+                    {/* <div className="flex items-center gap-3 mt-2">
                       <button
                         type="button"
                         className="px-3 py-2 border rounded-md cursor-pointer text-xl font-bold"
@@ -211,19 +242,18 @@ const Checkout = () => {
                       >
                         +
                       </button>
-                    </div>
+                    </div> */}
 
                     {/* Total Price */}
                     <p className="text-lg font-semibold mt-2">
                       Total:{" "}
                       <span className=" text-blue-600">
-                        ৳{product.price * quantities[product.id]}
+                        ৳{product?.price * product?.quantity}
                       </span>
                     </p>
                   </div>
                 ))}
-
-                {/* Confirm Order Button (Inside Cart Section) */}
+                {/* Confirm Order Button (Inside itemsToOrder Section) */}
                 <button
                   type="button"
                   className="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded-md w-full mt-4"
@@ -233,7 +263,7 @@ const Checkout = () => {
                 </button>
               </>
             ) : (
-              <p>No items in cart.</p>
+              <p>No items in itemsToOrder.</p>
             )}
           </div>
         </div>

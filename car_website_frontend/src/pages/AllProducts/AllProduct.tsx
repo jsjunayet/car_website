@@ -1,5 +1,5 @@
 import { Cross } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -15,23 +15,37 @@ import { Input } from "../../components/ui/input";
 import { useGetAllProductQuery } from "../../redux/features/product/ProductApi";
 import ProductCard from "../../share/Cards/ProductCard";
 import { DynamicSelect } from "./DynamicSelect";
-import FilterComponent from "./FilterComponent"; // Filter component for categories and price ranges
+import FilterComponent from "./FilterComponent";
 
 const AllProduct: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedPriceRange, setSelectedPriceRange] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isStock, setIsStock] = useState<string | undefined>(undefined);
+  const [sortOrder, setSortOrder] = useState<string>("");
+
   const [searchParams] = useSearchParams();
   const searchQueryFormNavbar = searchParams.get("search") || "";
   const navigate = useNavigate();
+
   const { data, isFetching, isError } = useGetAllProductQuery({
     category: selectedCategory,
     priceRange: selectedPriceRange,
     search: searchQuery || searchQueryFormNavbar,
     inStock: isStock,
   });
-  console.log(selectedCategory, selectedPriceRange);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 8;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    selectedCategory,
+    selectedPriceRange,
+    isStock,
+    searchQuery,
+    searchQueryFormNavbar,
+  ]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -52,6 +66,7 @@ const AllProduct: React.FC = () => {
     setSelectedPriceRange("");
     setSearchQuery("");
     setIsStock(undefined);
+    setSortOrder("");
     navigate("/allproduct", { replace: true });
   };
 
@@ -71,8 +86,23 @@ const AllProduct: React.FC = () => {
     "10000-100000",
   ];
 
+  const allProducts = data?.data || [];
+
+  const sortedProducts = [...allProducts].sort((a, b) => {
+    if (sortOrder === "low-to-high") return a.price - b.price;
+    if (sortOrder === "high-to-low") return b.price - a.price;
+    return 0;
+  });
+
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+
+  const paginatedProducts = sortedProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
-    <section className=" max-w-7xl mx-auto my-5 md:my-10 pt-36">
+    <section className="max-w-7xl mx-auto my-5 md:my-10 pt-36">
       <div className="relative items-center justify-between gap-2 mb-5 rounded-lg md:flex md:border md:gap-10 md:p-5">
         <div className="flex items-center gap-5">
           <h3 className="hidden md:block text-xl font-semibold">
@@ -85,6 +115,11 @@ const AllProduct: React.FC = () => {
               className="w-[220px]"
               options={["Low to high", "High to low"]}
               placeholder="Sort by price"
+              onChange={(value: string) => {
+                if (value === "Low to high") setSortOrder("low-to-high");
+                else if (value === "High to low") setSortOrder("high-to-low");
+                else setSortOrder("");
+              }}
             />
           </div>
           <div className="md:hidden">
@@ -123,10 +158,9 @@ const AllProduct: React.FC = () => {
                 <div className="flex gap-2 my-2">
                   <input
                     type="checkbox"
-                    checked={isStock === "true"} // Convert string to boolean
+                    checked={isStock === "true"}
                     onChange={handleStockChange}
                   />
-
                   <label>In Stock</label>
                 </div>
                 <DrawerFooter>
@@ -146,6 +180,11 @@ const AllProduct: React.FC = () => {
               className="w-[220px]"
               options={["Low to high", "High to low"]}
               placeholder="Sort by price"
+              onChange={(value: string) => {
+                if (value === "Low to high") setSortOrder("low-to-high");
+                else if (value === "High to low") setSortOrder("high-to-low");
+                else setSortOrder("");
+              }}
             />
           </div>
         </div>
@@ -180,36 +219,67 @@ const AllProduct: React.FC = () => {
           <div className="flex gap-2 my-2">
             <input
               type="checkbox"
-              checked={isStock === "true"} // Convert string to boolean
+              checked={isStock === "true"}
               onChange={handleStockChange}
             />
             <label>In Stock</label>
           </div>
         </div>
 
-        {/* Product Grid */}
         <div className="grid items-start justify-between w-full grid-cols-1 gap-5 pb-10 md:ml-5 justify-items-center lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-4">
           {isFetching ? (
-            // Skeleton loader while loading products
             Array.from({ length: 8 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))
-          ) : isError || !data || !data.data ? (
+          ) : isError || !allProducts ? (
             <h3 className="flex items-center font-semibold col-span-3 justify-center min-h-[50vh] w-full">
               No products available.
             </h3>
-          ) : data.data.length === 0 ? (
+          ) : paginatedProducts.length === 0 ? (
             <h3 className="flex items-center font-semibold col-span-3 justify-center min-h-[50vh] w-full">
               No products found for the selected filters.
             </h3>
           ) : (
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.data.map((product: any) => (
+            paginatedProducts.map((product: any) => (
               <ProductCard key={product._id} product={product} />
             ))
           )}
         </div>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8 gap-3">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-4 py-2 border rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-3 py-1 rounded border ${
+                currentPage === i + 1 ? "bg-black text-white" : "bg-white"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 border rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </section>
   );
 };

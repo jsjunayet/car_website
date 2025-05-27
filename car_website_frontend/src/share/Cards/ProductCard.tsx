@@ -66,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Link className="group" to={`/allproduct/${product._id}`}>
         <div>
           <img
-            src={product.images[0]}
+            src={product?.images[0]}
             alt={"name"}
             className="object-cover w-full rounded-md sm:h-52 h-auto"
           />

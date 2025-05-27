@@ -1,3 +1,5 @@
+import { CreditCard, Shield, Truck, Users } from "lucide-react";
+
 const WhyChoose = () => {
   return (
     <div>
