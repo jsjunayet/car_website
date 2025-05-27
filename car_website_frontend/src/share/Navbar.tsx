@@ -1,10 +1,4 @@
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Clock,
   Globe,
   Heart,
@@ -30,6 +24,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../components/ui/drawer";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
 import { Input } from "../components/ui/input";
 import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
 import { logout } from "../redux/features/auth/authSlice";

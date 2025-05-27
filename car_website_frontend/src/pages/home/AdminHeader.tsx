@@ -1,7 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Download, LogOut, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "../../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
