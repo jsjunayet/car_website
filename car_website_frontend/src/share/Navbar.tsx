@@ -9,6 +9,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
+import { RootState } from "@reduxjs/toolkit/query";
 import {
   Clock,
   Globe,
@@ -22,6 +23,7 @@ import {
   Star,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Badge } from "../components/ui/badge";
 import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
@@ -44,7 +46,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { data: userData } = useGetsigleuserQuery(undefined);
   const data = userData?.data;
-  console.log(data);
+  const products = useSelector((state: RootState) => state.cart.products);
   const token = useAppSelector((state) => state.auth.token);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -156,11 +158,11 @@ const Navbar = () => {
                 onClick={() => navigate("/cart")}
               >
                 <ShoppingCart className="h-5 w-5 text-white hover:text-blue-500 transition-colors" />
-                {/* {itemCount > 0 && (
+                {products?.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-blue-600 hover:bg-blue-700 animate-pulse">
-                    {itemCount}
+                    {products?.length}
                   </Badge>
-                )} */}
+                )}
               </Button>
             </div>
           </div>
