@@ -1,22 +1,18 @@
-import React from "react";
-import SummaryCard from "./SummaryCard";
-import { Chart } from "./Chart";
-import { PieCharts } from "./Piechart";
-import { FaGreaterThan } from "react-icons/fa6";
-import { PiGreaterThanLight } from "react-icons/pi";
-import Image from "next/image";
 import img from "@/assets/dashbaord/choices.png";
-import img4 from "@/assets/dashbaord/transaction.png";
 import img2 from "@/assets/dashbaord/clipboard.png";
-import img3 from "@/assets/dashbaord/order-history.png";
 import img8 from "@/assets/dashbaord/invite.png";
-import img5 from "@/assets/dashbaord/visitor.png";
+import img3 from "@/assets/dashbaord/order-history.png";
+import img4 from "@/assets/dashbaord/transaction.png";
 import img6 from "@/assets/dashbaord/visitor-card.png";
+import img5 from "@/assets/dashbaord/visitor.png";
+import Image from "next/image";
 import { MdFileDownload } from "react-icons/md";
+import { PiGreaterThanLight } from "react-icons/pi";
+import { PieCharts } from "./Piechart";
 
 const Dashboard = () => {
   return (
-    <div className=" p-4 space-y-4">
+    <div className=" mx-10 space-y-4">
       <div class="flex justify-between sm:flex-row flex-col items-center gap-2">
         <div class="space-y-2">
           <h1 class="text-4xl font-bold text-gray-800 dark:text-white">

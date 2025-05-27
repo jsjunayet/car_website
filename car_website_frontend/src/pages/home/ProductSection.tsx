@@ -19,12 +19,8 @@ const ProductSection = () => {
         }
       </div>
       <div className="text-center mt-16">
-        <Button
-          size="lg"
-          asChild
-          className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 transform hover:scale-105 transition-all duration-300 text-lg px-8 py-4"
-        >
-          <Link to="/products" className="flex items-center">
+        <Button size="lg" asChild className="bg-primary">
+          <Link to="/allproduct" className="flex items-center ">
             View All Cars <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </Button>

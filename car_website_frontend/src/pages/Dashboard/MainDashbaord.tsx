@@ -1,17 +1,23 @@
-import MobileLayout from "./share/MobileLayout";
-import DashboardLayout from './DashboardLayout';
 import { Outlet } from "react-router-dom";
+import AdminHeader from "../home/AdminHeader";
+import DashboardLayout from "./DashboardLayout";
+import MobileLayout from "./share/MobileLayout";
 
 const MainDashbaord = () => {
-    return (
-        <div className="flex flex-col lg:flex-row">
-      <div className="lg:w-[310px] hidden lg:block">
+  return (
+    <div className="flex flex-col lg:flex-row">
+      <div className="lg:w-[280px] hidden lg:block">
         <DashboardLayout />
       </div>
       <MobileLayout />
-      <div className="lg:w-[calc(100%-185px)] w-full pb-5"><Outlet/></div>
+      <div className="flex-1">
+        <AdminHeader />
+        <div className=" w-full pb-5 px-5">
+          <Outlet />
+        </div>
+      </div>
     </div>
-    );
+  );
 };
 
 export default MainDashbaord;

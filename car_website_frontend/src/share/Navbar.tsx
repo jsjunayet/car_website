@@ -1,4 +1,10 @@
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Clock,
   Globe,
   Heart,
@@ -29,7 +35,6 @@ import { useGetsigleuserQuery } from "../redux/features/auth/authApi";
 import { logout } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/app";
 import { RootState } from "../redux/store";
-
 const navLinks = [
   { label: "Home", to: "/" },
   { label: "All Products", to: "/allproduct" },
@@ -84,7 +89,6 @@ const Navbar = () => {
       <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white border-b border-blue-800/30">
         <div className="max-w-7xl mx-auto ">
           <div className="flex justify-between items-center py-2.5 text-sm">
-            {/* Left - Contact Info */}
             <div className="hidden lg:flex items-center space-x-8">
               <div className="flex items-center space-x-2 group cursor-pointer">
                 <a
@@ -122,7 +126,6 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Center - Promo Message */}
             <div className=" md:flex items-center space-x-2">
               <div className="flex items-center space-x-1 bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1 rounded-full text-xs font-semibold text-white">
                 <Star className="h-3 w-3" />
@@ -130,7 +133,6 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Right - Quick Links & Language */}
             <div className="flex items-center space-x-6">
               <div className="hidden lg:flex items-center space-x-1 group cursor-pointer">
                 <Clock className="h-3.5 w-3.5 group-hover:text-blue-200 transition-colors" />
@@ -184,8 +186,7 @@ const Navbar = () => {
       {/* Main Navigation Layer */}
       <div className="bg-white border-b border-gray-100 border ">
         <div className="max-w-7xl mx-auto ">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo Section */}
+          <div className="flex justify-between items-center h-20 ">
             <Link
               to="/"
               className="flex items-center justify-between space-x-4 group"
@@ -241,10 +242,7 @@ const Navbar = () => {
                 </form>
               </div>
             </div>
-
-            {/* Action Buttons */}
             <div className="flex items-center space-x-3">
-              {/* Mobile Search Toggle */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -254,30 +252,54 @@ const Navbar = () => {
                 <Search className="h-5 w-5 text-gray-600" />
               </Button>
 
-              {/* Wishlist */}
-
               {/* data Menu */}
-              {token ? (
-                <p>{data?.name}</p>
-              ) : (
-                <div className="hidden lg:flex items-center space-x-3">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="font-semibold hover:bg-gray-50 rounded-xl px-4"
-                    onClick={() => navigate("/login")}
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 font-semibold"
-                    onClick={() => navigate("/register")}
-                  >
-                    Sign Up
-                  </Button>
-                </div>
-              )}
+              <div>
+                {token ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Avatar className="cursor-pointer">
+                        <AvatarImage
+                          src={data?.image || "/default-avatar.png"}
+                          alt="Profile"
+                        />
+                        <AvatarFallback>{data?.name?.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      {data?.role == "admin" && (
+                        <DropdownMenuItem>
+                          <Link to={"/dashboard"}>dashboard</Link>
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuItem>
+                        <Link to={"/profile"}>Profile</Link>
+                      </DropdownMenuItem>
+
+                      <div onClick={handleLogout}>
+                        <DropdownMenuItem>Logout</DropdownMenuItem>
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <div className="hidden lg:flex items-center space-x-3">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="font-semibold hover:bg-gray-50 rounded-xl px-4"
+                      onClick={() => navigate("/login")}
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 font-semibold"
+                      onClick={() => navigate("/register")}
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
+                )}
+              </div>
 
               {/* Mobile Menu */}
               <Drawer>
@@ -374,15 +396,15 @@ const Navbar = () => {
                       <div className="flex flex-col space-y-3 text-sm text-gray-600">
                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
                           <Phone className="h-4 w-4 text-blue-600" />
-                          <span>+1 (555) 123-4567</span>
+                          <span>+880 1640 011818</span>
                         </div>
                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
                           <Mail className="h-4 w-4 text-blue-600" />
-                          <span>info../..CarBazaar.com</span>
+                          <span>junayetshiblu0@gmail.com</span>
                         </div>
                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
                           <MapPin className="h-4 w-4 text-blue-600" />
-                          <span>New York, NY</span>
+                          <span>Dhaka Bangladesh</span>
                         </div>
                       </div>
                     </div>
