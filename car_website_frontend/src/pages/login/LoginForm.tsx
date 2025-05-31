@@ -103,7 +103,7 @@ const LoginForm = () => {
                           );
                         if (emailInput && passwordInput) {
                           emailInput.value = "junayetadmin@gmail.com";
-                          passwordInput.value = "123456";
+                          passwordInput.value = "12345";
                         }
                       }}
                       className="text-sm px-2 py-1 bg-orange-200 rounded hover:bg-orange-300"
