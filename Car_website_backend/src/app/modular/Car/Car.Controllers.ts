@@ -37,13 +37,35 @@ const GerSingleCarInMonogdb = async (req: Request, res: Response) => {
   try {
     const id = req.params.carId;
     const data = await CarServices.GetSingleCarService(id);
-    if(!data){
+    if (!data) {
       res.status(404).json({
         message: 'Car ID not found',
         success: false,
         data: data,
       });
-      return
+      return;
+    }
+    res.status(200).json({
+      message: 'Car retrieved successfully',
+      success: true,
+      data: data,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: 'Car retrieved failed', success: false, data: err });
+  }
+};
+const GerDetials = async (req: Request, res: Response) => {
+  try {
+    const data = await CarServices.GerDetials();
+    if (!data) {
+      res.status(404).json({
+        message: 'Car ID not found',
+        success: false,
+        data: data,
+      });
+      return;
     }
     res.status(200).json({
       message: 'Car retrieved successfully',
@@ -110,4 +132,5 @@ export const CartAllController = {
   GerSingleCarInMonogdb,
   UpdatedCarInMonogdb,
   DeleltedCarInMonogdb,
+  GerDetials,
 };
