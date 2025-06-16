@@ -1,5 +1,8 @@
 import { Award, CheckCircle, Globe, Users } from "lucide-react";
+import { useGetAllRevinewQuery } from "../../redux/features/product/ProductApi";
 const Statistics = () => {
+  const { data } = useGetAllRevinewQuery();
+  console.log(data);
   return (
     <div>
       <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white relative overflow-hidden">
@@ -16,10 +19,28 @@ const Statistics = () => {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {[
-              { number: "50K+", label: "Happy Customers", icon: Users },
-              { number: "10K+", label: "Cars Sold", icon: CheckCircle },
+              {
+                number: data?.data?.userCount
+                  ? `${data.data.userCount}+`
+                  : "Load...",
+                label: "Happy Customers",
+                icon: Users,
+              },
+              {
+                number: data?.data?.carCount
+                  ? `${data.data.carCount}+`
+                  : "Load...",
+                label: "Cars Sold",
+                icon: CheckCircle,
+              },
               { number: "15+", label: "Years Experience", icon: Award },
-              { number: "100+", label: "Dealer Partners", icon: Globe },
+              {
+                number: data?.data?.orderCount
+                  ? `${data.data.orderCount}+`
+                  : "Load...",
+                label: "Order",
+                icon: Globe,
+              },
             ].map((stat, index) => (
               <div
                 key={index}

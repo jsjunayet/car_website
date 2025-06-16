@@ -4,7 +4,6 @@ import ChooseSection from "./ChooseSection";
 import ContactSection from "./ContactSection";
 import NewsLetter from "./NewsLetter";
 import ProductSection from "./ProductSection";
-import ReviewSection from "./ReviewSection";
 import Statistics from "./Statistics";
 const Homepage = () => {
   return (
@@ -16,7 +15,7 @@ const Homepage = () => {
       <ProductSection />
       <ChooseSection />
       <Statistics />
-      <ReviewSection />
+      {/* <ReviewSection /> */}
       <AwardSection />
       <ContactSection />
       <NewsLetter />

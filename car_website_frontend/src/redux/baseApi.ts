@@ -8,7 +8,9 @@ import {
 import { logout, setuser } from "./features/auth/authSlice";
 import { RootState } from "./store";
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://blogging-website-snowy-chi.vercel.app/api",
+  // baseUrl: "https://blogging-website-snowy-chi.vercel.app/api",
+  baseUrl: "http://localhost:5000/api",
+
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
