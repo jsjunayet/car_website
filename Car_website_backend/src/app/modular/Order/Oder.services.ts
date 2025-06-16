@@ -158,6 +158,134 @@ const deletedorder = async (id: string) => {
   const result = await OrderModel.findByIdAndDelete({ _id: id });
   return result;
 };
+const allOrderAndStatus = async () => {
+  const result = await OrderModel.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(new Date().getFullYear(), 0, 1), // Start of the year
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          month: { $month: '$createdAt' },
+          status: '$status',
+        },
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $group: {
+        _id: '$_id.month',
+        statuses: {
+          $push: {
+            status: '$_id.status',
+            count: '$count',
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        month: '$_id',
+        approved: {
+          $let: {
+            vars: {
+              approvedObj: {
+                $arrayElemAt: [
+                  {
+                    $filter: {
+                      input: '$statuses',
+                      cond: { $eq: ['$$this.status', 'Paid'] },
+                    },
+                  },
+                  0,
+                ],
+              },
+            },
+            in: { $ifNull: ['$$approvedObj.count', 0] },
+          },
+        },
+        pending: {
+          $let: {
+            vars: {
+              pendingObj: {
+                $arrayElemAt: [
+                  {
+                    $filter: {
+                      input: '$statuses',
+                      cond: { $eq: ['$$this.status', 'Pending'] },
+                    },
+                  },
+                  0,
+                ],
+              },
+            },
+            in: { $ifNull: ['$$pendingObj.count', 0] },
+          },
+        },
+        rejected: {
+          $let: {
+            vars: {
+              rejectedObj: {
+                $arrayElemAt: [
+                  {
+                    $filter: {
+                      input: '$statuses',
+                      cond: { $eq: ['$$this.status', 'Cancelled'] },
+                    },
+                  },
+                  0,
+                ],
+              },
+            },
+            in: { $ifNull: ['$$rejectedObj.count', 0] },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        month: 1,
+        approved: 1,
+        pending: 1,
+        rejected: 1,
+      },
+    },
+    {
+      $sort: { month: 1 },
+    },
+  ]);
+
+  // Optional: convert month numbers to names
+  const monthNames = [
+    '',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  const formatted = result.map((item) => ({
+    month: monthNames[item.month],
+    approved: item.approved,
+    pending: item.pending,
+    rejected: item.rejected,
+  }));
+
+  return formatted;
+};
 
 export const AllOrderServices = {
   CreateOrderService,
@@ -166,4 +294,5 @@ export const AllOrderServices = {
   getAllorder,
   deletedorder,
   getSingleId,
+  allOrderAndStatus,
 };

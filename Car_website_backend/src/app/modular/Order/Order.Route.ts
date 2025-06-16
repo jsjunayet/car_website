@@ -21,6 +21,8 @@ router.get(
   authorizeRole(['admin']),
   AllOrderControllers.getAllorder,
 );
+router.get('/allOrderAndStatus', AllOrderControllers.allOrderAndStatus);
+
 router.get(
   '/getsingle',
   authorizeRole(['user', 'admin']),

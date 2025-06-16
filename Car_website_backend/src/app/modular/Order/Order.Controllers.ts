@@ -40,6 +40,24 @@ const CalculateRevenueInMongodb = async (req: Request, res: Response) => {
     });
   }
 };
+const allOrderAndStatus = async (req: Request, res: Response) => {
+  try {
+    const data = await AllOrderServices.allOrderAndStatus();
+    res.status(200).json({
+      message: 'Revenue calculated successfully',
+      status: true,
+      data: {
+        totalRevenue: data,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Revenue calculated failed',
+      status: false,
+      data: err,
+    });
+  }
+};
 const verifyPayment = catchAsync(async (req, res) => {
   const order = await AllOrderServices.verifyPayment(
     req.query.order_id as string,
@@ -94,4 +112,5 @@ export const AllOrderControllers = {
   getAllorder,
   deletedorder,
   getSingleId,
+  allOrderAndStatus,
 };

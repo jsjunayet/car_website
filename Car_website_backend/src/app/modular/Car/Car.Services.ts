@@ -39,7 +39,48 @@ const GerDetials = async () => {
   const carCount = await CarModel.countDocuments();
   const userCount = await usermodel.countDocuments();
   const orderCount = await OrderModel.countDocuments();
-  const result = { carCount, userCount, orderCount };
+  const revenueResult = await OrderModel.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: '$totalPrice' },
+      },
+    },
+  ]);
+
+  const totalRevenue = revenueResult[0]?.totalRevenue || 0;
+  // ✅ Today’s orders
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  const endOfToday = new Date();
+  endOfToday.setHours(23, 59, 59, 999);
+
+  const todayOrders = await OrderModel.countDocuments({
+    createdAt: { $gte: startOfToday, $lte: endOfToday },
+  });
+
+  // ✅ This month’s orders
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const endOfMonth = new Date();
+  endOfMonth.setMonth(endOfMonth.getMonth() + 1);
+  endOfMonth.setDate(0);
+  endOfMonth.setHours(23, 59, 59, 999);
+
+  const monthOrders = await OrderModel.countDocuments({
+    createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+  });
+  const result = {
+    carCount,
+    userCount,
+    orderCount,
+    totalRevenue,
+    todayOrders,
+    monthOrders,
+  };
   return result;
 };
 
