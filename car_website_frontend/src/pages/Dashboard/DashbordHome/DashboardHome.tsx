@@ -13,8 +13,8 @@ import { PieCharts } from "./Chart";
 import { ChartVar } from "./ChartVar";
 
 const Dashboard = () => {
-  const { data } = useGetAllRevinewQuery();
-  const { data: varchart } = useAllOrderAndStatusQuery();
+  const { data } = useGetAllRevinewQuery(undefined);
+  const { data: varchart } = useAllOrderAndStatusQuery(undefined);
 
   return (
     <div className=" p-4 space-y-4">

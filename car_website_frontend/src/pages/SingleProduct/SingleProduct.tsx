@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Check, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
 import ProductDetailsSkeleton from "../../AllSkeleton/ProductDetailsSkeleton";
@@ -37,7 +38,6 @@ const SingleProduct = () => {
     inStock: "",
   });
   const products = product?.data?.filter(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (item: any) => item.category === data?.data?.category
   );
   const features = [
@@ -189,7 +189,6 @@ const SingleProduct = () => {
         </h2>
         <Carousel className="w-full max-w-7xl mx-auto mb-10">
           <CarouselContent>
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             {products?.map((review: any) => (
               <CarouselItem
                 key={review._id}

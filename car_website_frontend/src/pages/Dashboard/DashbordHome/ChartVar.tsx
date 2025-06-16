@@ -27,6 +27,12 @@ export const description = "A multiple bar chart for order statuses";
 //   { month: "May", approved: 209, pending: 90, rejected: 40 },
 //   { month: "June", approved: 214, pending: 100, rejected: 25 },
 // ];
+interface OrderChartData {
+  month: string;
+  approved: number;
+  pending: number;
+  rejected: number;
+}
 
 const chartConfig = {
   approved: {
@@ -42,9 +48,10 @@ const chartConfig = {
     color: "hsl(var(--chart-1))",
   },
 };
-
-export function ChartVar({ chartData }) {
-  console.log(chartData);
+interface ChartVarProps {
+  chartData: OrderChartData[];
+}
+export function ChartVar({ chartData }: ChartVarProps) {
   return (
     <div className="">
       <div className="">

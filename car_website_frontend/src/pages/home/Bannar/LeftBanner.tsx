@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useRef, useState } from "react";
+import { Button } from "../../../components/ui/button";
 
 export default function LeftBanner() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -119,12 +119,12 @@ export default function LeftBanner() {
         <ChevronLeft className="w-6 h-6" />
       </button>
 
-      <button
+      <Button
         onClick={handleNext}
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-sm"
       >
         <ChevronRight className="w-6 h-6" />
-      </button>
+      </Button>
 
       {/* Play/Pause Control */}
       <button

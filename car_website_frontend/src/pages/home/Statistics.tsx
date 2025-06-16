@@ -1,7 +1,7 @@
 import { Award, CheckCircle, Globe, Users } from "lucide-react";
 import { useGetAllRevinewQuery } from "../../redux/features/product/ProductApi";
 const Statistics = () => {
-  const { data } = useGetAllRevinewQuery();
+  const { data } = useGetAllRevinewQuery(undefined);
   console.log(data);
   return (
     <div>
