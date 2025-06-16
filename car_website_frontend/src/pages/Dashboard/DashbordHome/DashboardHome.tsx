@@ -1,17 +1,21 @@
-
+import { MdFileDownload } from "react-icons/md";
 import { PiGreaterThanLight } from "react-icons/pi";
 import img from "../../../../src/assets/Dashboard/choices.png";
-import img4 from "../../../../src/assets/Dashboard/transaction.png";
 import img2 from "../../../../src/assets/Dashboard/clipboard.png";
-import img3 from "../../../../src/assets/Dashboard/order-history.png";
 import img8 from "../../../../src/assets/Dashboard/invite.png";
-import img5 from "../../../../src/assets/Dashboard/visitor.png";
+import img3 from "../../../../src/assets/Dashboard/order-history.png";
+import img4 from "../../../../src/assets/Dashboard/transaction.png";
 import img6 from "../../../../src/assets/Dashboard/visitor-card.png";
-import { MdFileDownload } from "react-icons/md";
+import img5 from "../../../../src/assets/Dashboard/visitor.png";
+import { useAllOrderAndStatusQuery } from "../../../redux/features/Order/OrderApi";
+import { useGetAllRevinewQuery } from "../../../redux/features/product/ProductApi";
 import { PieCharts } from "./Chart";
 import { ChartVar } from "./ChartVar";
 
 const Dashboard = () => {
+  const { data } = useGetAllRevinewQuery();
+  const { data: varchart } = useAllOrderAndStatusQuery();
+
   return (
     <div className=" p-4 space-y-4">
       <div className="flex justify-between sm:flex-row flex-col items-center gap-2">
@@ -46,46 +50,28 @@ const Dashboard = () => {
       {/* Summary Cards Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <li className="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-4">
-          <img
-            
-            src={img6}
-            alt="hello"
-            className="h-16 w-16"
-          ></img>
+          <img src={img6} alt="hello" className="h-16 w-16"></img>
           <div>
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-              ~450
+              {data?.data?.totalRevenue}$
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              {" "}
-              Total Visitors Today
-            </p>
+            <p className="text-gray-600 dark:text-gray-400"> Total Revenue</p>
           </div>
         </li>
         <li className="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-4">
-          <img
-            
-            src={img5}
-            alt="hello"
-            className="h-16 w-16"
-          ></img>
+          <img src={img5} alt="hello" className="h-16 w-16"></img>
           <div>
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-              ~15,000
+              {data?.data?.userCount}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400"> This Month Visitors</p>
+            <p className="text-gray-600 dark:text-gray-400"> Total User</p>
           </div>
         </li>
         <li className="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-4">
-          <img
-            
-            src={img8}
-            alt="hello"
-            className="h-16 w-16"
-          ></img>
+          <img src={img8} alt="hello" className="h-16 w-16"></img>
           <div>
             <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-              325
+              5
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               {" "}
@@ -98,7 +84,6 @@ const Dashboard = () => {
         <div className=" space-y-[18px]">
           <li className="flex h-40 border justify-center items-center   bg-white dark:bg-gray-800 rounded-xl shadow-md ">
             <img
-              
               src={img}
               width={60}
               height={80}
@@ -107,14 +92,15 @@ const Dashboard = () => {
             ></img>
             <div>
               <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                1200
+                {data?.data?.monthOrders}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">This Month Orders</p>
+              <p className="text-gray-600 dark:text-gray-400">
+                This Month Orders
+              </p>
             </div>
           </li>
           <li className="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-2">
             <img
-              
               src={img2}
               width={60}
               height={80}
@@ -123,7 +109,7 @@ const Dashboard = () => {
             ></img>
             <div>
               <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                200
+                {data?.data?.todayOrders}
               </h3>
               <p className="text-gray-600 dark:text-gray-400"> Today Orders</p>
             </div>
@@ -131,42 +117,35 @@ const Dashboard = () => {
         </div>
         <div className=" space-y-[18px]">
           <li className="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-2">
-            <img          
-              src={img3}
-              alt="hello"
-              className="h-16 w-16"
-            ></img>
+            <img src={img3} alt="hello" className="h-16 w-16"></img>
             <div>
               <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
                 21
               </h3>
-              <p className="text-gray-600 dark:text-gray-400"> Pending Orders</p>
+              <p className="text-gray-600 dark:text-gray-400">
+                {" "}
+                Pending Orders
+              </p>
             </div>
           </li>
           <li className="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-4">
-            <img           
-              src={img4}
-              alt="hello"
-              className="h-16 w-16"
-            ></img>
+            <img src={img4} alt="hello" className="h-16 w-16"></img>
             <div>
               <h3 className="text-2xl font-bold text-blue-600">
-                15,000 BDT
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
                 {" "}
-                Month Transactions
-              </p>
+                {data?.data?.orderCount}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400"> Total Order</p>
             </div>
           </li>
         </div>
 
         <div className="">
-          <PieCharts/>
+          <PieCharts />
         </div>
       </div>
       <div>
-        <ChartVar />
+        <ChartVar chartData={varchart?.data?.totalRevenue} />
       </div>
     </div>
   );

@@ -11,6 +11,8 @@ import { PiGreaterThanLight } from "react-icons/pi";
 import { PieCharts } from "./Piechart";
 
 const Dashboard = () => {
+  const { data } = useGetAllRevinewQuery();
+
   return (
     <div className=" mx-10 space-y-4">
       <div class="flex justify-between sm:flex-row flex-col items-center gap-2">
@@ -55,12 +57,9 @@ const Dashboard = () => {
           ></Image>
           <div>
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-              ~450
+              {data?.data?.totalRevenue}
             </h3>
-            <p class="text-gray-600 dark:text-gray-400">
-              {" "}
-              Total Visitors Today
-            </p>
+            <p class="text-gray-600 dark:text-gray-400"> Total Revenue</p>
           </div>
         </li>
         <li class="flex h-40 border items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md space-x-4">
@@ -74,7 +73,7 @@ const Dashboard = () => {
           ></Image>
           <div>
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-              ~15,000
+              ~00
             </h3>
             <p class="text-gray-600 dark:text-gray-400"> This Month Visitors</p>
           </div>
@@ -90,12 +89,9 @@ const Dashboard = () => {
           ></Image>
           <div>
             <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-              325
+              {data?.data?.userCount}
             </h3>
-            <p class="text-gray-600 dark:text-gray-400">
-              {" "}
-              New Accounts This Month
-            </p>
+            <p class="text-gray-600 dark:text-gray-400"> Our Website Users</p>
           </div>
         </li>
       </div>
@@ -112,7 +108,7 @@ const Dashboard = () => {
             ></Image>
             <div>
               <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-                1200
+                {data?.data?.monthOrders}
               </h3>
               <p class="text-gray-600 dark:text-gray-400">This Month Orders</p>
             </div>
@@ -128,7 +124,7 @@ const Dashboard = () => {
             ></Image>
             <div>
               <h3 class="text-2xl font-bold text-gray-800 dark:text-white">
-                200
+                {data?.data?.todayOrders}
               </h3>
               <p class="text-gray-600 dark:text-gray-400"> Today Orders</p>
             </div>

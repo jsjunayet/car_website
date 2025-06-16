@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import * as React from "react";
+import { Label, Pie, PieChart } from "recharts";
 
 import {
   Card,
@@ -12,18 +12,22 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../../../components/ui/chart";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "../../../components/ui/chart";
 
-export const description = "A donut chart with text"
+export const description = "A donut chart with text";
 
 // Chart data for browser visitors
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
+  { browser: "chrome", visitors: 10, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 2, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 2, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 1, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 1, fill: "var(--color-other)" },
+];
 
 const chartConfig = {
   visitors: {
@@ -49,16 +53,16 @@ const chartConfig = {
     label: "Other",
     color: "hsl(var(--chart-5))",
   },
-}
+};
 export function PieCharts() {
   const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-  }, [])
+    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
+  }, []);
 
-//   // Mock data for additional metrics
-//   const todayVisitors = Math.floor(totalVisitors / 30)  // Approximation for daily visitors
-//   const monthVisitors = totalVisitors  // Assume total visitors as monthly for this example
-//   const newAccountsThisMonth = Math.floor(totalVisitors * 0.2) // 20% as new accounts
+  //   // Mock data for additional metrics
+  //   const todayVisitors = Math.floor(totalVisitors / 30)  // Approximation for daily visitors
+  //   const monthVisitors = totalVisitors  // Assume total visitors as monthly for this example
+  //   const newAccountsThisMonth = Math.floor(totalVisitors * 0.2) // 20% as new accounts
 
   return (
     <Card className="flex flex-col !rounded-lg">
@@ -108,7 +112,7 @@ export function PieCharts() {
                           Visitors
                         </tspan>
                       </text>
-                    )
+                    );
                   }
                 }}
               />
@@ -121,7 +125,7 @@ export function PieCharts() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-           Total visitors for the last 6 months
+          Total visitors for the last 6 months
         </div>
         {/* Display additional metrics */}
         {/* <div className="">
@@ -131,5 +135,5 @@ export function PieCharts() {
         </div> */}
       </CardFooter>
     </Card>
-  )
+  );
 }
